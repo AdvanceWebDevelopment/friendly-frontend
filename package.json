@@ -16,7 +16,7 @@
         "web-vitals": "^2.1.2"
     },
     "devDependencies": {
-        "@types/node": "^16.10.5",
+        "@types/node": "^16.10.9",
         "@types/react": "^17.0.29",
         "@types/react-dom": "^17.0.9",
         "@typescript-eslint/eslint-plugin": "^5.0.0",
