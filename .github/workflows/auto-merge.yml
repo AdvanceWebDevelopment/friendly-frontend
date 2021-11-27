@@ -1,4 +1,4 @@
-name: auto-merge
+name: Auto Update Dependencies
 
 on:
   pull_request_target:
