@@ -1,0 +1,67 @@
+.footer {
+    background-image: url("../assets/images/footer.jpg");
+    background-size: cover;
+    height: 71rem;
+    /* background-color: #c4c4c4; */
+    color: white;
+    font-family: "Montserrat", sans-serif;
+}
+
+.container {
+    padding: 39rem 9rem 0 0 !important;
+    text-align: center;
+}
+
+.heading {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.products {
+    margin: 1.25rem 0 0!important;
+    padding-left: 3.25rem;
+    font-size: 1.125em;
+}
+
+.intro {
+    font-size: 1.125em;
+    width: 50%;
+    text-align: left;
+    margin: 1.25rem 0 0 8rem !important;
+}
+
+.contact {
+    margin: 0.75rem 0 0.75rem 3rem !important;
+    text-align: left;
+    font-size: 1.125em;
+}
+
+.copyright {
+    margin-top: 10rem !important;
+    padding-bottom: 2rem;
+}
+
+.copyright div span {
+    font-size: 1.125em;
+    font-weight: 800;
+    margin-left: 0.5rem;
+}
+
+@media screen and (max-width: 1366px) {
+    .products {
+        margin: 0.5rem 0 0 !important;
+        padding-left: 3.25rem;
+        font-size: 1.125em;
+    }
+
+    .intro {
+        font-size: 1.125em;
+        margin: 2.5rem 0 1.5rem 3rem !important;
+    }
+
+    .contact {
+        text-align: left;
+        font-size: 1.125em;
+        margin: 0.5rem 0 1.25rem !important;
+    }
+}
