@@ -8,7 +8,7 @@
 }
 
 .container {
-    padding: 39rem 9rem 0 9rem !important;
+    padding: 39rem 9rem 0 0 !important;
     text-align: center;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .products {
-    margin: 1.25rem 0rem 0 0 !important;
+    margin: 1.25rem 0 0!important;
     padding-left: 3.25rem;
     font-size: 1.125em;
 }
@@ -49,7 +49,7 @@
 
 @media screen and (max-width: 1366px) {
     .products {
-        margin: 0.5rem 0rem 0 0rem !important;
+        margin: 0.5rem 0 0 !important;
         padding-left: 3.25rem;
         font-size: 1.125em;
     }
