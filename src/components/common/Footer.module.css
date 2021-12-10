@@ -1,8 +1,7 @@
 .footer {
-    background-image: url("../assets/images/footer.jpg");
+    background-image: url("../../assets/images/footer.jpg");
     background-size: cover;
     height: 71rem;
-    /* background-color: #c4c4c4; */
     color: white;
     font-family: "Montserrat", sans-serif;
 }
@@ -18,7 +17,7 @@
 }
 
 .products {
-    margin: 1.25rem 0 0!important;
+    margin: 1.25rem 0 0 !important;
     padding-left: 3.25rem;
     font-size: 1.125em;
 }
