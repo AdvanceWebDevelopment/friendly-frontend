@@ -40,7 +40,7 @@
     border-top: none;
     border-right: none;
     border-bottom: none;
-    border-left: 0px solid white;
+    border-left: none;
     background-color: transparent;
     font-family: "Montserrat", sans-serif;
     font-size: 0.875em;
@@ -62,7 +62,7 @@
     border-radius: 999px;
     background: #ffffff;
     border: 2px solid #693ff5;
-    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
     color: #693ff5;
     align-self: center;
     z-index: 1;
