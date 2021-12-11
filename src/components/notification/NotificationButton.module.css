@@ -5,10 +5,23 @@
     border: 1px solid white;
     border-radius: 999px;
     align-self: center;
-    margin-left: 2rem;
     cursor: pointer;
 }
 
 .notification-icon {
     color: white;
+    width: 36px;
+    height: 36px;
+}
+
+@media screen and (max-width: 1560px) {
+    .notification-btn {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .notification-icon {
+        width: 30px;
+        height: 30px;
+    }
 }

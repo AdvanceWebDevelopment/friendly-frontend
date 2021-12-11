@@ -74,3 +74,22 @@
 .btn-icon-search {
     margin-bottom: 0.1rem;
 }
+
+@media screen and (max-width: 1560px) {
+    .input-group {
+        margin-left: 2rem;
+    }
+
+    .input-form {
+        width: 30rem;
+    }
+
+    .btn-dropdown {
+        width: 5rem;
+        font-size: 0.75em;
+    }
+
+    .btn-search {
+        left: 28rem;
+    }
+}
