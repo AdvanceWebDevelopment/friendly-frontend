@@ -1,0 +1,76 @@
+.input-group {
+    margin-left: 4.125rem;
+    position: relative;
+    align-self: center;
+}
+
+.input-form {
+    width: 33rem;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 999px;
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-dropdown {
+    background-color: transparent;
+    height: 2.4rem;
+    width: 6rem;
+    border-top: none;
+    border-left: none;
+    border-bottom: none;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    font-size: 1em;
+    border-right: 1px solid white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 0.5rem;
+}
+
+.icon-dropdown {
+    margin-left: 0.5rem;
+    width: 1rem;
+}
+
+.input-field {
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    background-color: transparent;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.875em;
+    height: 2.4rem;
+    width: 24rem;
+    text-indent: 1rem;
+    outline: none;
+    color: white;
+}
+
+.input-field::placeholder {
+    color: white;
+    opacity: 0.75;
+}
+
+.btn-search {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 2px solid #693ff5;
+    box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+    color: #693ff5;
+    align-self: center;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 31rem;
+}
+
+.btn-icon-search {
+    margin-bottom: 0.1rem;
+}
