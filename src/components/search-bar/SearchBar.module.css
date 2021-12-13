@@ -5,7 +5,7 @@
 }
 
 .input-form {
-    width: 33rem;
+    width: 50rem;
     background-color: transparent;
     border: 1px solid white;
     border-radius: 999px;
@@ -17,7 +17,7 @@
 .btn-dropdown {
     background-color: transparent;
     height: 2.4rem;
-    width: 6rem;
+    width: 12rem;
     border-top: none;
     border-left: none;
     border-bottom: none;
@@ -27,12 +27,14 @@
     border-right: 1px solid white;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     margin-left: 0.5rem;
 }
 
 .icon-dropdown {
-    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding-left: 0.5rem;
     width: 1rem;
 }
 
@@ -68,7 +70,7 @@
     z-index: 1;
     position: absolute;
     top: 0;
-    left: 31rem;
+    left: 48rem;
 }
 
 .btn-icon-search {

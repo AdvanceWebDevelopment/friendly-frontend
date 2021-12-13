@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
+import CategoryButton from "../category/CategoryButton";
 import NotificationButton from "../notification/NotificationButton";
 import ProfileButton from "../profile/ProfileButton";
 import SearchBar from "../search-bar/SearchBar";
@@ -9,12 +10,11 @@ export default function Header() {
     return (
         <header className={classes.header}>
             <div className={classes.container}>
-                <div>Logo</div>
+                <a href="#">
+                    <div className={classes.logo}></div>
+                </a>
                 <div className={classes.home}>Trang chủ</div>
-                <div className={classes.category}>
-                    <span>Danh mục</span>
-                    <Icon icon="ant-design:caret-down-filled" className={classes["category-icon"]} />
-                </div>
+                <CategoryButton />
                 <SearchBar />
                 <ProfileButton />
                 <NotificationButton />
