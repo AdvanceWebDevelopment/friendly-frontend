@@ -1,6 +1,6 @@
 import * as React from "react";
 import classes from "./Banner.module.css";
-/* 
+/*
     Props contain banner message,
     button banner message
     and behavior function when click the button
