@@ -3,6 +3,7 @@ import classes from "./CategoryDropdown.module.css";
 
 export interface CategoryDropdownProps {
     visibility: boolean;
+    onMouseEventHandler: (state: boolean) => void;
 }
 interface DummyData {
     id: number;
@@ -20,6 +21,10 @@ export default function CategoryDropdown(props: CategoryDropdownProps) {
             name: "Name2",
         },
     ] as DummyData[]);
+
+    const handleOnMouseEvent = (state: boolean) => {
+        props.onMouseEventHandler(state);
+    };
     const renderCategories = React.useCallback(() => {
         return list.map((item) => {
             return (
@@ -42,7 +47,12 @@ export default function CategoryDropdown(props: CategoryDropdownProps) {
     }, []);
 
     return (
-        <ul className={classes.dropdown} style={{ opacity: `${props.visibility ? "1" : "0"}` }}>
+        <ul
+            className={classes.dropdown}
+            style={{ display: `${props.visibility ? "block" : "none"}` }}
+            onMouseEnter={() => handleOnMouseEvent(true)}
+            onMouseLeave={() => handleOnMouseEvent(false)}
+        >
             {renderCategories()}
         </ul>
     );
