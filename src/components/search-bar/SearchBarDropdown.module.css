@@ -3,14 +3,12 @@
     position: absolute;
     width: 11rem;
     background-color: white;
-    top: 3rem;
+    top: 2.5rem;
     left: 1rem;
     list-style-type: none;
     padding-left: 0 !important;
     border: 1px solid #4f2bdf;
     border-radius: 5px;
-    opacity: 1;
-    transition: 0.2s ease-in-out all;
     text-align: left;
     font-size: 14px;
 }
@@ -55,9 +53,8 @@
     opacity: 1;
     display: block;
     float: none;
-    top: 0.8rem;
+    top: 0.75rem;
     left: 10.9rem;
-    transition: 0.2s ease-in-out all;
 }
 
 .sub-dropdown-item:last-child {

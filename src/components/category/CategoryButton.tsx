@@ -6,15 +6,25 @@ import CategoryDropdown from "./CategoryDropdown";
 export default function CategoryButton() {
     const [isDropdownVisible, setIsDropdownVisible] = React.useState(false);
 
+    const handleDropdownVisibility = (state: boolean) => {
+        if (state) {
+            console.log("MouseEnter");
+        } else {
+            console.log("MouseLeave");
+        }
+        setIsDropdownVisible(state);
+    };
     return (
-        <div
-            className={classes.category}
-            onMouseEnter={() => setIsDropdownVisible(true)}
-            onMouseLeave={() => setIsDropdownVisible(false)}
-        >
-            <span>Danh mục</span>
-            <Icon icon="ant-design:caret-down-filled" className={classes["category-icon"]} />
-            <CategoryDropdown visibility={isDropdownVisible} />
+        <div className={classes["category-section"]}>
+            <div
+                className={classes.category}
+                onMouseEnter={() => handleDropdownVisibility(true)}
+                onMouseLeave={() => handleDropdownVisibility(false)}
+            >
+                <span>Danh mục</span>
+                <Icon icon="ant-design:caret-down-filled" className={classes["category-icon"]} />
+            </div>
+            <CategoryDropdown visibility={isDropdownVisible} onMouseEventHandler={handleDropdownVisibility} />
         </div>
     );
 }

@@ -61,7 +61,7 @@ export default function SearchBarDropdown(props: SearchBarDropdownProps) {
     }, []);
 
     return (
-        <div style={{ opacity: `${props.visibility ? "1" : "0"}` }}>
+        <div style={{ display: `${props.visibility ? "block" : "none"}` }}>
             <ul className={classes.dropdown}>{renderCategories()}</ul>
         </div>
     );

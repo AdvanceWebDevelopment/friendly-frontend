@@ -5,7 +5,7 @@ import SearchBarDropdown from "./SearchBarDropdown";
 
 export default function SearchBar() {
     const [isDropdownVisible, setIsDropdownVisible] = React.useState(false);
-    const [currentCategory, setCurrentCategory] = React.useState("");
+    const [currentCategory, setCurrentCategory] = React.useState("Current");
 
     const changeFilterHandler = (category: string) => {
         setCurrentCategory(category);

@@ -25,6 +25,7 @@ export default function ProfileDropdowm(props: ProfileDropdownProps) {
             title: "Log out",
         },
     ] as DummyData[]);
+
     const renderItem = React.useCallback(() => {
         return list.map((item) => {
             return (
@@ -36,9 +37,8 @@ export default function ProfileDropdowm(props: ProfileDropdownProps) {
     }, []);
 
     return (
-        <ul className={classes.dropdown} style={{ opacity: `${props.visibility ? "1" : "0"}` }}>
+        <ul className={classes.dropdown} style={{ display: `${props.visibility ? "block" : "none"}` }}>
             {renderItem()}
         </ul>
     );
 }
-// style={{ opacity: `${props.visibility ? "1" : "0"}`}}
