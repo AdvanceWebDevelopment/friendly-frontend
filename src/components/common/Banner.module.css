@@ -1,0 +1,39 @@
+.banner {
+    display: grid;
+    grid-template-columns: 30rem 25rem;
+    column-gap: 1rem;
+    font-family: "Montserrat", sans-serif;
+    width: 65.5rem;
+    height: 20rem;
+    margin: auto;
+    margin-top: 3.125rem;
+    margin-bottom: 3.125rem;
+    padding: 7rem 3rem;
+    background-image: url("../../assets/images/banner.jpg");
+    background-size: cover;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+    border-radius: 10px;
+}
+
+.banner-msg {
+    font-size: 2.25em;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: right;
+}
+
+.button {
+    width: 25rem;
+    height: 5.5rem;
+    align-self: center;
+    padding: 0.5rem 7.5rem;
+    background-color: #693ff5;
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+}
