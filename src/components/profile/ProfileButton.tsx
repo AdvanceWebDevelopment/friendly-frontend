@@ -4,20 +4,24 @@ import classes from "./ProfileButton.module.css";
 import ProfileDropdowm from "./ProfileDropdown";
 export default function ProfileButton() {
     const [isDropdownVisible, setIsDropdownVisible] = React.useState(false);
+
+    const handleOnMouseEvent = (state: boolean) => {
+        console.log(state ? "Enter" : "Leave");
+        setIsDropdownVisible(state);
+    };
+
     return (
         <div className={classes["btn-profile-comp"]}>
             <button
                 className={classes["btn-dropdown"]}
-                onMouseEnter={() => setIsDropdownVisible(true)}
-                onMouseLeave={() => setIsDropdownVisible(false)}
+                onMouseEnter={() => handleOnMouseEvent(true)}
+                onMouseLeave={() => handleOnMouseEvent(false)}
             >
                 <span className={classes["username"]}>Andy</span>
-                <Icon icon="ant-design:caret-down-filled" className={classes["icon-dropdown"]} />
+                <Icon icon="ant-design:caret-down-filled" />
                 <ProfileDropdowm visibility={isDropdownVisible} />
             </button>
-            <div className={classes["user-img"]}>
-                <Icon icon="ant-design:caret-down-filled" className={classes["icon-dropdown"]} />
-            </div>
+            <div className={classes["user-img"]}></div>
         </div>
     );
 }
