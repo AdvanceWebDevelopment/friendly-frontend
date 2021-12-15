@@ -5,18 +5,20 @@ import { colors } from "../../constants/colors";
 interface CarouselArrowButtonProps {
     direction: "left" | "right";
     className?: string;
+    onClick?: () => void;
 }
 
 export const CarouselArrowButton = (props: CarouselArrowButtonProps) => {
-    const { direction, className } = props;
+    const { direction, className, onClick } = props;
 
     return (
         <button
-            className={className}
+            className={`rounded-circle border-0 p-2 ${className}`}
             style={{
                 background: colors.purple,
                 boxShadow: "2px 4px 4px grey",
             }}
+            onClick={onClick}
         >
             <Icon
                 fontSize={24}
