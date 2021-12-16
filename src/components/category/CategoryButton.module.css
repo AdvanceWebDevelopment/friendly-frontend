@@ -9,7 +9,7 @@
 
 .category {
     font-family: "Roboto Slab", sans-serif;
-    color: white;
+    color: var(--sub-primary);
     text-transform: uppercase;
     font-size: 1.125rem;
     cursor: pointer;
