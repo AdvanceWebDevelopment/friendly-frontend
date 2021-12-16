@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
-import Slider, { Settings } from "react-slick";
 import { CarouselArrowButton } from "./carousel-arrow-button";
 import Carousel, { slidesToShowPlugin, arrowsPlugin, Dots } from "@brainhubeu/react-carousel";
 import "@brainhubeu/react-carousel/lib/style.css";
