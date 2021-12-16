@@ -1,0 +1,174 @@
+.card {
+    width: 23rem;
+    height: 30rem;
+    background-color: var(--sub-primary);
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+    margin: auto;
+    font-family: "Montserrat", sans-serif;
+    transition: all 0.2s ease-out;
+}
+
+.card:hover {
+    box-shadow: 0px 0px 10px 2px #777;
+    transform: translate(-2px, -2px);
+}
+
+.product-container {
+    padding: 9px 9px 9px 9px;
+}
+
+.product-img {
+    height: 11.75rem;
+    border-radius: 5px;
+    background-color: var(--sub-secondary);
+}
+
+.product-name {
+    margin: 1.25rem 0.625rem 0.625rem 0.625rem;
+    font-weight: 500;
+    font-size: 1.125em;
+}
+
+.date {
+    display: grid;
+    grid-template-columns: 14rem 5rem;
+    margin: 0.625rem 0.625rem 0.5625rem 0.625rem;
+    font-size: 0.8em;
+    color: #757575;
+}
+
+.end-date,
+.post-date {
+    width: 5rem;
+    display: grid;
+}
+
+.times {
+    font-weight: 400;
+    font-size: 1.1em;
+    color: var(--sub-secondary);
+}
+
+.bid-info {
+    height: 4.25rem;
+    margin: 1rem 0.5625rem 0.5rem 0.5625rem;
+    border-style: dashed none dashed;
+    border-width: 1px;
+    padding: 0.625rem 0 0.625rem 0;
+    display: grid;
+    grid-template-columns: 10.25rem 10.5rem;
+    column-gap: 1px;
+}
+
+.bidder {
+    display: grid;
+    grid-template-columns: 3rem 6.75rem;
+    text-align: right;
+    margin-right: 0.5rem;
+}
+
+.bidder-img {
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--green);
+    border-radius: 999px;
+    background-color: var(--sub-secondary);
+    grid-row: 1 / span 2;
+    position: relative;
+}
+
+.total-bid,
+.expandable-total-bid {
+    width: 1.5rem;
+    height: 1.5rem;
+    position: absolute;
+    bottom: -0.5rem;
+    right: -0.5rem;
+    border: 1px solid var(--green);
+    border-radius: 999px;
+    background-color: var(--sub-primary);
+    align-self: center;
+    text-align: center;
+    font-size: 0.8125em;
+}
+
+.expandable-total-bid {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.expandable-total-bid:hover {
+    overflow: visible;
+    width: 2.75rem;
+    right: -0.5rem;
+}
+
+.buy {
+    display: grid;
+    grid-template-columns: 2.5rem 6.75rem;
+    border-left: 1px solid var(--sub-secondary);
+    padding-left: 0.5rem;
+    text-align: right;
+}
+
+.bidder > .headings {
+    font-size: 0.875em;
+    color: var(--green);
+}
+
+.buy > .headings {
+    font-size: 0.875em;
+    color: var(--red);
+}
+
+.price {
+    font-weight: 600;
+    font-size: 1.125em;
+}
+
+.icon {
+    color: var(--red);
+    grid-row: 1 / span 2;
+}
+
+.btn-bid {
+    width: 18.75rem;
+    height: 2.8125rem;
+    border: 2px solid var(--primary);
+    background-color: var(--sub-primary);
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 1.125em;
+    text-transform: uppercase;
+    border-radius: 10px;
+    margin-top: 0.25rem;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.25);
+}
+
+.btn-bid:hover {
+    background-color: var(--primary);
+    color: var(--sub-primary);
+}
+
+.btn-bid span {
+    margin-left: 0.5rem;
+}
+
+.option-icon {
+    align-self: center;
+    color: #777;
+    margin-left: 0.25;
+}
+
+.options {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.btn-options {
+    background-color: transparent;
+    border: none;
+    position: relative;
+}

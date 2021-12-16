@@ -1,2 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+:root {
+    --primary: #693ff5;
+    --secondary: #4f2bdf;
+    --sub-primary: #ffffff;
+    --sub-secondary: #000000;
+    --green: #6fc47f;
+    --red: #ee4730;
+}
