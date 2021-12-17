@@ -15,14 +15,14 @@ export const CarouselArrowButton = (props: CarouselArrowButtonProps) => {
         <button
             className={`rounded-circle border-0 p-2 ${className}`}
             style={{
-                background: colors.purple,
+                background: colors.primary,
                 boxShadow: "2px 4px 4px grey",
             }}
             onClick={onClick}
         >
             <Icon
                 fontSize={24}
-                color={colors.white}
+                color={colors.subPrimary}
                 icon="ant-design:arrow-right-outlined"
                 rotate={direction === "left" ? 90 : 0}
             />

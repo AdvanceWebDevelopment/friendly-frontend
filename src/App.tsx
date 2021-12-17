@@ -1,18 +1,22 @@
 import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Footer from "./components/common/Footer";
-import Header from "./components/common/Header";
-import Banner from "./components/common/Banner";
-import ProductCard from "./components/product/ProductCard";
+import { CategoryPage } from "./pages/category-page";
+import { DoranPage } from "./pages/doran-page";
+import { HomePage } from "./pages/home-page";
+import { ProfilePage } from "./pages/profile-page";
 
 function App() {
     return (
-        <div>
-            <Header />
-            <Banner />
-            <ProductCard />
-            <Footer />
-        </div>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<DoranPage />}>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/category" element={<CategoryPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
 }
 

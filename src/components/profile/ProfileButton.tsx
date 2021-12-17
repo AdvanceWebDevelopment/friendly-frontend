@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
+import { Link } from "react-router-dom";
 import classes from "./ProfileButton.module.css";
 import ProfileDropdowm from "./ProfileDropdown";
 export default function ProfileButton() {
@@ -21,7 +22,9 @@ export default function ProfileButton() {
                 <Icon icon="ant-design:caret-down-filled" />
                 <ProfileDropdowm visibility={isDropdownVisible} />
             </button>
-            <div className={classes["user-img"]}></div>
+            <Link to="/profile">
+                <div className={classes["user-img"]}></div>
+            </Link>
         </div>
     );
 }
