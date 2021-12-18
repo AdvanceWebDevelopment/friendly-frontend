@@ -1,9 +1,12 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { apiRoute } from "../../constants/api-routes";
 import classes from "./ProfileButton.module.css";
 import ProfileDropdowm from "./ProfileDropdown";
 export default function ProfileButton() {
+    const navigate = useNavigate();
+
     const [isDropdownVisible, setIsDropdownVisible] = React.useState(false);
 
     const handleOnMouseEvent = (state: boolean) => {
@@ -22,9 +25,7 @@ export default function ProfileButton() {
                 <Icon icon="ant-design:caret-down-filled" />
                 <ProfileDropdowm visibility={isDropdownVisible} />
             </button>
-            <Link to="/profile">
-                <div className={classes["user-img"]}></div>
-            </Link>
+            <div className={classes["user-img"]} onClick={() => navigate(apiRoute.PROFILE)}></div>
         </div>
     );
 }

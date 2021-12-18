@@ -1,41 +1,95 @@
-import React, { ReactElement } from "react";
-import Carousel, { slidesToShowPlugin, arrowsPlugin } from "@brainhubeu/react-carousel";
+import Carousel, { arrowsPlugin, CarouselBreakpoints, slidesToShowPlugin } from "@brainhubeu/react-carousel";
 import "@brainhubeu/react-carousel/lib/style.css";
+import React, { useState } from "react";
 import { CarouselArrowButton } from "./carousel-arrow-button";
 
-interface DoranCarouselProps {
-    children: JSX.Element[] | undefined;
+export interface DoranCarouselProps {
+    children: JSX.Element[];
+    itemToShow?: number;
     className?: string;
     itemClass?: string;
     childrenSpacing?: number;
 }
 
-export const DoranCarousel = (props: DoranCarouselProps) => {
-    const { children, className, itemClass, childrenSpacing } = props;
+const breakpoints: CarouselBreakpoints = {
+    640: {
+        plugins: [
+            {
+                resolve: slidesToShowPlugin,
+                options: {
+                    numberOfSlides: 2,
+                },
+            },
+        ],
+    },
+    900: {
+        plugins: [
+            {
+                resolve: slidesToShowPlugin,
+                options: {
+                    numberOfSlides: 3,
+                },
+            },
+        ],
+    },
+    1200: {
+        plugins: [
+            {
+                resolve: slidesToShowPlugin,
+                options: {
+                    numberOfSlides: 4,
+                },
+            },
+        ],
+    },
+};
 
-    const renderItems = children?.map((item) => (
-        <div key={item.key} className={itemClass} style={item.props.style}>
-            {item}
-        </div>
-    ));
+export const DoranCarousel = (props: DoranCarouselProps) => {
+    const { children, className, childrenSpacing, itemToShow = 3 } = props;
+
+    const [value, setValue] = useState(0);
+    const [leftArrowEnable, setLeftArrowEnable] = useState(false);
+    const [rightArrowEnable, setRightArrowEnable] = useState(true);
+
+    const onChange = (value: number) => {
+        setLeftArrowEnable(value > 0);
+
+        if (value + itemToShow < children.length) {
+            setValue(value);
+            setRightArrowEnable(true);
+        } else if (value + itemToShow == children.length) {
+            setValue(value);
+            setRightArrowEnable(false);
+        } else {
+            setRightArrowEnable(false);
+        }
+    };
 
     return (
         <Carousel
             className={className}
-            offset={childrenSpacing}
+            offset={childrenSpacing || 0}
+            value={value}
+            onChange={onChange}
+            slides={children}
             plugins={[
-                "infinite",
+                // Don't know why it doesn't work
+                // {
+                //     resolve: infinitePlugin,
+                // },
                 {
                     resolve: arrowsPlugin,
                     options: {
                         arrowLeft: (
                             <CarouselArrowButton
+                                enabled={leftArrowEnable}
                                 direction="left"
                                 className="d-flex justify-content-center align-items-center rounded-circle p-2 mx-3 border-0"
                             />
                         ),
                         arrowRight: (
                             <CarouselArrowButton
+                                enabled={rightArrowEnable}
                                 direction="right"
                                 className="d-flex justify-content-center align-items-center rounded-circle p-2 mx-3 border-0"
                             />
@@ -46,12 +100,11 @@ export const DoranCarousel = (props: DoranCarouselProps) => {
                 {
                     resolve: slidesToShowPlugin,
                     options: {
-                        numberOfSlides: 3,
+                        numberOfSlides: itemToShow,
                     },
                 },
             ]}
-        >
-            {renderItems}
-        </Carousel>
+            breakpoints={breakpoints}
+        />
     );
 };

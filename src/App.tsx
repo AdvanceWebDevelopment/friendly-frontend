@@ -12,7 +12,9 @@ function App() {
             <Routes>
                 <Route path="/" element={<DoranPage />}>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/category" element={<CategoryPage />} />
+                    <Route path="/category" element={<CategoryPage />}>
+                        <Route path=":id" element={<CategoryPage />} />
+                    </Route>
                     <Route path="/profile" element={<ProfilePage />} />
                 </Route>
             </Routes>

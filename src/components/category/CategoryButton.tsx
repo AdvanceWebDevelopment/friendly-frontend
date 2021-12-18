@@ -16,18 +16,16 @@ export default function CategoryButton() {
         setIsDropdownVisible(state);
     };
     return (
-        <Link to="/category">
-            <div className={classes["category-section"]}>
-                <div
-                    className={classes.category}
-                    onMouseEnter={() => handleDropdownVisibility(true)}
-                    onMouseLeave={() => handleDropdownVisibility(false)}
-                >
-                    <span>Danh mục</span>
-                    <Icon icon="ant-design:caret-down-filled" className={classes["category-icon"]} />
-                </div>
-                <CategoryDropdown visibility={isDropdownVisible} onMouseEventHandler={handleDropdownVisibility} />
+        <div className={classes["category-section"]}>
+            <div
+                className={classes.category}
+                onMouseEnter={() => handleDropdownVisibility(true)}
+                onMouseLeave={() => handleDropdownVisibility(false)}
+            >
+                <span>Danh mục</span>
+                <Icon icon="ant-design:caret-down-filled" className={classes["category-icon"]} />
             </div>
-        </Link>
+            <CategoryDropdown visibility={isDropdownVisible} onMouseEventHandler={handleDropdownVisibility} />
+        </div>
     );
 }
