@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import classes from "./ProductCard.module.css";
+import ProductOptions from "./ProductOptions";
 
 /**
  * Product card props include:
@@ -23,25 +24,23 @@ const DUMMY_DATA = {
 };
 
 export default function ProductCard() {
-    const formatPrice = (price: number) => {
+    const formatPrice = React.useCallback((price: number) => {
         const lookup = [
             { value: 1, symbol: "" },
             { value: 1e3, symbol: "k" },
             { value: 1e6, symbol: "M" },
             { value: 1e9, symbol: "B" },
             { value: 1e12, symbol: "T" },
-            { value: 1e15, symbol: "P" },
-            { value: 1e18, symbol: "E" },
         ];
-        const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-        var item = lookup
+        const item = lookup
             .slice()
             .reverse()
             .find(function (item) {
                 return price >= item.value;
             });
-        return item ? (price / item.value).toFixed(1).replace(rx, "$1") + item.symbol : "0";
-    };
+        return item ? (price / item.value).toFixed(1) + item.symbol + "VND" : "N/A";
+    }, []);
+
     return (
         <figure className={classes.card}>
             <div className={classes["product-container"]}>
@@ -65,22 +64,20 @@ export default function ProductCard() {
                             </div>
                         </div>
                         <div className={classes["headings"]}>Giá Hiện Tại</div>
-                        <div className={classes.price}>{formatPrice(10200000000) + " VND"}</div>
+                        <div className={classes.price}>{1}</div>
                     </div>
                     <div className={classes["buy"]}>
                         <Icon icon="emojione-monotone:money-bag" className={classes.icon} width={42} height={45} />
                         <div className={classes["headings"]}>Mua Ngay</div>
-                        <div className={classes.price}>{formatPrice(10200000000) + " VND"}</div>
+                        <div className={classes.price}>{1}</div>
                     </div>
                 </div>
-                <div className={classes.options}>
+                <div className={classes["card-bottom"]}>
                     <button className={classes["btn-bid"]}>
                         <Icon icon="ri:auction-fill" width={24} height={24} />
                         <span>Ra giá</span>
                     </button>
-                    <button className={classes["btn-options"]}>
-                        <Icon icon="bx:bx-dots-vertical" width={30} height={30} className={classes["option-icon"]} />
-                    </button>
+                    <ProductOptions />
                 </div>
             </div>
         </figure>
