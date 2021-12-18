@@ -8,11 +8,6 @@ export default function CategoryButton() {
     const [isDropdownVisible, setIsDropdownVisible] = React.useState(false);
 
     const handleDropdownVisibility = (state: boolean) => {
-        if (state) {
-            console.log("MouseEnter");
-        } else {
-            console.log("MouseLeave");
-        }
         setIsDropdownVisible(state);
     };
     return (
