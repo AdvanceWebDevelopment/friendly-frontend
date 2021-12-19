@@ -9,7 +9,7 @@
     margin-top: 3.125rem;
     margin-bottom: 3.125rem;
     padding: 7rem 3rem;
-    background-image: url("../../assets/images/banner.svg");
+    background-image: url("../../../assets/images/banner.svg");
     background-size: cover;
     filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
     border-radius: 10px;

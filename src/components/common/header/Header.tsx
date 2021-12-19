@@ -1,11 +1,11 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { apiRoute } from "../../constants/api-routes";
-import CategoryButton from "../category/CategoryButton";
-import NotificationButton from "../notification/NotificationButton";
-import ProfileButton from "../profile/ProfileButton";
-import SearchBar from "../search-bar/SearchBar";
+import { apiRoute } from "../../../constants/api-routes";
+import CategoryButton from "../../category/CategoryButton";
+import NotificationButton from "../../notification/NotificationButton";
+import ProfileButton from "../../profile/ProfileButton";
+import SearchBar from "../../search-bar/SearchBar";
 import classes from "./Header.module.css";
 
 export default function Header() {

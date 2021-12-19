@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router";
-import Footer from "../components/common/Footer";
-import Header from "../components/common/Header";
+import Footer from "../components/common/footer/Footer";
+import Header from "../components/common/header/Header";
 import { colors } from "../constants/colors";
 
 import auctionBanner from "../assets/images/auction-banner.svg";
