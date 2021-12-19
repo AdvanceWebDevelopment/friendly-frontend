@@ -7,22 +7,19 @@ import classes from "./Banner.module.css";
 */
 
 export interface BannerProps {
-    bannerMsg: string;
-    buttonMsg: string;
-    doSomething: (params: any) => void;
+    bannerMsg?: string;
+    buttonMsg?: string;
+    onClick?: () => void;
 }
 
-export default function Banner() {
-    const dummyBannerMsg = "Tham gia đấu giá theo dõi sản phẩm";
-    const dummyButtonMsg = "Đăng ký tài khoản";
-    const dummyBehavior = () => {
-        console.log("Button clicked");
-    };
+export default function Banner(props: BannerProps) {
+    const { bannerMsg, buttonMsg, onClick } = props;
+
     return (
         <div className={classes.banner}>
-            <div className={classes["banner-msg"]}>{dummyBannerMsg}</div>
-            <button className={classes.button} onClick={dummyBehavior}>
-                {dummyButtonMsg}
+            <div className={classes["banner-msg"]}>{bannerMsg}</div>
+            <button className={classes.button} onClick={onClick}>
+                {buttonMsg}
             </button>
         </div>
     );

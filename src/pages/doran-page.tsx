@@ -11,7 +11,7 @@ import { ScrollTopButton } from "../components/scroll-top-button/scroll-top-butt
 
 export const DoranPage = () => {
     return (
-        <div style={{ background: colors.background }}>
+        <div style={{ background: colors.background, zIndex: -999 }}>
             <Header />
             <Image
                 src={auctionBanner}
