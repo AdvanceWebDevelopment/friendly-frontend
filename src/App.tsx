@@ -18,6 +18,7 @@ function App() {
                     </Route>
                     <Route path={apiRoute.PROFILE} element={<ProfilePage />} />
                 </Route>
+                <Route path="*" element={<HomePage />} />
             </Routes>
         </BrowserRouter>
     );
