@@ -6,11 +6,7 @@ interface DummyData {
     title: string;
 }
 
-export interface ProfileDropdownProps {
-    visibility: boolean;
-}
-
-export default function ProfileDropdowm(props: ProfileDropdownProps) {
+export default function ProfileDropdowm() {
     const [list, setList] = React.useState([
         {
             id: 1,
@@ -36,9 +32,5 @@ export default function ProfileDropdowm(props: ProfileDropdownProps) {
         });
     }, []);
 
-    return (
-        <ul className={classes.dropdown} style={{ display: `${props.visibility ? "block" : "none"}` }}>
-            {renderItem()}
-        </ul>
-    );
+    return <ul className={classes.dropdown}>{renderItem()}</ul>;
 }

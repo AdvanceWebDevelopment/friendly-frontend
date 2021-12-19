@@ -23,16 +23,14 @@ export const HomePage = () => {
                 }}
                 className="p-5 my-5"
             >
-                <div className="container">
+                {/* <div className="container">
                     <SectionTitle text="NHIỀU NGƯỜI YÊU THÍCH" className="mx-5 my-3" />
                     <DoranCarousel style={{ position: "relative", zIndex: 999 }}>
                         <ProductCard />
                         <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
-                        <ProductCard />
                     </DoranCarousel>
-                </div>
+                </div> */}
+                <ProductCard />
             </div>
 
             <Banner bannerMsg="THAM GIA ĐẤU GIÁ THEO DÕI SẢN PHẨM" buttonMsg="ĐĂNG KÝ TÀI KHOẢN" />

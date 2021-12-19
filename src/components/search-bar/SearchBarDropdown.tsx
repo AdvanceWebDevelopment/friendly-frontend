@@ -7,7 +7,6 @@ interface DummyData {
 }
 
 export interface SearchBarDropdownProps {
-    visibility: boolean;
     changeFilterHandler: (category: string) => void;
 }
 
@@ -61,7 +60,7 @@ export default function SearchBarDropdown(props: SearchBarDropdownProps) {
     }, []);
 
     return (
-        <div style={{ display: `${props.visibility ? "block" : "none"}` }}>
+        <div>
             <ul className={classes.dropdown}>{renderCategories()}</ul>
         </div>
     );
