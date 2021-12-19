@@ -1,6 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import { categorySlice } from "./category-slice";
+import { categoryReducer } from "./category-slice";
+import { productReducer } from "./product-slice";
 
 export const rootReducer = combineReducers({
-    categoryState: categorySlice.reducer,
+    categoryState: categoryReducer,
+    productState: productReducer,
 });

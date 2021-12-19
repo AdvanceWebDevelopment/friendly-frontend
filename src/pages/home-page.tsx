@@ -19,12 +19,13 @@ export const HomePage = () => {
                     backgroundRepeat: "no-repeat",
                     height: "50rem",
                     width: "100%",
+                    zIndex: 99,
                 }}
-                className="p-5"
+                className="p-5 my-5"
             >
                 <div className="container">
                     <SectionTitle text="NHIỀU NGƯỜI YÊU THÍCH" className="mx-5 my-3" />
-                    <DoranCarousel>
+                    <DoranCarousel style={{ position: "relative", zIndex: 999 }}>
                         <ProductCard />
                         <ProductCard />
                         <ProductCard />

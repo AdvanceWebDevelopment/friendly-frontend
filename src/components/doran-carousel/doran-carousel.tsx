@@ -8,7 +8,6 @@ export interface DoranCarouselProps {
     itemToShow?: number;
     className?: string;
     style?: CSSProperties;
-    itemClass?: string;
     childrenSpacing?: number;
 }
 

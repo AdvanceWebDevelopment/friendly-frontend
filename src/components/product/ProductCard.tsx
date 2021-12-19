@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
+import { Product } from "../../models";
 import classes from "./ProductCard.module.css";
 import ProductOptions from "./ProductOptions";
 
@@ -9,7 +10,7 @@ import ProductOptions from "./ProductOptions";
  */
 
 export interface ProductCardProps {
-    product: any;
+    product?: Product;
 }
 
 const DUMMY_DATA = {

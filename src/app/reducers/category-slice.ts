@@ -7,7 +7,7 @@ interface CategoryState {
     selectedId?: number;
 }
 
-export const categorySlice = createSlice({
+const categorySlice = createSlice({
     name: "category",
     initialState: {
         selectedId: undefined,
@@ -24,3 +24,5 @@ export const categorySlice = createSlice({
 });
 
 export const { setSelectedId, getCategories } = categorySlice.actions;
+
+export const categoryReducer = categorySlice.reducer;

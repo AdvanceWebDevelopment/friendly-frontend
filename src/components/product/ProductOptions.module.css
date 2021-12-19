@@ -14,8 +14,8 @@ ul {
 
 .dropdown {
     position: absolute;
-    left: 0.5rem;
-    top: 2.5rem;
+    bottom: 0;
+    right: 1.75rem;
     list-style: none;
     width: 7.5rem;
     background-color: var(--sub-primary);
