@@ -4,22 +4,32 @@ import classes from "./SearchBar.module.css";
 import SearchBarDropdown from "./SearchBarDropdown";
 
 export default function SearchBar() {
-    const [isDropdownVisible, setIsDropdownVisible] = React.useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
     const [currentCategory, setCurrentCategory] = React.useState("Current");
+
+    const ref = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        const checkIfClickedOutside = (e: MouseEvent) => {
+            if (isDropdownOpen && ref.current && !ref.current.contains(e.target as HTMLDivElement)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", checkIfClickedOutside);
+        return () => {
+            document.removeEventListener("mousedown", checkIfClickedOutside);
+        };
+    }, [isDropdownOpen]);
 
     const changeFilterHandler = (category: string) => {
         setCurrentCategory(category);
     };
     return (
         <div className={classes["input-group"]}>
-            <div className={classes["input-form"]}>
-                <button
-                    className={classes["btn-dropdown"]}
-                    onMouseEnter={() => setIsDropdownVisible(true)}
-                    onMouseLeave={() => setIsDropdownVisible(false)}
-                >
+            <div className={classes["input-form"]} ref={ref}>
+                <button className={classes["btn-dropdown"]} onClick={() => setIsDropdownOpen((prev) => !prev)}>
                     {currentCategory}
-                    <SearchBarDropdown visibility={isDropdownVisible} changeFilterHandler={changeFilterHandler} />
+                    {isDropdownOpen && <SearchBarDropdown changeFilterHandler={changeFilterHandler} />}
                     <Icon icon="ant-design:caret-down-filled" className={classes["icon-dropdown"]} />
                 </button>
                 <input
