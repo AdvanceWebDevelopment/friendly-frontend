@@ -1,6 +1,5 @@
 import createSagaMiddleware from "@redux-saga/core";
 import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { rootReducer } from "./reducers/root-reducer";
 import rootSaga from "./sagas/root-saga";
 

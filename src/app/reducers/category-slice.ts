@@ -10,14 +10,14 @@ interface CategoryState {
 export const categorySlice = createSlice({
     name: "category",
     initialState: {
+        selectedId: undefined,
         categories: [],
     } as CategoryState,
     reducers: {
         setSelectedId: (state, action: PayloadAction<number | undefined>) => {
             state.selectedId = action.payload;
         },
-        getCategories: (state, action: PayloadAction) => {
-            console.log(`Call categorySlice.getCategories`);
+        getCategories: (state) => {
             state.categories = categoryService.getCategories();
         },
     },

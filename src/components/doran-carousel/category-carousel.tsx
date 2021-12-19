@@ -1,13 +1,11 @@
-import React, { CSSProperties, useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
-import { colors } from "../../constants/colors";
-import { Category } from "../../models/category";
-import { categoryService } from "../../services/category-service";
-import { DoranCarousel } from "./doran-carousel";
-import { useNavigate, useParams } from "react-router-dom";
-import { apiRoute } from "../../constants/api-routes";
+import React, { CSSProperties, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { getCategories } from "../../app/reducers/category-slice";
+import { getCategories, setSelectedId } from "../../app/reducers/category-slice";
+import { apiRoute } from "../../constants/api-routes";
+import { colors } from "../../constants/colors";
+import { DoranCarousel } from "./doran-carousel";
 
 export interface CategoryCarouselProps {
     style?: CSSProperties;
@@ -23,6 +21,12 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
     const { selectedId, categories } = categoryState;
 
     const dispatch = useAppDispatch();
+    const location = useLocation();
+
+    if (!location.pathname.includes(apiRoute.CATEGORY)) {
+        dispatch(setSelectedId(undefined));
+    }
+
     useEffect(() => {
         dispatch(getCategories());
     }, []);
@@ -37,18 +41,22 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
                                 key={index}
                                 className="d-inline-block align-middle shadow p-3 mb-5"
                                 style={{
-                                    background: selectedId ? colors.primary : colors.subPrimary,
+                                    background: selectedId === category.id ? colors.primary : colors.subPrimary,
                                     width: "10rem",
                                     height: "12rem",
                                     borderRadius: "15%",
                                     cursor: "pointer",
                                 }}
-                                onClick={() => navigate(`${apiRoute.CATEGORY}/${category.id}`)}
+                                onClick={() => {
+                                    console.log(`Category click!`);
+                                    dispatch(setSelectedId(category.id));
+                                    navigate(`${apiRoute.CATEGORY}/${category.id}`);
+                                }}
                             >
                                 <div className="text-center mb-2">
                                     <Icon
                                         fontSize={120}
-                                        color={selectedId ? colors.subPrimary : colors.primary}
+                                        color={selectedId === category.id ? colors.subPrimary : colors.primary}
                                         icon={category.getIconByName()}
                                     />
                                 </div>
@@ -58,7 +66,7 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
                                     style={{
                                         fontSize: 16,
                                         fontFamily: "Montserrat",
-                                        color: selectedId ? colors.subPrimary : colors.primary,
+                                        color: selectedId === category.id ? colors.subPrimary : colors.primary,
                                     }}
                                 >
                                     {category.name}
