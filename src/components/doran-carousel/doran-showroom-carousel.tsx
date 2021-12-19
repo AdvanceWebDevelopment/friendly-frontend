@@ -3,7 +3,7 @@ import { Col, Image, Row } from "react-bootstrap";
 import { CarouselArrowButton } from "./carousel-arrow-button";
 import Carousel, { slidesToShowPlugin, arrowsPlugin, Dots } from "@brainhubeu/react-carousel";
 import "@brainhubeu/react-carousel/lib/style.css";
-import { useWindowDimensions } from "../../app/hook";
+import { useWindowDimensions } from "../../utils/hooks";
 
 interface DoranShowroomCarouselProps {
     images?: string[];

@@ -6,6 +6,8 @@ import { categoryService } from "../../services/category-service";
 import { DoranCarousel } from "./doran-carousel";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiRoute } from "../../constants/api-routes";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { getCategories } from "../../app/reducers/category-slice";
 
 export interface CategoryCarouselProps {
     style?: CSSProperties;
@@ -17,23 +19,17 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
 
     const navigate = useNavigate();
 
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [categories, setCategories] = useState<Category[]>([]);
+    const categoryState = useAppSelector((state) => state.categoryState);
+    const { selectedId, categories } = categoryState;
 
+    const dispatch = useAppDispatch();
     useEffect(() => {
-        // Delay demo
-        setTimeout(() => {
-            setCategories(categoryService.getCategories());
-            setIsLoaded(true);
-        }, 1500);
-    }, [categories]);
+        dispatch(getCategories());
+    }, []);
 
     return (
         <div style={style}>
-            {/* This is a placeholder. It keeps spacec for content */}
-            {!isLoaded && <div style={{ height: "12rem" }}></div>}
-
-            {isLoaded && (
+            {categories.length > 0 && (
                 <DoranCarousel className={className} itemToShow={6}>
                     {categories.map((category, index) => {
                         return (
@@ -41,7 +37,7 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
                                 key={index}
                                 className="d-inline-block align-middle shadow p-3 mb-5"
                                 style={{
-                                    background: colors.subPrimary,
+                                    background: selectedId ? colors.primary : colors.subPrimary,
                                     width: "10rem",
                                     height: "12rem",
                                     borderRadius: "15%",
@@ -50,12 +46,20 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
                                 onClick={() => navigate(`${apiRoute.CATEGORY}/${category.id}`)}
                             >
                                 <div className="text-center mb-2">
-                                    <Icon fontSize={120} color={colors.primary} icon={category.getIconByName()} />
+                                    <Icon
+                                        fontSize={120}
+                                        color={selectedId ? colors.subPrimary : colors.primary}
+                                        icon={category.getIconByName()}
+                                    />
                                 </div>
 
                                 <div
                                     className="text-center text-uppercase fw-bold text-wrap"
-                                    style={{ fontSize: 16, fontFamily: "Montserrat", color: colors.primary }}
+                                    style={{
+                                        fontSize: 16,
+                                        fontFamily: "Montserrat",
+                                        color: selectedId ? colors.subPrimary : colors.primary,
+                                    }}
                                 >
                                     {category.name}
                                 </div>
