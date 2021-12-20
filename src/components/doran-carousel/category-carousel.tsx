@@ -50,7 +50,7 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
                                 onClick={() => {
                                     console.log(`Category click!`);
                                     dispatch(setSelectedId(category.id));
-                                    navigate(`${apiRoute.CATEGORY}/${category.id}`);
+                                    navigate(`/${apiRoute.CATEGORY}/${category.id}`);
                                 }}
                             >
                                 <div className="text-center mb-2">

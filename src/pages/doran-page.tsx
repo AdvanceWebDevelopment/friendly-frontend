@@ -17,7 +17,7 @@ export const DoranPage = () => {
                 src={auctionBanner}
                 style={{ width: "100%", zIndex: -1, borderBottomRightRadius: "25%", borderBottomLeftRadius: "25%" }}
             />
-            <CategoryCarousel className="container" style={{ marginTop: "-6rem" }} />
+
             <ScrollTopButton />
             <Outlet />
             <Footer />

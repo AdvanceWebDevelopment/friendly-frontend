@@ -6,4 +6,5 @@ export class User {
     city?: string;
     district?: string;
     street?: string;
+    points?: number;
 }

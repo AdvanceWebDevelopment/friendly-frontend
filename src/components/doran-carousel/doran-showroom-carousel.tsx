@@ -8,11 +8,10 @@ import { useWindowDimensions } from "../../utils/hooks";
 interface DoranShowroomCarouselProps {
     images?: string[];
     className?: string;
-    itemClass?: string;
 }
 
 export const DoranShowroomCarousel = (props: DoranShowroomCarouselProps) => {
-    const { images, className, itemClass } = props;
+    const { images, className } = props;
 
     const [value, setValue] = useState(0);
 
@@ -35,12 +34,14 @@ export const DoranShowroomCarousel = (props: DoranShowroomCarouselProps) => {
                         options: {
                             arrowLeft: (
                                 <CarouselArrowButton
+                                    enabled={true}
                                     direction="left"
                                     className="d-flex justify-content-center align-items-center rounded-circle p-2 mx-3 border-0"
                                 />
                             ),
                             arrowRight: (
                                 <CarouselArrowButton
+                                    enabled={true}
                                     direction="right"
                                     className="d-flex justify-content-center align-items-center rounded-circle p-2 mx-3 border-0"
                                 />
@@ -61,7 +62,7 @@ export const DoranShowroomCarousel = (props: DoranShowroomCarouselProps) => {
                         key={index}
                         src={image}
                         width="100%"
-                        height={width < 1440 ? 500 : 800}
+                        height={width < 1440 ? 400 : 600}
                         style={{ objectFit: "cover", objectPosition: "center", borderRadius: 10 }}
                     />
                 ))}
