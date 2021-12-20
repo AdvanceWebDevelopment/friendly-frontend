@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Product } from "../../models";
+import ProductModal from "./modal/ProductBidModal";
 import classes from "./ProductCard.module.css";
 import ProductOptions from "./ProductOptions";
 
@@ -25,6 +26,8 @@ const DUMMY_DATA = {
 };
 
 export default function ProductCard() {
+    const [showModal, setShowModal] = React.useState(false);
+
     const formatPrice = React.useCallback((price: number) => {
         const lookup = [
             { value: 1, symbol: "" },
@@ -42,45 +45,56 @@ export default function ProductCard() {
         return item ? (price / item.value).toFixed(1) + item.symbol + "VND" : "N/A";
     }, []);
 
+    const showModalHandler = () => {
+        setShowModal(true);
+    };
+
+    const closeModalHandler = () => {
+        setShowModal(false);
+    };
+
     return (
-        <figure className={classes.card}>
-            <div className={classes["product-container"]}>
-                <div className={classes["product-img"]}></div>
-                <div className={classes["product-name"]}>{DUMMY_DATA.name}</div>
-                <div className={classes.date}>
-                    <div className={classes["end-date"]}>
-                        <div>Kết thúc</div>
-                        <div className={classes.times}>{DUMMY_DATA.endDate}</div>
-                    </div>
-                    <div className={classes["post-date"]}>
-                        <div>Đăng từ</div>
-                        <div className={classes.times}>{DUMMY_DATA.postDate}</div>
-                    </div>
-                </div>
-                <div className={classes["bid-info"]}>
-                    <div className={classes["bidder"]}>
-                        <div className={classes["bidder-img"]}>
-                            <div className={classes["total-bid"]}>
-                                {DUMMY_DATA.totalBidCount <= 99 ? DUMMY_DATA.totalBidCount : "99+"}
-                            </div>
+        <>
+            <figure className={classes.card}>
+                <div className={classes["product-container"]}>
+                    <div className={classes["product-img"]}></div>
+                    <div className={classes["product-name"]}>{DUMMY_DATA.name}</div>
+                    <div className={classes.date}>
+                        <div className={classes["end-date"]}>
+                            <div>Kết thúc</div>
+                            <div className={classes.times}>{DUMMY_DATA.endDate}</div>
                         </div>
-                        <div className={classes["headings"]}>Giá Hiện Tại</div>
-                        <div className={classes.price}>{1}</div>
+                        <div className={classes["post-date"]}>
+                            <div>Đăng từ</div>
+                            <div className={classes.times}>{DUMMY_DATA.postDate}</div>
+                        </div>
                     </div>
-                    <div className={classes["buy"]}>
-                        <Icon icon="emojione-monotone:money-bag" className={classes.icon} width={42} height={45} />
-                        <div className={classes["headings"]}>Mua Ngay</div>
-                        <div className={classes.price}>{1}</div>
+                    <div className={classes["bid-info"]}>
+                        <div className={classes["bidder"]}>
+                            <div className={classes["bidder-img"]}>
+                                <div className={classes["total-bid"]}>
+                                    {DUMMY_DATA.totalBidCount <= 99 ? DUMMY_DATA.totalBidCount : "99+"}
+                                </div>
+                            </div>
+                            <div className={classes["headings"]}>Giá Hiện Tại</div>
+                            <div className={classes.price}>{1}</div>
+                        </div>
+                        <div className={classes["buy"]}>
+                            <Icon icon="emojione-monotone:money-bag" className={classes.icon} width={42} height={45} />
+                            <div className={classes["headings"]}>Mua Ngay</div>
+                            <div className={classes.price}>{1}</div>
+                        </div>
+                    </div>
+                    <div className={classes["card-bottom"]}>
+                        <button className={classes["btn-bid"]} onClick={showModalHandler}>
+                            <Icon icon="ri:auction-fill" width={24} height={24} className={classes["option-icon"]} />
+                            <span>Ra giá</span>
+                        </button>
+                        <ProductOptions />
                     </div>
                 </div>
-                <div className={classes["card-bottom"]}>
-                    <button className={classes["btn-bid"]}>
-                        <Icon icon="ri:auction-fill" width={24} height={24} className={classes["option-icon"]} />
-                        <span>Ra giá</span>
-                    </button>
-                    <ProductOptions />
-                </div>
-            </div>
-        </figure>
+            </figure>
+            <ProductModal show={showModal} handleClose={closeModalHandler} />
+        </>
     );
 }
