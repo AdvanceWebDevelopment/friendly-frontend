@@ -18,10 +18,6 @@ export default function ProductOptions() {
         };
     }, [isDropdownOpen]);
 
-    const expand = () => {
-        setIsDropdownOpen(true);
-    };
-
     const close = () => {
         setIsDropdownOpen(false);
     };
@@ -38,23 +34,23 @@ export default function ProductOptions() {
             </button>
             {isDropdownOpen && (
                 <ul className={classes.dropdown}>
-                    <li className={classes.row} onClick={dummyFunc} onBlur={close}>
+                    <li className={classes.row} onClick={dummyFunc}>
                         <Icon icon="bx:bx-dollar-circle" width={24} height={24} className={classes.icon} />
                         <div className={classes.headings}>Mua Ngay</div>
                     </li>
-                    <li className={classes.row} onClick={dummyFunc} onBlur={close}>
+                    <li className={classes.row} onClick={dummyFunc}>
                         <Icon icon="akar-icons:eye" width={24} height={24} className={classes.icon} />
                         <div className={classes.headings}>Theo Dõi</div>
                     </li>
-                    <li className={classes.row} onClick={dummyFunc} onBlur={close}>
+                    <li className={classes.row} onClick={dummyFunc}>
                         <Icon icon="bi:table" width={20} height={20} className={classes.icon} />
                         <div className={classes.headings}>Lịch Sử Giá</div>
                     </li>
-                    <li className={classes.row} onClick={dummyFunc} onBlur={close}>
+                    <li className={classes.row} onClick={dummyFunc}>
                         <Icon icon="clarity:note-edit-line" width={24} height={24} className={classes.icon} />
                         <div className={classes.headings}>Chỉnh Sửa</div>
                     </li>
-                    <li className={classes.row} onClick={dummyFunc} onBlur={close}>
+                    <li className={classes.row} onClick={dummyFunc}>
                         <Icon icon="carbon:delete" width={24} height={24} className={classes["icon-last"]} />
                         <div className={classes.headings}>Xóa</div>
                     </li>

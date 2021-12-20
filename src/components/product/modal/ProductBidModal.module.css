@@ -1,0 +1,174 @@
+.modal-content {
+    background-image: url("../../../assets/images/star-and-cloud.svg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: "Montserrat", sans-serif;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-body {
+    padding: 3.75rem 5.25rem;
+}
+
+.product-name {
+    font-weight: 700;
+    font-size: 3em;
+}
+
+.upload-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 0.8125em;
+}
+
+.uploader-img {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid var(--primary);
+    background-color: var(--sub-primary);
+    border-radius: 999px;
+}
+
+.uploader-name {
+    font-weight: 600;
+    margin-left: 0.25rem;
+}
+
+.rating,
+.upload-date {
+    margin-left: 0.25rem;
+    font-weight: 400;
+}
+
+.rating::before,
+.upload-date::before {
+    content: "• ";
+    font-weight: 700;
+}
+
+.price-container {
+    display: grid;
+    grid-template-columns: 23.625rem 22.5rem;
+    grid-template-rows: 3.9375rem 4.6875rem;
+    row-gap: 1rem;
+    column-gap: 3.5rem;
+    margin-top: 2.5rem;
+}
+
+.current-price-container,
+.price-step {
+    display: flex;
+    flex-direction: column;
+}
+
+.labels {
+    font-size: 0.8125em;
+}
+
+.price {
+    font-family: "IBM Plex Serif", sans-serif;
+    font-size: 2.25em;
+    font-weight: 600;
+}
+
+.payment-mode {
+    display: relative;
+}
+
+.btn-change {
+    width: 15.625rem;
+    height: 3.4375rem;
+    background-color: var(--sub-primary);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    font-weight: 400;
+    font-size: 2.25em;
+    padding: 0 1rem;
+}
+
+.dropdown {
+    list-style: none;
+    position: absolute;
+    background-color: var(--sub-primary);
+    width: 15.625rem;
+    border-radius: 5px;
+    font-size: 2.25em;
+    font-weight: 400;
+    border: 1px solid var(--primary);
+}
+
+.row {
+    padding: 0 1rem;
+    cursor: pointer;
+}
+
+.row:first-child {
+    border-bottom: 1px solid var(--primary);
+}
+
+.row:hover {
+    background-color: var(--secondary);
+    color: var(--sub-primary);
+}
+
+.icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--primary);
+    margin-right: 0.5rem;
+}
+
+.bid-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    width: 20rem;
+    height: 3.4375rem;
+    background-color: var(--sub-primary);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    border: none;
+    font-weight: 400;
+    font-size: 2.25em;
+    font-family: "IBM Plex Serif", sans-serif;
+    text-indent: 0.5rem;
+}
+
+.btn-confirm {
+    width: 100%;
+    height: 3.4rem;
+    margin-top: 2.5rem;
+    text-transform: uppercase;
+    font-size: 2.25em;
+    color: var(--primary);
+    font-weight: 600;
+    align-self: center;
+    background-color: var(--sub-primary);
+    border: 2px solid var(--primary);
+    box-shadow: 0 4px 4px var(--primary);
+    border-radius: 5px;
+}
+
+@media (min-width: 992px) {
+    .modal-lg {
+        max-width: 57.75rem;
+    }
+}
+
+@media (max-width: 991px) {
+    .price-container {
+        grid-template-columns: 23.625rem;
+        grid-template-rows: repeat(2, 3.9375rem) repeat(2, 4.6875rem);
+    }
+}
