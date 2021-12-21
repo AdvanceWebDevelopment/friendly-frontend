@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Product } from "../../models";
-import ProductModal from "./modal/ProductBidModal";
+import ProductModal from "./modal/product/ProductBidModal";
 import classes from "./ProductCard.module.css";
 import ProductOptions from "./ProductOptions";
 
@@ -26,7 +26,8 @@ const DUMMY_DATA = {
 };
 
 export default function ProductCard() {
-    const [showModal, setShowModal] = React.useState(false);
+    const [showBidModal, setShowBidModal] = React.useState(false);
+    const [isNewProd, setIsNewProd] = React.useState(true);
 
     const formatPrice = React.useCallback((price: number) => {
         const lookup = [
@@ -45,17 +46,22 @@ export default function ProductCard() {
         return item ? (price / item.value).toFixed(1) + item.symbol + "VND" : "N/A";
     }, []);
 
-    const showModalHandler = () => {
-        setShowModal(true);
+    const showBidModalHandler = () => {
+        setShowBidModal(true);
     };
 
-    const closeModalHandler = () => {
-        setShowModal(false);
+    const closeBidModalHandler = () => {
+        setShowBidModal(false);
     };
 
     return (
         <>
             <figure className={classes.card}>
+                {isNewProd && (
+                    <div className={classes["new-badge"]}>
+                        <span className={classes["badge-content"]}>NEW</span>
+                    </div>
+                )}
                 <div className={classes["product-container"]}>
                     <div className={classes["product-img"]}></div>
                     <div className={classes["product-name"]}>{DUMMY_DATA.name}</div>
@@ -86,15 +92,15 @@ export default function ProductCard() {
                         </div>
                     </div>
                     <div className={classes["card-bottom"]}>
-                        <button className={classes["btn-bid"]} onClick={showModalHandler}>
-                            <Icon icon="ri:auction-fill" width={24} height={24} className={classes["option-icon"]} />
+                        <button className={classes["btn-bid"]} onClick={showBidModalHandler}>
+                            <Icon icon="ri:auction-fill" width={24} height={24} className={classes["bid-icon"]} />
                             <span>Ra giá</span>
                         </button>
                         <ProductOptions />
                     </div>
                 </div>
             </figure>
-            <ProductModal show={showModal} handleClose={closeModalHandler} />
+            <ProductModal show={showBidModal} handleClose={closeBidModalHandler} />
         </>
     );
 }

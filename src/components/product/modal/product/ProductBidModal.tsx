@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Modal } from "react-bootstrap";
+import { formatNumber } from "../../../../helpers/helpers";
 import classes from "./ProductBidModal.module.css";
 
 export interface ProductModalProps {
@@ -27,10 +28,6 @@ export default function ProductModal({ show, handleClose }: ProductModalProps) {
             document.removeEventListener("mousedown", checkIfClickedOutside);
         };
     }, [isDropdownOpen]);
-
-    const formatNumber = (x: string): string => {
-        return x?.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         let price = e.target.validity.valid ? e.target.value : bidPrice;

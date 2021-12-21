@@ -7,6 +7,39 @@
     margin: auto;
     font-family: "Montserrat", sans-serif;
     transition: all 0.2s ease-out;
+    position: relative;
+}
+
+.new-badge {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.badge-content {
+    left: 0.3125rem;
+    top: 0.5rem;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    display: block;
+    width: 130px;
+    padding: 10px 0;
+    background-color: var(--primary);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.192);
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    font-size: 1em;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    text-align: center;
+    border: 2px dotted var(-secondary);
+    outline: 5px solid var(-primary);
 }
 
 .card:hover {
@@ -144,10 +177,14 @@
     margin-left: 0.5rem;
 }
 
-.option-icon {
+.bid-icon {
     align-self: center;
     color: var(--primary);
     margin-left: 0.25;
+}
+
+.btn-bid:hover .bid-icon {
+    color: var(--sub-primary);
 }
 
 .card-bottom {
