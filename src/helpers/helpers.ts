@@ -9,3 +9,20 @@ export const hideBidderName = (str: string) => {
     let replaceString = new Array(replacedString.length).join(char);
     return replaceString + str.substring(lastWhiteSpaceIdx);
 };
+
+export const formatPrice = (price: number) => {
+    const lookup = [
+        { value: 1, symbol: "" },
+        { value: 1e3, symbol: "k" },
+        { value: 1e6, symbol: "M" },
+        { value: 1e9, symbol: "B" },
+        { value: 1e12, symbol: "T" },
+    ];
+    const item = lookup
+        .slice()
+        .reverse()
+        .find(function (item) {
+            return price >= item.value;
+        });
+    return item ? (price / item.value).toFixed(1) + item.symbol + "VND" : "N/A";
+};
