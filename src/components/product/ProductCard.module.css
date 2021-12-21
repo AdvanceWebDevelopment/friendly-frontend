@@ -177,10 +177,14 @@
     margin-left: 0.5rem;
 }
 
-.option-icon {
+.bid-icon {
     align-self: center;
     color: var(--primary);
     margin-left: 0.25;
+}
+
+.btn-bid:hover .bid-icon {
+    color: var(--sub-primary);
 }
 
 .card-bottom {

@@ -93,7 +93,7 @@ export default function ProductCard() {
                     </div>
                     <div className={classes["card-bottom"]}>
                         <button className={classes["btn-bid"]} onClick={showBidModalHandler}>
-                            <Icon icon="ri:auction-fill" width={24} height={24} className={classes["option-icon"]} />
+                            <Icon icon="ri:auction-fill" width={24} height={24} className={classes["bid-icon"]} />
                             <span>Ra giá</span>
                         </button>
                         <ProductOptions />
