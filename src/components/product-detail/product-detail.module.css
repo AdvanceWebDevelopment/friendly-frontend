@@ -1,0 +1,55 @@
+.field-content {
+    background-color: var(--sub-primary);
+    border-radius: 5px;
+    box-shadow: 2px 4px 5px 2px rgba(128, 128, 128, 0.7);
+}
+
+.breadcrumb-item {
+    color: var(--primary);
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.breadcrumb-item:hover {
+    color: var(--primary);
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    text-decoration: underline;
+}
+
+.product-name {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.avatar {
+    border: 1px solid var(--primary);
+    cursor: pointer;
+}
+
+.seller-name {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.seller-point,
+.post-date {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+}
+
+.description-label {
+    color: gray;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    text-decoration: underline;
+}
+
+.description-content {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.2rem;
+}

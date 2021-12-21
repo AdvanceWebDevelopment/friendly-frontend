@@ -12,7 +12,7 @@ export class Product {
     endDate?: Date;
     currentPrice?: number;
     stepPrice?: number;
-    buyPrice?: string;
+    buyPrice?: number;
     seller?: User;
     highestBidder?: User;
     biddingList?: Bid[];

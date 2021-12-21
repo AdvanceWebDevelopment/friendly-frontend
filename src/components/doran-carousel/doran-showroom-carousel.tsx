@@ -62,8 +62,12 @@ export const DoranShowroomCarousel = (props: DoranShowroomCarouselProps) => {
                         key={index}
                         src={image}
                         width="100%"
-                        height={width < 1440 ? 400 : 600}
-                        style={{ objectFit: "cover", objectPosition: "center", borderRadius: 10 }}
+                        height={width / 2.5}
+                        style={{
+                            objectFit: "cover",
+                            objectPosition: "center",
+                            borderRadius: 10,
+                        }}
                     />
                 ))}
             </Carousel>
@@ -71,7 +75,13 @@ export const DoranShowroomCarousel = (props: DoranShowroomCarouselProps) => {
                 value={value}
                 onChange={onChange}
                 thumbnails={images?.map((image, index) => (
-                    <Image key={index} src={image} width="100%" height={100} style={{ objectFit: "cover" }} />
+                    <Image
+                        key={index}
+                        src={image}
+                        width="100%"
+                        height={100}
+                        style={{ objectFit: "cover", borderRadius: 5 }}
+                    />
                 ))}
             />
         </div>
