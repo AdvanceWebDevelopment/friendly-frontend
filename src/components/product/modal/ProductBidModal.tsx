@@ -9,10 +9,11 @@ export interface ProductModalProps {
 }
 
 export default function ProductModal({ show, handleClose }: ProductModalProps) {
-    const [productPrice, setProductPrice] = React.useState("");
+    const [bidPrice, setBidPrice] = React.useState("");
     const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
     const [currentMode, setCurrentMode] = React.useState("Thủ công");
     const paymentMode: string[] = ["Thủ công", "Tự động"];
+    const autoBidValue = "1000000";
     const ref = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
@@ -32,14 +33,19 @@ export default function ProductModal({ show, handleClose }: ProductModalProps) {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let price = productPrice + e.target.validity.valid ? e.target.value : productPrice;
-        setProductPrice(price);
+        let price = e.target.validity.valid ? e.target.value : bidPrice;
+        setBidPrice(price);
     };
 
     const changeModeHandler = (mode: string) => {
         console.log(mode);
         setCurrentMode(mode);
         setIsDropdownOpen(false);
+    };
+
+    const confirmBidHandler = () => {
+        console.log("Bid");
+        handleClose();
     };
 
     const renderPaymentModeList = () => {
@@ -92,7 +98,7 @@ export default function ProductModal({ show, handleClose }: ProductModalProps) {
                     </div>
                     <div className={classes["bid-input"]}>
                         <label className={classes.labels} htmlFor="bid-price" style={{ textTransform: "uppercase" }}>
-                            Ra Giá
+                            {currentMode === "Thủ công" ? "Ra Giá" : "Giá Tối Đa"}
                         </label>
                         <input
                             type="text"
@@ -100,11 +106,14 @@ export default function ProductModal({ show, handleClose }: ProductModalProps) {
                             id="bid-price"
                             className={classes["input-field"]}
                             onInput={handleChange}
-                            value={productPrice}
+                            value={currentMode === "Tự động" ? formatNumber(autoBidValue) : bidPrice}
+                            disabled={currentMode === "Tự động" && true}
                         />
                     </div>
                 </div>
-                <button className={classes["btn-confirm"]}>Xác Nhận</button>
+                <button className={classes["btn-confirm"]} onClick={confirmBidHandler}>
+                    Xác Nhận
+                </button>
             </Modal.Body>
         </Modal>
     );

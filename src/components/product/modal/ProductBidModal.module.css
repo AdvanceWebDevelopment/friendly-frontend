@@ -99,11 +99,12 @@
     list-style: none;
     position: absolute;
     background-color: var(--sub-primary);
+    bottom: 2.75rem;
     width: 15.625rem;
     border-radius: 5px;
     font-size: 2.25em;
     font-weight: 400;
-    border: 1px solid var(--primary);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .row {
@@ -112,7 +113,14 @@
 }
 
 .row:first-child {
-    border-bottom: 1px solid var(--primary);
+    border-bottom: 1px solid #c4c4c4;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.row:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .row:hover {
