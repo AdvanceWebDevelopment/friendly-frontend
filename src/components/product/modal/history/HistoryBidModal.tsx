@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Modal } from "react-bootstrap";
-import { formatNumber, hideBidderName } from "../../../../helpers/helpers";
+import { formatNumber, hideBidderName } from "../../../../utils/helpers";
 import classes from "./HistoryBidModal.module.css";
 export interface HistoryBidModalProps {
     show: boolean;

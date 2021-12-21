@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Modal } from "react-bootstrap";
-import { formatNumber } from "../../../../helpers/helpers";
+import { formatNumber } from "../../../../utils/helpers";
 import classes from "./ProductBidModal.module.css";
 
 export interface ProductModalProps {
