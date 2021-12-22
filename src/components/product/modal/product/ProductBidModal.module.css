@@ -168,6 +168,12 @@
     border-radius: 5px;
 }
 
+.btn-confirm:hover {
+    background-color: var(--secondary);
+    border-color: var(--primary);
+    color: var(--sub-primary);
+}
+
 @media (min-width: 992px) {
     .modal-lg {
         max-width: 57.75rem;

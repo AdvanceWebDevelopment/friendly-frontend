@@ -1,0 +1,32 @@
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+.dropdown {
+    position: absolute;
+    width: 13rem;
+    background-color: var(--sub-primary);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    top: 2.75rem;
+    right: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 5.75rem);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125em;
+    animation: 0.1s ease-in 0s 1 fade;
+}
+
+.option {
+    align-items: center;
+    display: flex;
+}
+
+.label {
+    margin-left: 0.25rem;
+}
