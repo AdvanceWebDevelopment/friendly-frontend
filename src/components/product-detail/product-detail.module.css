@@ -53,3 +53,27 @@
     font-family: "Montserrat", sans-serif;
     font-size: 1.2rem;
 }
+
+.endDate-label {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.75rem;
+    color: rgba(128, 128, 128, 0.7);
+}
+
+.endDate {
+    font-family: "Roboto Slab", serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.endDate-underline {
+    background-color: rgba(128, 128, 128, 0.7);
+    height: 0.1rem;
+    width: 40%;
+}
+
+.price {
+    font-family: "Roboto Slab", serif;
+    font-size: 1.5em;
+    font-weight: bold;
+}

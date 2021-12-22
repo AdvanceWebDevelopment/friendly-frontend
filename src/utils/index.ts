@@ -1,2 +1,2 @@
-export { formatNumber, hideBidderName } from "./helpers";
+export { formatNumber, hideBidderName, formatPrice } from "./helpers";
 export { useWindowDimensions } from "./hooks";

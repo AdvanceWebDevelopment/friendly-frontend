@@ -42,7 +42,7 @@ export default function ProductCard() {
 
     return (
         <>
-            <figure className={classes.card}>
+            <figure className={`mb-2 ${classes.card}`}>
                 {isNewProd && (
                     <div className={classes["new-badge"]}>
                         <span className={classes["badge-content"]}>NEW</span>
