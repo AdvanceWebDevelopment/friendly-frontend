@@ -1,0 +1,54 @@
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
+.dropdown {
+    position: absolute;
+    top: 2.75rem;
+    right: 0;
+    width: 12.125rem;
+    background-color: var(--sub-primary);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    padding: 0.5rem 0.75rem;
+    animation: 0.1s ease-in 0s 1 fade;
+}
+
+.sort-by,
+.order-by {
+    display: flex;
+    flex-direction: column;
+}
+
+.headings {
+    font-size: 0.625em;
+    color: #777;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, 5.5rem);
+    column-gap: 0.625rem;
+    font-size: 0.75em;
+}
+
+.option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.input {
+    border: none;
+    width: 0.625rem;
+    height: 0.625rem;
+}
+
+.label {
+    margin-left: 0.25rem;
+}

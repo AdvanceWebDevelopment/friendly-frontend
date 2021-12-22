@@ -1,0 +1,31 @@
+.search-bar {
+    width: 15.625rem;
+    height: 2.5rem;
+    background-color: var(--sub-primary);
+    border: none;
+    outline: none;
+    margin-right: 0.75rem;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    display: grid;
+    padding: 0.4375rem;
+    grid-template-columns: 1.75rem 13.25rem;
+    align-items: center;
+    color: var(--sub-primary);
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 0.875em;
+}
+
+.icon-search {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.search-field {
+    height: 1.625rem;
+    outline: none;
+    border: none;
+}

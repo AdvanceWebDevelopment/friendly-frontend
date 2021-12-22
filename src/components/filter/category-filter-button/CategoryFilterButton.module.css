@@ -1,0 +1,23 @@
+.category-filter-container {
+    position: relative;
+}
+.btn-filter {
+    width: 7.75rem;
+    height: 2.5rem;
+    padding: 0.4375rem;
+    background-color: var(--sub-primary);
+    border-radius: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 0.85em;
+    display: grid;
+    grid-template-columns: 1.5rem 5.125rem;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+}
+
+.icon-filter {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--primary);
+}
