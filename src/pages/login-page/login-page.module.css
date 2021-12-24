@@ -1,0 +1,112 @@
+.page-wrapper {
+    width: 100%;
+    height: 100%;
+    background-image: url("../../assets/images/star-and-cloud.svg");
+}
+
+.container {
+    padding: 20rem 41rem 6.8125rem;
+    display: flex;
+    flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+}
+
+.login-form {
+    margin-bottom: 0.75rem;
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.125rem;
+}
+
+.labels {
+    color: #757575;
+    font-size: 0.875em;
+}
+
+.pwd-field {
+    position: relative;
+}
+
+.btn-toggle {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    top: 2rem;
+    right: 1rem;
+}
+
+.pwd-icon {
+    width: 1.875rem;
+    height: 1.875rem;
+    color: var(--primary);
+}
+
+.fields {
+    height: 3.5rem;
+    border-radius: 5px;
+    font-size: 1.5em;
+    border: none;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    justify-self: center;
+    text-indent: 0.8rem;
+    width: 100%;
+}
+
+.redirects {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+}
+
+.btn-submit {
+    width: 100%;
+    height: 3.5rem;
+    background-color: var(--sub-primary);
+    border-radius: 5px;
+    border: 1px solid var(--primary);
+    box-sizing: border-box;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    font-weight: 600;
+    font-size: 1.125em;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.forget-pwd {
+    font-size: 0.8125em;
+    color: var(--primary);
+    text-align: right;
+    margin-top: 0.5625rem;
+}
+
+.alternate-login {
+    text-align: center;
+}
+
+.guidance {
+    color: #777;
+    font-size: 1.125em;
+}
+
+.login-methods {
+    margin-top: 0.75rem;
+}
+
+.icons {
+    margin-left: 0.8125rem;
+    margin-left: 0.8125rem;
+    width: 2.8125rem;
+    height: 2.8125rem;
+    color: var(--primary);
+}
+
+@media screen and (max-width: 1560px) {
+    .container {
+        padding: 20rem 32rem 6.8125rem;
+    }
+}
