@@ -10,11 +10,18 @@ import bgImg3 from "../../assets/images/friends.svg";
 import { CategoryCarousel } from "../../components/doran-carousel/category-carousel";
 import { useNavigate } from "react-router-dom";
 import { apiRoute } from "../../constants";
-
+import auctionBanner from "../../assets/images/auction-banner.svg";
+import { ScrollTopButton } from "../../components/scroll-top-button/scroll-top-button";
 export const HomePage = () => {
     const navigate = useNavigate();
     return (
         <div>
+            <Image
+                src={auctionBanner}
+                style={{ width: "100%", zIndex: -1, borderBottomRightRadius: "25%", borderBottomLeftRadius: "25%" }}
+            />
+
+            <ScrollTopButton />
             <CategoryCarousel className="container" style={{ marginTop: "-6rem" }} />
             <div
                 style={{
