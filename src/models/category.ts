@@ -31,4 +31,8 @@ export class Category {
                 return "";
         }
     }
+
+    static fromData(data: any): Category {
+        return new Category(data.id, data.name);
+    }
 }
