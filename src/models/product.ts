@@ -21,13 +21,13 @@ export class Product {
     currentBids?: number;
 
     static fromData(data: any): Product {
-        return {
+        const product: Product = {
             id: data.id,
             name: data.name,
-            // category: Category.fromData(data.subCategory.category),
-            images: [data?.images[0]?.url],
+            category: Category.fromData(data.subCategory.category),
+            images: data?.images.map((image: any) => image.url),
             description: data.descriptions?.map((item: any) => {
-                return item ? ProductDescription.fromData(item) : {};
+                return ProductDescription.fromData(item);
             }),
             currentPrice: data.currentPrice,
             stepPrice: data.stepPrice,
@@ -37,5 +37,9 @@ export class Product {
             postDate: new Date(data.createAt),
             endDate: new Date(data.endAt),
         };
+
+        product.category!.subCategory = SubCategory.fromData(data.subCategory);
+
+        return product;
     }
 }

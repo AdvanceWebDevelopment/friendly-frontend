@@ -9,8 +9,6 @@ export function* watchRequestProductByCategory() {
             requestProductsByCategoryId.type,
         );
 
-        console.log(`Saga receive action: ${JSON.stringify(action, null, 2)}`);
-
         const { categoryId, currentPage } = action.payload as any;
         yield call(getProductByCategoryId, categoryId, currentPage);
     }

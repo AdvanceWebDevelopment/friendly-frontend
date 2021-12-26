@@ -6,7 +6,7 @@ export class ProductDescription {
     static fromData(data: any): ProductDescription {
         return {
             id: data.id,
-            createdAt: data.createAt,
+            createdAt: new Date(data.createAt),
             content: data.description,
         };
     }

@@ -1,6 +1,8 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Image } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { apiRoute } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
 import Bidder from "./bid-info/Bidder";
@@ -45,13 +47,19 @@ export default function ProductCard({ product }: ProductCardProps) {
     React.useEffect(() => {
         if (product?.endDate) {
             const delta = product?.endDate.getMilliseconds() - Date.now();
-            if (delta < 24 * 60 * 60 * 1000) {
+            if (delta > 0 && delta < 24 * 60 * 60 * 1000) {
                 setIsNewProd(true);
             } else {
                 setIsNewProd(false);
             }
         }
     }, [product]);
+
+    const navigate = useNavigate();
+
+    const onProductClick = () => {
+        navigate(`/${apiRoute.PRODUCT}/${product?.id}`);
+    };
 
     return (
         <>
@@ -69,7 +77,9 @@ export default function ProductCard({ product }: ProductCardProps) {
                             width={"100%"}
                         />
                     </div>
-                    <div className={classes["product-name"]}>{product?.name}</div>
+                    <div className={classes["product-name"]} onClick={onProductClick}>
+                        {product?.name}
+                    </div>
                     <div className={classes.date}>
                         <div className={classes["end-date"]}>
                             <div>Kết thúc</div>
@@ -82,7 +92,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </div>
                     <div className={classes["bid-info"]}>
                         <div className={classes["bidder"]}>
-                            <Bidder totalBidCount={product?.currentBids ?? 0} />
+                            <Bidder totalBidCount={product?.currentBids ?? 0} bidderImg={product?.seller?.avatar} />
                             <Heading content="Giá hiện tại" color="#6fc47f" />
                             <div className={classes.price}>{formatPrice(product?.currentPrice ?? 0)}</div>
                         </div>
