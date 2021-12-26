@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { ScrollTopButton } from "./components/scroll-top-button/scroll-top-button";
 import { apiRoute } from "./constants/api-routes";
 import { CategoryPage, HomePage, ProductDetailPage, ProfilePage } from "./pages";
 import { DoranPage } from "./pages/doran-page";
@@ -18,6 +19,7 @@ function App() {
                     <Route path={apiRoute.PROFILE} element={<ProfilePage />} />
                 </Route>
             </Routes>
+            <ScrollTopButton />
         </BrowserRouter>
     );
 }

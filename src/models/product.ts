@@ -25,7 +25,7 @@ export class Product {
             id: data.id,
             name: data.name,
             // category: Category.fromData(data.subCategory.category),
-            images: [data.images[0].url],
+            images: [data?.images[0]?.url],
             description: data.descriptions?.map((item: any) => {
                 return item ? ProductDescription.fromData(item) : {};
             }),

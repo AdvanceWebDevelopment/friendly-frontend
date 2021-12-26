@@ -44,9 +44,11 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     React.useEffect(() => {
         if (product?.endDate) {
-            const delta = product?.endDate.getTime() - Date.now();
+            const delta = product?.endDate.getMilliseconds() - Date.now();
             if (delta < 24 * 60 * 60 * 1000) {
                 setIsNewProd(true);
+            } else {
+                setIsNewProd(false);
             }
         }
     }, [product]);

@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { Image, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import {
     requestTopFiveEndSoon,
     requestTopFiveHottest,
     requestTopFiveMostBidded,
 } from "../../app/reducers/product-slice";
-import auctionBanner from "../../assets/images/auction-banner.svg";
 import bgImg3 from "../../assets/images/friends.svg";
 import bgImg2 from "../../assets/images/green-park.svg";
 import bgImg1 from "../../assets/images/happy-crowd.svg";
@@ -15,7 +14,6 @@ import { SectionTitle } from "../../components/common/section-title/section-titl
 import { CategoryCarousel } from "../../components/doran-carousel/category-carousel";
 import { DoranCarousel } from "../../components/doran-carousel/doran-carousel";
 import ProductCard from "../../components/product/ProductCard";
-import { ScrollTopButton } from "../../components/scroll-top-button/scroll-top-button";
 
 export const HomePage = () => {
     const dispatch = useAppDispatch();
@@ -37,12 +35,6 @@ export const HomePage = () => {
 
     return (
         <div>
-            <Image
-                src={auctionBanner}
-                style={{ width: "100%", zIndex: -1, borderBottomRightRadius: "25%", borderBottomLeftRadius: "25%" }}
-            />
-
-            <ScrollTopButton />
             <CategoryCarousel className="container" style={{ marginTop: "-6rem" }} />
             <div
                 style={{
@@ -58,7 +50,9 @@ export const HomePage = () => {
             >
                 <div className="container">
                     <SectionTitle text="NHIỀU NGƯỜI YÊU THÍCH" className="mx-5 my-3" />
-                    {isLoadingMostBidded && <Spinner animation="border" className="d-block mx-auto" />}
+                    {isLoadingMostBidded && (
+                        <Spinner animation="border" variant="primary" className="d-block mx-auto" />
+                    )}
                     {!isLoadingMostBidded && (
                         <DoranCarousel style={{ position: "relative", zIndex: 999 }}>
                             {mostBiddedProducts.map((item, index) => {
@@ -84,7 +78,7 @@ export const HomePage = () => {
             >
                 <div className="container">
                     <SectionTitle text="MỌI NGƯỜI SĂN ĐÓN" className="mx-5 my-3" />
-                    {isLoadingHottest && <Spinner animation="border" className="d-block mx-auto" />}
+                    {isLoadingHottest && <Spinner animation="border" variant="primary" className="d-block mx-auto" />}
                     {!isLoadingHottest && (
                         <DoranCarousel>
                             {hottestProducts.map((item, index) => {
@@ -110,7 +104,7 @@ export const HomePage = () => {
             >
                 <div className="container">
                     <SectionTitle text="SẮP KẾT THÚC" className="mx-5 my-3" />
-                    {isLoadingEndSoon && <Spinner animation="border" className="d-block mx-auto" />}
+                    {isLoadingEndSoon && <Spinner animation="border" variant="primary" className="d-block mx-auto" />}
                     {!isLoadingEndSoon && (
                         <DoranCarousel>
                             {endSoonProducts.map((item, index) => {

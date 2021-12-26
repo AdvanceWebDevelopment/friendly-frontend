@@ -26,7 +26,7 @@ export const Paginator = (props: PaginatorProps) => {
                         setPage(page - 1);
 
                         if (onPrevClicked) {
-                            onPrevClicked(page);
+                            onPrevClicked(page - 1);
                         }
                     }
                 }}
@@ -49,11 +49,11 @@ export const Paginator = (props: PaginatorProps) => {
                                     active={index + 1 === page}
                                     className={classes["dropdown-item"]}
                                     onClick={() => {
+                                        setPage(index + 1);
+
                                         if (onItemSelected) {
                                             onItemSelected(index + 1);
                                         }
-
-                                        setPage(index + 1);
                                     }}
                                 >
                                     {index + 1}
@@ -74,7 +74,7 @@ export const Paginator = (props: PaginatorProps) => {
                         setPage(page + 1);
 
                         if (onNextClicked) {
-                            onNextClicked(page);
+                            onNextClicked(page + 1);
                         }
                     }
                 }}
