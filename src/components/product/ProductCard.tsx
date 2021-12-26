@@ -1,5 +1,8 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
+import { Image } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { apiRoute } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
 import Bidder from "./bid-info/Bidder";
@@ -29,9 +32,9 @@ const DUMMY_DATA = {
     buyPrice: "2000000",
 };
 
-export default function ProductCard() {
+export default function ProductCard({ product }: ProductCardProps) {
     const [showBidModal, setShowBidModal] = React.useState(false);
-    const [isNewProd, setIsNewProd] = React.useState(true);
+    const [isNewProd, setIsNewProd] = React.useState(false);
 
     const showBidModalHandler = () => {
         setShowBidModal(true);
@@ -39,6 +42,23 @@ export default function ProductCard() {
 
     const closeBidModalHandler = () => {
         setShowBidModal(false);
+    };
+
+    React.useEffect(() => {
+        if (product?.endDate) {
+            const delta = product?.endDate.getMilliseconds() - Date.now();
+            if (delta > 0 && delta < 24 * 60 * 60 * 1000) {
+                setIsNewProd(true);
+            } else {
+                setIsNewProd(false);
+            }
+        }
+    }, [product]);
+
+    const navigate = useNavigate();
+
+    const onProductClick = () => {
+        navigate(`/${apiRoute.PRODUCT}/${product?.id}`);
     };
 
     return (
@@ -50,28 +70,36 @@ export default function ProductCard() {
                     </div>
                 )}
                 <div className={classes["product-container"]}>
-                    <div className={classes["product-img"]}></div>
-                    <div className={classes["product-name"]}>{DUMMY_DATA.name}</div>
+                    <div>
+                        <Image
+                            className={classes["product-img"]}
+                            src={product?.images ? product?.images[0] : ""}
+                            width={"100%"}
+                        />
+                    </div>
+                    <div className={classes["product-name"]} onClick={onProductClick}>
+                        {product?.name}
+                    </div>
                     <div className={classes.date}>
                         <div className={classes["end-date"]}>
                             <div>Kết thúc</div>
-                            <div className={classes.times}>{DUMMY_DATA.endDate}</div>
+                            <div className={classes.times}>{product?.endDate?.toLocaleDateString("en-AU")}</div>
                         </div>
                         <div className={classes["post-date"]}>
                             <div>Đăng từ</div>
-                            <div className={classes.times}>{DUMMY_DATA.postDate}</div>
+                            <div className={classes.times}>{product?.postDate?.toLocaleDateString("en-AU")}</div>
                         </div>
                     </div>
                     <div className={classes["bid-info"]}>
                         <div className={classes["bidder"]}>
-                            <Bidder totalBidCount={DUMMY_DATA.totalBidCount} />
+                            <Bidder totalBidCount={product?.currentBids ?? 0} bidderImg={product?.seller?.avatar} />
                             <Heading content="Giá hiện tại" color="#6fc47f" />
-                            <div className={classes.price}>{formatPrice(156400000)}</div>
+                            <div className={classes.price}>{formatPrice(product?.currentPrice ?? 0)}</div>
                         </div>
                         <div className={classes["buy"]}>
                             <Icon icon="emojione-monotone:money-bag" className={classes.icon} width={42} height={45} />
                             <Heading content="Mua ngay" color="#ee4730" />
-                            <div className={classes.price}>{formatPrice(156400000)}</div>
+                            <div className={classes.price}>{formatPrice(product?.currentPrice ?? 0)}</div>
                         </div>
                     </div>
                     <div className={classes["card-bottom"]}>

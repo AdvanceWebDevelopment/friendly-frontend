@@ -8,4 +8,4 @@ export const apiRoute = {
     FORGOT: "forgot-pwd",
 };
 
-export const API_HOST = process.env.REACT_APP_API_HOST;
+export const API_HOST = "http://doran-backend.eastus.azurecontainer.io:8080/api";

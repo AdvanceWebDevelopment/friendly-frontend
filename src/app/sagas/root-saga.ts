@@ -1,7 +1,8 @@
 import { all, fork } from "redux-saga/effects";
-import { watchReqestTopFiveProducts } from "./product-saga";
+import { watchRequestProductByCategory } from "./category-saga";
+import { watchReqestTopFiveProducts, watchRequestProductDetail } from "./product-saga";
 
 export default function* rootSaga() {
     console.log(`Start root saga`);
-    yield all([fork(watchReqestTopFiveProducts)]);
+    yield all([fork(watchReqestTopFiveProducts), fork(watchRequestProductByCategory), fork(watchRequestProductDetail)]);
 }

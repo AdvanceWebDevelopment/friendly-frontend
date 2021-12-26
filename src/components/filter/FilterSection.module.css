@@ -2,8 +2,6 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin-right: 20rem;
-    margin-bottom: 2rem;
     font-family: "Montserrat", sans-serif;
     font-weight: 400;
 }

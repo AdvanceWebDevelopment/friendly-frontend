@@ -1,17 +1,18 @@
 import { Icon } from "@iconify/react";
+import { ContentState, EditorState } from "draft-js";
+import htmlToDraft from "html-to-draftjs";
 import React, { useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Link } from "react-router-dom";
 import { apiRoute } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
-import { SectionTitle } from "../common/section-title/section-title";
-import { DoranCarousel } from "../doran-carousel/doran-carousel";
 import Bidder from "../product/bid-info/Bidder";
 import BidButton from "../product/button/BidButton";
 import ProductModal from "../product/modal/product/ProductBidModal";
 import Heading from "../product/price-heading/Heading";
-import ProductCard from "../product/ProductCard";
 import ProductOptions from "../product/ProductOptions";
 import classes from "./product-detail.module.css";
 
@@ -29,6 +30,8 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
     const closeBidModalHandler = () => {
         setShowBidModal(false);
     };
+
+    console.log(product);
 
     return (
         <div>
@@ -86,6 +89,11 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
 
                     <div className={`${classes["product-content-wrapper"]}`}>
                         {product?.description?.map((productDescription, index) => {
+                            const blocksFromHtml = htmlToDraft(productDescription?.content ?? "");
+                            const { contentBlocks, entityMap } = blocksFromHtml;
+                            const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+                            const editorState = EditorState.createWithContent(contentState);
+
                             return (
                                 <div key={index} className="my-2">
                                     <div className={`${classes["description-label"]}`}>
@@ -94,7 +102,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                                     </div>
 
                                     <div className={`${classes["description-content"]}`}>
-                                        {productDescription?.content}
+                                        {<Editor editorState={editorState} readOnly toolbarHidden />}
                                     </div>
                                 </div>
                             );
@@ -134,17 +142,6 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                 </Col>
                 <ProductModal show={showBidModal} handleClose={closeBidModalHandler} />
             </Row>
-
-            <div className="mt-5">
-                <SectionTitle text="Sản Phẩm Cùng Chuyên Mục" />
-                <DoranCarousel className="mb-5 pb-5">
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                </DoranCarousel>
-            </div>
         </div>
     );
 };
