@@ -1,9 +1,11 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Link } from "react-router-dom";
+import InputField from "../../components/common/input-field/InputField";
+import ToggleInputField from "../../components/common/input-field/toggle/ToggleInputField";
 import classes from "./login-page.module.css";
 
-export default function LoginPage() {
+export const LoginPage = () => {
     const [isShown, setIsShown] = React.useState(false);
     const togglePassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -17,21 +19,13 @@ export default function LoginPage() {
                         <label htmlFor="email" className={classes.labels}>
                             EMAIL
                         </label>
-                        <input type="email" id="email" className={classes.fields} />
+                        <InputField id="email" type="email" />
                     </div>
                     <div className={classes["input-group"]}>
                         <label htmlFor="pwd" className={classes.labels}>
                             MẬT KHẨU
                         </label>
-                        <div className={classes["pwd-field"]}>
-                            <input type={isShown ? "text" : "password"} id="pwd" className={classes.fields} />
-                        </div>
-                        <button className={classes["btn-toggle"]} onClick={togglePassword}>
-                            <Icon
-                                icon={isShown ? "ant-design:eye-filled" : "ant-design:eye-invisible-filled"}
-                                className={classes["pwd-icon"]}
-                            />
-                        </button>
+                        <ToggleInputField id="pwd" />
                     </div>
                     <div className={classes.redirects}>
                         <button type="submit" className={classes["btn-submit"]}>
@@ -53,4 +47,4 @@ export default function LoginPage() {
             </div>
         </div>
     );
-}
+};
