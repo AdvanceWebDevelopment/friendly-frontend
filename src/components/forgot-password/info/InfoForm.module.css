@@ -1,0 +1,32 @@
+.form {
+    font-family: "Montserrat", sans-serif;
+    background: transparent;
+}
+
+.input-group {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+}
+
+.label {
+    text-transform: uppercase;
+    font-size: 0.875em;
+    color: #757575;
+    position: relative;
+    width: fit-content;
+    font-family: "Montserrat", sans-serif;
+}
+
+.label::after {
+    content: "*";
+    color: var(--red);
+    position: absolute;
+    top: 0;
+    right: -0.5rem;
+}
+
+.input-wrapper {
+    width: 100%;
+}

@@ -1,0 +1,66 @@
+.form {
+    font-family: "Montserrat", sans-serif;
+    background: transparent;
+}
+
+.inform {
+    font-weight: 500;
+    font-size: 1.5em;
+    margin-bottom: 1.6875rem;
+}
+
+.input-group {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+}
+
+.label {
+    text-transform: uppercase;
+    font-size: 0.875em;
+    color: #757575;
+    position: relative;
+    width: fit-content;
+    font-family: "Montserrat", sans-serif;
+}
+
+.label::after {
+    content: "*";
+    color: var(--red);
+    position: absolute;
+    top: 0;
+    right: -0.5rem;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-wrapper {
+    width: 93%;
+}
+
+.btn-refresh {
+    margin-left: 0.5625rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--sub-primary);
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    align-self: center;
+}
+
+.icon {
+    color: var(--primary);
+}
+
+.redirects {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-direction: row-reverse;
+}

@@ -1,6 +1,7 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Product } from "../../models";
+import { formatPrice } from "../../utils";
 import Bidder from "./bid-info/Bidder";
 import BidButton from "./button/BidButton";
 import ProductModal from "./modal/product/ProductBidModal";
@@ -65,12 +66,12 @@ export default function ProductCard() {
                         <div className={classes["bidder"]}>
                             <Bidder totalBidCount={DUMMY_DATA.totalBidCount} />
                             <Heading content="Giá hiện tại" color="#6fc47f" />
-                            <div className={classes.price}>{1}</div>
+                            <div className={classes.price}>{formatPrice(156400000)}</div>
                         </div>
                         <div className={classes["buy"]}>
                             <Icon icon="emojione-monotone:money-bag" className={classes.icon} width={42} height={45} />
                             <Heading content="Mua ngay" color="#ee4730" />
-                            <div className={classes.price}>{1}</div>
+                            <div className={classes.price}>{formatPrice(156400000)}</div>
                         </div>
                     </div>
                     <div className={classes["card-bottom"]}>

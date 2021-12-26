@@ -1,0 +1,42 @@
+.wrapper {
+    font-family: "Montserrat", sans-serif;
+}
+
+.inform {
+    display: grid;
+    grid-template-columns: 2.8125rem 36.75rem;
+    column-gap: 0.625rem;
+}
+
+.icon {
+    width: 2.8125rem;
+    height: 2.8125rem;
+    color: var(--green);
+    align-self: center;
+}
+
+.content {
+    font-weight: 600;
+    font-size: 1.5em;
+    text-align: left;
+}
+
+.btn-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3.1875rem;
+}
+
+.btn-auto-log {
+    width: 20.8125rem;
+    height: 3.5rem;
+    background-color: var(--sub-primary);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    outline: none;
+    font-weight: 600;
+    font-size: 1.125em;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}

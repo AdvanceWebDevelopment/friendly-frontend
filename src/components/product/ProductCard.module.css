@@ -1,6 +1,6 @@
 .card {
     width: 23rem;
-    height: 30rem;
+    height: 28.5rem;
     background-color: var(--sub-primary);
     border-radius: 10px;
     box-shadow: 0 4px 4px 2px rgba(0, 0, 0, 0.25);
@@ -111,7 +111,7 @@
 
 .price {
     font-weight: 600;
-    font-size: 1.125em;
+    font-size: 1em;
 }
 
 .icon {

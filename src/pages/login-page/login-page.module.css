@@ -28,24 +28,6 @@
     font-size: 0.875em;
 }
 
-.pwd-field {
-    position: relative;
-}
-
-.btn-toggle {
-    position: absolute;
-    background-color: transparent;
-    border: none;
-    top: 2rem;
-    right: 1rem;
-}
-
-.pwd-icon {
-    width: 1.875rem;
-    height: 1.875rem;
-    color: var(--primary);
-}
-
 .fields {
     height: 3.5rem;
     border-radius: 5px;
@@ -108,5 +90,11 @@
 @media screen and (max-width: 1560px) {
     .container {
         padding: 20rem 32rem 6.8125rem;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .container {
+        padding: 20rem 19rem 6.8125rem;
     }
 }
