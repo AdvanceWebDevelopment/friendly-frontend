@@ -18,8 +18,8 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
         goToNextStep();
     };
 
-    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setOtp(e.target.value);
+    const receiveOtp = (otp: string) => {
+        setOtp(otp);
     };
 
     return (
@@ -31,7 +31,7 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
                 </label>
                 <div className={classes.wrapper}>
                     <div className={classes["input-wrapper"]}>
-                        <InputField id="otp" type="text" />
+                        <InputField id="otp" type="text" receiveValue={receiveOtp} />
                     </div>
                     <button className={classes["btn-refresh"]}>
                         <Icon icon="oi:reload" className={classes.icon} />

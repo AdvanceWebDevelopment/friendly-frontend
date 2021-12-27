@@ -6,6 +6,7 @@ export const apiRoute = {
     PROFILE: "profile",
     LOGIN: "login",
     FORGOT: "forgot-pwd",
+    REGISTER: "register",
 };
 
 export const API_HOST = "http://doran-backend.eastus.azurecontainer.io/api";

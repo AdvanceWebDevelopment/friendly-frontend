@@ -17,6 +17,8 @@ import {
     UserPoints,
     UsersList,
     WinningHistory,
+    RegisterPage,
+    LoginPage,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
 
@@ -30,6 +32,9 @@ function App() {
                         <Route path=":id" element={<CategoryPage />} />
                     </Route>
                     <Route path={`${apiRoute.PRODUCT}/:id`} element={<ProductDetailPage />} />
+                    <Route path={apiRoute.PROFILE} element={<ProfilePage />} />
+                    <Route path={apiRoute.LOGIN} element={<LoginPage />} />
+                    <Route path={apiRoute.REGISTER} element={<RegisterPage />} />
                     <Route path={apiRoute.PROFILE} element={<ProfilePage />}>
                         <Route path="user-info" element={<UserInfo />} />
                         <Route path="user-points" element={<UserPoints />} />

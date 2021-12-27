@@ -7,10 +7,24 @@ import classes from "./login-page.module.css";
 
 export const LoginPage = () => {
     const [isShown, setIsShown] = React.useState(false);
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
     const togglePassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         setIsShown((prev) => !prev);
     };
+
+    const onSubmitHandler = () => {};
+
+    const receiveEmail = (email: string) => {
+        setEmail(email);
+    };
+
+    const receivePassword = (password: string) => {
+        setPassword(password);
+    };
+
     return (
         <div className={classes["page-wrapper"]}>
             <div className={classes.container}>
@@ -19,16 +33,16 @@ export const LoginPage = () => {
                         <label htmlFor="email" className={classes.labels}>
                             EMAIL
                         </label>
-                        <InputField id="email" type="email" />
+                        <InputField id="email" type="email" receiveValue={receiveEmail} />
                     </div>
                     <div className={classes["input-group"]}>
                         <label htmlFor="pwd" className={classes.labels}>
                             MẬT KHẨU
                         </label>
-                        <ToggleInputField id="pwd" />
+                        <ToggleInputField id="pwd" receiveValue={receivePassword} />
                     </div>
                     <div className={classes.redirects}>
-                        <button type="submit" className={classes["btn-submit"]}>
+                        <button type="submit" className={classes["btn-submit"]} onSubmit={onSubmitHandler}>
                             Đăng nhập
                         </button>
                         <Link to={"*"} className={classes["forget-pwd"]}>

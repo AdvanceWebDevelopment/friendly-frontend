@@ -1,0 +1,18 @@
+.name-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 48%);
+    column-gap: 1.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.address-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 23%) 25%;
+    column-gap: 0.75rem;
+}
+
+.single-input-wrapper {
+    width: 100%;
+    margin-bottom: 0.75rem;
+    position: relative;
+}
