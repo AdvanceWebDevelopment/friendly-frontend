@@ -5,3 +5,4 @@ export { ProfilePage } from "./profile-page/profile-page";
 export { DoranPage } from "./doran-page";
 export { LoginPage } from "./login-page/login-page";
 export { ForgotPasswordPage } from "./forgot-password-page/forgot-password-page";
+export { RegisterPage } from "./register-page/register-page";

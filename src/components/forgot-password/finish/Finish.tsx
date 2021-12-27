@@ -3,9 +3,10 @@ import * as React from "react";
 import classes from "./Finish.module.css";
 export interface FinishProps {
     userLastName: string;
+    message: string;
 }
 
-export default function Finish() {
+export default function Finish({ userLastName, message }: FinishProps) {
     const [counter, setCounter] = React.useState(5);
 
     React.useEffect(() => {
@@ -21,8 +22,8 @@ export default function Finish() {
             <div className={classes.inform}>
                 <Icon icon="akar-icons:circle-check-fill" className={classes.icon} />
                 <div className={classes.content}>
-                    A thân mến,
-                    <div>Chúc mừng bạn đã reset mật khẩu thành công</div>
+                    {userLastName} thân mến,
+                    <div>Chúc mừng bạn đã {message} thành công</div>
                 </div>
             </div>
             <div className={classes["btn-wrapper"]}>

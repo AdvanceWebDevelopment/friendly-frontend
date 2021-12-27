@@ -1,5 +1,6 @@
 import * as React from "react";
 import InputField from "../../common/input-field/InputField";
+import Label from "../../common/label/Label";
 import NextButton from "../btn-next/NextButton";
 import classes from "./InfoForm.module.css";
 export interface InfoFormProps {
@@ -16,18 +17,16 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
         }
     };
 
-    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
+    const receiveValue = (value: string) => {
+        setEmail(value);
     };
 
     return (
         <form className={classes.form}>
             <div className={classes["input-group"]}>
-                <label className={classes.label} htmlFor="email">
-                    Email
-                </label>
+                <Label htmlFor="email" content="Email" />
                 <div className={classes["input-wrapper"]}>
-                    <InputField id="email" type="email" />
+                    <InputField id="email" type="email" receiveValue={receiveValue} />
                 </div>
             </div>
             <NextButton onSubmit={onSubmitHandler} />

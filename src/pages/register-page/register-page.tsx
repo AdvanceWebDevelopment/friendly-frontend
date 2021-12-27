@@ -1,20 +1,21 @@
 import * as React from "react";
-import classes from "./forgot-password-page.module.css";
-
-const InfoForm = React.lazy(() => import("../../components/forgot-password/info/InfoForm"));
+import Finish from "../../components/forgot-password/finish/Finish";
+import classes from "./register-page.module.css";
+const InfoForm = React.lazy(() => import("../../components/register/info/InfoForm"));
 const OtpForm = React.lazy(() => import("../../components/forgot-password/otp/OtpForm"));
-const NewPasswordForm = React.lazy(() => import("../../components/forgot-password/new-pwd/NewPasswordForm"));
-const Finish = React.lazy(() => import("../../components/forgot-password/finish/Finish"));
+const Finist = React.lazy(() => import("../../components/forgot-password/finish/Finish"));
 
-export const ForgotPasswordPage = () => {
-    const prodSteps = [1, 2, 3, 4];
+// export interface RegisterPageProps { }
+
+export const RegisterPage = () => {
+    const prodSteps = [1, 2, 3];
     const [currentStep, setCurrentStep] = React.useState(prodSteps[0]);
 
     const goToNextStep = () => {
         if (currentStep >= prodSteps[prodSteps.length - 1]) {
             return;
         }
-
+        console.log("A");
         setCurrentStep(currentStep + 1);
     };
 
@@ -25,7 +26,6 @@ export const ForgotPasswordPage = () => {
 
         setCurrentStep(currentStep - 1);
     };
-
     return (
         <div className={classes["page-wrapper"]}>
             <div className={classes["step-container"]}>
@@ -36,16 +36,24 @@ export const ForgotPasswordPage = () => {
                     Xác Nhận Email
                 </div>
                 <div className={currentStep === prodSteps[2] ? `${classes["step-active"]}` : `${classes["step"]}`}>
-                    Mật Khẩu Mới
-                </div>
-                <div className={currentStep === prodSteps[3] ? `${classes["step-active"]}` : `${classes["step"]}`}>
                     Hoàn Tất
                 </div>
             </div>
-            {currentStep === prodSteps[0] && <InfoForm goToNextStep={goToNextStep} />}
-            {currentStep === prodSteps[1] && <OtpForm goToNextStep={goToNextStep} goToPrevStep={goToPrevStep} />}
-            {currentStep === prodSteps[2] && <NewPasswordForm goToNextStep={goToNextStep} />}
-            {currentStep === prodSteps[3] && <Finish message="reset mật khẩu" userLastName="Andy" />}
+            {currentStep === prodSteps[0] && (
+                <React.Suspense fallback={<div>Loading...</div>}>
+                    <InfoForm goToNextStep={goToNextStep} />
+                </React.Suspense>
+            )}
+            {currentStep === prodSteps[1] && (
+                <React.Suspense fallback={<div>Loading...</div>}>
+                    <OtpForm goToNextStep={goToNextStep} goToPrevStep={goToPrevStep} />
+                </React.Suspense>
+            )}
+            {currentStep === prodSteps[2] && (
+                <React.Suspense fallback={<div>Loading...</div>}>
+                    <Finish message="đăng ký" userLastName="Andy" />
+                </React.Suspense>
+            )}
         </div>
     );
 };

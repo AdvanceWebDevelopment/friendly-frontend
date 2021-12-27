@@ -10,10 +10,10 @@ export const DoranPage = () => {
     return (
         <div style={{ background: colors.background, zIndex: -999 }}>
             <Header />
-            <Image
+            {/* <Image
                 src={auctionBanner}
                 style={{ width: "100%", zIndex: -1, borderBottomRightRadius: "25%", borderBottomLeftRadius: "25%" }}
-            />
+            /> */}
             <Outlet />
             <Footer />
         </div>
