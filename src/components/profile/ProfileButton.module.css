@@ -43,6 +43,7 @@
     border-radius: 40px;
     background-color: black;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1560px) {

@@ -10,15 +10,11 @@ export default function ProfileDropdowm() {
     const [list, setList] = React.useState([
         {
             id: 1,
-            title: "Profile",
+            title: "Hồ Sơ",
         },
         {
             id: 2,
-            title: "Settings",
-        },
-        {
-            id: 3,
-            title: "Log out",
+            title: "Đăng Xuất",
         },
     ] as DummyData[]);
 
