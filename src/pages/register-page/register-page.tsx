@@ -1,9 +1,9 @@
 import * as React from "react";
-import Finish from "../../components/forgot-password/finish/Finish";
 import classes from "./register-page.module.css";
+
 const InfoForm = React.lazy(() => import("../../components/register/info/InfoForm"));
 const OtpForm = React.lazy(() => import("../../components/forgot-password/otp/OtpForm"));
-const Finist = React.lazy(() => import("../../components/forgot-password/finish/Finish"));
+const Finish = React.lazy(() => import("../../components/forgot-password/finish/Finish"));
 
 // export interface RegisterPageProps { }
 

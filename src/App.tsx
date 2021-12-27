@@ -3,7 +3,23 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { ScrollTopButton } from "./components/scroll-top-button/scroll-top-button";
 import { apiRoute } from "./constants/api-routes";
-import { CategoryPage, HomePage, LoginPage, ProductDetailPage, ProfilePage, RegisterPage } from "./pages";
+import {
+    BiddingProducts,
+    CategoryPage,
+    ExpiredProducts,
+    FavoriteProducts,
+    HomePage,
+    ProductDetailPage,
+    ProfilePage,
+    SellingProducts,
+    UpgradeRequests,
+    UserInfo,
+    UserPoints,
+    UsersList,
+    WinningHistory,
+    RegisterPage,
+    LoginPage,
+} from "./pages";
 import { DoranPage } from "./pages/doran-page";
 
 function App() {
@@ -19,6 +35,17 @@ function App() {
                     <Route path={apiRoute.PROFILE} element={<ProfilePage />} />
                     <Route path={apiRoute.LOGIN} element={<LoginPage />} />
                     <Route path={apiRoute.REGISTER} element={<RegisterPage />} />
+                    <Route path={apiRoute.PROFILE} element={<ProfilePage />}>
+                        <Route path="user-info" element={<UserInfo />} />
+                        <Route path="user-points" element={<UserPoints />} />
+                        <Route path="favorite-products" element={<FavoriteProducts />} />
+                        <Route path="bidding-products" element={<BiddingProducts />} />
+                        <Route path="winning-history" element={<WinningHistory />} />
+                        <Route path="selling-products" element={<SellingProducts />} />
+                        <Route path="expired-products" element={<ExpiredProducts />} />
+                        <Route path="users-list" element={<UsersList />} />
+                        <Route path="upgrade-requests" element={<UpgradeRequests />} />
+                    </Route>
                 </Route>
             </Routes>
             <ScrollTopButton />

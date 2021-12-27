@@ -25,7 +25,20 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [dummyFlag, setDummyFlag] = React.useState(true);
 
     const onSubmitHandler = () => {
-        if (firstName && lastName && country && city && district && address && email && password && password === confirmPwd && isAgree && !isRobot) {
+        if (
+            // firstName &&
+            // lastName &&
+            // country &&
+            // city &&
+            // district &&
+            // address &&
+            // email &&
+            // password &&
+            // password === confirmPwd &&
+            // isAgree &&
+            // !isRobot
+            dummyFlag
+        ) {
             const newUser: User = {
                 email: email,
                 name: firstName + " " + lastName,
@@ -34,8 +47,8 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
                 district: district,
                 street: address,
                 points: 0,
-                role: 0
-            }
+                role: 0,
+            };
             console.log("Submit");
             goToNextStep();
         }

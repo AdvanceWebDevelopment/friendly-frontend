@@ -9,4 +9,4 @@ export const apiRoute = {
     REGISTER: "register",
 };
 
-export const API_HOST = "https://doran-backend.eastus.azurecontainer.io:8080/api";
+export const API_HOST = "http://doran-backend.eastus.azurecontainer.io/api";

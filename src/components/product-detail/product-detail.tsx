@@ -71,6 +71,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                         <Image
                             src={product?.seller?.avatar}
                             width={30}
+                            height={30}
                             className={`rounded-circle mx-1 ${classes["avatar"]}`}
                         />
 
