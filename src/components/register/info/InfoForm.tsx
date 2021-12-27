@@ -1,4 +1,5 @@
 import * as React from "react";
+import { User } from "../../../models";
 import InputField from "../../common/input-field/InputField";
 import ToggleInputField from "../../common/input-field/toggle/ToggleInputField";
 import Label from "../../common/label/Label";
@@ -20,11 +21,21 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [password, setPassword] = React.useState("");
     const [confirmPwd, setConfirmPwd] = React.useState("");
     const [isAgree, setIsAgree] = React.useState(false);
-    const [isRobot, setIsRobot] = React.useState(true);
+    const [isRobot, setIsRobot] = React.useState(false);
     const [dummyFlag, setDummyFlag] = React.useState(true);
 
     const onSubmitHandler = () => {
-        if (dummyFlag) {
+        if (firstName && lastName && country && city && district && address && email && password && password === confirmPwd && isAgree && !isRobot) {
+            const newUser: User = {
+                email: email,
+                name: firstName + " " + lastName,
+                nation: country,
+                city: city,
+                district: district,
+                street: address,
+                points: 0,
+                role: 0
+            }
             console.log("Submit");
             goToNextStep();
         }
