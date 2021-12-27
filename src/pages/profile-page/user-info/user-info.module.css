@@ -1,0 +1,13 @@
+.text {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    background-color: var(--sub-primary);
+}
+
+.label {
+    width: 20%;
+}
+
+.avatar {
+    border: 1px solid var(--primary);
+}

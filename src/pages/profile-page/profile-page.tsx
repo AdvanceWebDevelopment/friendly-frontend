@@ -57,7 +57,7 @@ export const ProfilePage = () => {
                             </ListGroup>
                         </div>
                     </Col>
-                    <Col className={`${classes["item-content"]}`}>
+                    <Col className={`d-inline-block h-25 py-4 ${classes["item-content"]}`}>
                         <Outlet />
                     </Col>
                 </Row>
