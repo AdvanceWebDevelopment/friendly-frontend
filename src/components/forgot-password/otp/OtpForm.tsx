@@ -1,8 +1,8 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
 import InputField from "../../common/input-field/InputField";
-import BackButton from "../btn-back/BackButton";
-import NextButton from "../btn-next/NextButton";
+import BackButton from "../../common/btn-back/BackButton";
+import NextButton from "../../common/btn-next/NextButton";
 import classes from "./OtpForm.module.css";
 
 export interface OtpFormProps {
