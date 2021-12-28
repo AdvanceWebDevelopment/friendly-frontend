@@ -3,16 +3,10 @@ import { SubCategory } from "./sub-category";
 export class Category {
     id?: number;
     name?: string;
-    subCategory?: SubCategory[];
+    subCategories?: SubCategory[];
 
-    constructor(id?: number, name?: string, subCategory?: SubCategory[]) {
-        this.id = id;
-        this.name = name;
-        this.subCategory = subCategory;
-    }
-
-    getIconByName() {
-        switch (this.name) {
+    static getIconByName(name: string) {
+        switch (name) {
             case "Tất Cả":
                 return "bx:bx-category";
             case "Điện Tử":
@@ -33,6 +27,9 @@ export class Category {
     }
 
     static fromData(data: any): Category {
-        return new Category(data.id, data.name);
+        return {
+            id: data.id,
+            name: data.name,
+        };
     }
 }

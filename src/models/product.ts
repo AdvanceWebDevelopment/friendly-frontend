@@ -9,6 +9,7 @@ export class Product {
     name?: string;
     description?: ProductDescription[];
     category?: Category;
+    subCategory?: SubCategory;
     images?: string[];
     postDate?: Date;
     endDate?: Date;
@@ -25,6 +26,7 @@ export class Product {
             id: data.id,
             name: data.name,
             category: Category.fromData(data.subCategory.category),
+            subCategory: SubCategory.fromData(data.subCategory),
             images: data?.images.map((image: any) => image.url),
             description: data.descriptions?.map((item: any) => {
                 return ProductDescription.fromData(item);
@@ -37,8 +39,6 @@ export class Product {
             postDate: new Date(data.createAt),
             endDate: new Date(data.endAt),
         };
-
-        product.category!.subCategory = SubCategory.fromData(data.subCategory);
 
         return product;
     }

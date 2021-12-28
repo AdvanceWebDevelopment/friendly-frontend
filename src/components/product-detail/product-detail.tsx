@@ -52,9 +52,9 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                             <span className={`mx-1`}>/</span>
                             <Link
                                 className={classes["breadcrumb-item"]}
-                                to={`/${apiRoute.CATEGORY}/${product?.category?.id}/${product?.category?.subCategory?.id}`}
+                                to={`/${apiRoute.CATEGORY}/${product?.category?.id}/${product?.subCategory?.id}`}
                             >
-                                {product?.category?.subCategory?.name}
+                                {product?.subCategory?.name}
                             </Link>
                         </div>
 
