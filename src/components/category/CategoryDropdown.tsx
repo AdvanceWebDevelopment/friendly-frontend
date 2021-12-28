@@ -1,46 +1,41 @@
 import * as React from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { getCategories, selectCategories } from "../../app/reducers/category-slice";
+import { Category, SubCategory } from "../../models";
 import classes from "./CategoryDropdown.module.css";
 
 export interface CategoryDropdownProps {
     visibility: boolean;
     onMouseEventHandler: (state: boolean) => void;
 }
-interface DummyData {
-    id: number;
-    name: string;
-}
 
 export default function CategoryDropdown(props: CategoryDropdownProps) {
-    const [list, setList] = React.useState([
-        {
-            id: 1,
-            name: "Name1",
-        },
-        {
-            id: 2,
-            name: "Name2",
-        },
-    ] as DummyData[]);
+    const categories = useAppSelector(selectCategories);
+    const dispatch = useAppDispatch();
+
+    React.useEffect(() => {
+        dispatch(getCategories());
+    }, []);
 
     const handleOnMouseEvent = (state: boolean) => {
         props.onMouseEventHandler(state);
     };
     const renderCategories = React.useCallback(() => {
-        return list.map((item) => {
+        return categories?.map((category: Category) => {
             return (
-                <li className={classes["dropdown-item"]} key={Number(item.id)}>
-                    {item.name}
-                    <ul className={classes["sub-dropdown"]}>{renderSubcategories(list)}</ul>
+                <li className={classes["dropdown-item"]} key={category.id}>
+                    {category.name}
+                    <ul className={classes["sub-dropdown"]}>{renderSubcategories(category.subCategories ?? [])}</ul>
                 </li>
             );
         });
     }, []);
 
-    const renderSubcategories = React.useCallback((list: DummyData[]) => {
-        return list.map((subItem: DummyData) => {
+    const renderSubcategories = React.useCallback((subCategories: SubCategory[]) => {
+        return subCategories.map((subCategory: SubCategory) => {
             return (
-                <li className={classes["sub-dropdown-item"]} key={Number(subItem.id)}>
-                    {subItem.name}
+                <li className={classes["sub-dropdown-item"]} key={subCategory.id}>
+                    {subCategory.name}
                 </li>
             );
         });
