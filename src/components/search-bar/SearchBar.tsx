@@ -5,7 +5,7 @@ import SearchBarDropdown from "./SearchBarDropdown";
 
 export default function SearchBar() {
     const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-    const [currentCategory, setCurrentCategory] = React.useState("Current");
+    const [currentCategory, setCurrentCategory] = React.useState("Tất cả");
 
     const ref = React.useRef<HTMLDivElement>(null);
 

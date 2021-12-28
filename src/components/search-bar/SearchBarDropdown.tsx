@@ -1,37 +1,21 @@
 import * as React from "react";
 import { classicNameResolver } from "typescript";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { getCategories, selectCategories } from "../../app/reducers/category-slice";
+import { Category, SubCategory } from "../../models";
 import classes from "./SearchBarDropdown.module.css";
-interface DummyData {
-    id: number;
-    name: string;
-}
 
 export interface SearchBarDropdownProps {
     changeFilterHandler: (category: string) => void;
 }
 
 export default function SearchBarDropdown(props: SearchBarDropdownProps) {
-    const [list, setList] = React.useState([
-        {
-            id: 1,
-            name: "Name1",
-        },
-        {
-            id: 2,
-            name: "Name2",
-        },
-    ] as DummyData[]);
+    const categories = useAppSelector(selectCategories);
+    const dispatch = useAppDispatch();
 
-    const [list2, setList2] = React.useState([
-        {
-            id: 3,
-            name: "Name3",
-        },
-        {
-            id: 4,
-            name: "Name4",
-        },
-    ] as DummyData[]);
+    React.useEffect(() => {
+        dispatch(getCategories());
+    }, []);
 
     const updateFilter = React.useCallback((category: string) => {
         console.log("Click");
@@ -39,21 +23,28 @@ export default function SearchBarDropdown(props: SearchBarDropdownProps) {
     }, []);
 
     const renderCategories = React.useCallback(() => {
-        return list.map((item) => {
+        return categories?.map((category: Category) => {
             return (
-                <li className={classes["dropdown-item"]} key={Number(item.id)}>
-                    <div onClick={() => updateFilter(item.name)}>{item.name}</div>
-                    <ul className={classes["sub-dropdown"]}>{renderSubCategories(list2)}</ul>
+                <li
+                    className={classes["dropdown-item"]}
+                    key={category.id}
+                    onClick={() => updateFilter(category.name ?? "")}
+                >
+                    {category.name}
+                    <ul className={classes["sub-dropdown"]}>{renderSubcategories(category.subCategories ?? [])}</ul>
                 </li>
             );
         });
     }, []);
-
-    const renderSubCategories = React.useCallback((list: DummyData[]) => {
-        return list.map((subItem: DummyData) => {
+    const renderSubcategories = React.useCallback((subCategories: SubCategory[]) => {
+        return subCategories.map((subCategory: SubCategory) => {
             return (
-                <li className={classes["sub-dropdown-item"]} key={Number(subItem.id)}>
-                    <div onClick={() => updateFilter(subItem.name)}>{subItem.name}</div>
+                <li
+                    className={classes["sub-dropdown-item"]}
+                    key={subCategory.id}
+                    onClick={() => updateFilter(subCategory.name ?? "")}
+                >
+                    {subCategory.name}
                 </li>
             );
         });

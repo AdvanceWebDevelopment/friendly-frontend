@@ -27,7 +27,7 @@
 .dropdown-item,
 .sub-dropdown-item {
     border-bottom: 1px solid var(--primary);
-    padding: 0.5rem 0 0.5rem 1rem;
+    padding: 0.5rem 0 0.5rem 0.5rem;
     transition: 0.3s;
     text-transform: capitalize;
     color: var(--primary);
