@@ -3,9 +3,9 @@ import { SubCategory } from "./sub-category";
 export class Category {
     id?: number;
     name?: string;
-    subCategory?: SubCategory;
+    subCategory?: SubCategory[];
 
-    constructor(id?: number, name?: string, subCategory?: SubCategory) {
+    constructor(id?: number, name?: string, subCategory?: SubCategory[]) {
         this.id = id;
         this.name = name;
         this.subCategory = subCategory;

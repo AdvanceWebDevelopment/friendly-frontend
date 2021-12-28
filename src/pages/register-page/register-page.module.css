@@ -2,6 +2,7 @@
     width: 100%;
     height: 100%;
     background-image: url("../../assets/images/star-and-cloud.svg");
+    background-size: cover;
     padding: 18.75rem 40rem 12.0625rem;
     display: flex;
     flex-direction: column;
