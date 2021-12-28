@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../../models";
 import { Category } from "../../models/category";
 import { categoryService } from "../../services/category-service";
+import { RootState } from "../store";
 
 interface CategoryState {
     categories: Category[];
@@ -46,5 +47,7 @@ const categorySlice = createSlice({
 
 export const { setSelectedId, getCategories, requestProductsByCategoryId, completeGetProductsByCategoryId } =
     categorySlice.actions;
+
+export const selectCategories = (state: RootState) => state.categoryState.categories;
 
 export const categoryReducer = categorySlice.reducer;
