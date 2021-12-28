@@ -1,7 +1,6 @@
 import * as React from "react";
 import ToggleInputField from "../../common/input-field/toggle/ToggleInputField";
-import BackButton from "../btn-back/BackButton";
-import NextButton from "../btn-next/NextButton";
+import NextButton from "../../common/btn-next/NextButton";
 import classes from "./NewPasswordForm.module.css";
 
 export interface NewPasswordFormProps {

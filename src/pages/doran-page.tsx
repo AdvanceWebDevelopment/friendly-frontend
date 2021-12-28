@@ -19,7 +19,8 @@ export const DoranPage = () => {
                 hidden={
                     location.pathname.includes(apiRoute.LOGIN) ||
                     location.pathname.includes(apiRoute.REGISTER) ||
-                    location.pathname.includes(apiRoute.FORGOT)
+                    location.pathname.includes(apiRoute.FORGOT) ||
+                    location.pathname.includes(apiRoute.RESET)
                 }
             />
             <Outlet />

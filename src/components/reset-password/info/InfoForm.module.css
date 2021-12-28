@@ -1,0 +1,16 @@
+.form {
+    font-family: "Montserrat", sans-serif;
+    background: transparent;
+}
+
+.input-group {
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    position: relative;
+}
+
+.input-wrapper {
+    width: 100%;
+}

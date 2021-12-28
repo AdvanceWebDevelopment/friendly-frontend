@@ -15,7 +15,7 @@ export const RegisterPage = () => {
         if (currentStep >= prodSteps[prodSteps.length - 1]) {
             return;
         }
-        console.log("A");
+
         setCurrentStep(currentStep + 1);
     };
 
