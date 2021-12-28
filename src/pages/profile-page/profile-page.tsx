@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, ListGroup, ListGroupItem, Row } from "react-bootstrap";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hook";
 import { apiRoute, colors } from "../../constants";
+import { UserRole } from "../../models";
 import classes from "./profile-page.module.css";
 
 export const ProfilePage = () => {
@@ -25,6 +27,8 @@ export const ProfilePage = () => {
 
     const location = useLocation();
 
+    const { user } = useAppSelector((state) => state.userState);
+
     return (
         <div className={`${classes["page-wrapper"]}`}>
             <Container className={`${classes["page-content"]}`}>
@@ -33,6 +37,12 @@ export const ProfilePage = () => {
                         <div className={`${classes["item-list"]}`}>
                             <ListGroup as="ul">
                                 {items.map((item, index) => {
+                                    if (user.role == UserRole.BIDDER && index > 4) {
+                                        return;
+                                    } else if (user.role == UserRole.SELLER && index > 6) {
+                                        return;
+                                    }
+
                                     return (
                                         <Link
                                             key={index}
