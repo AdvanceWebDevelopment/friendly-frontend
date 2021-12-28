@@ -3,7 +3,7 @@ import { User } from "../../../models";
 import InputField from "../../common/input-field/InputField";
 import ToggleInputField from "../../common/input-field/toggle/ToggleInputField";
 import Label from "../../common/label/Label";
-import NextButton from "../../forgot-password/btn-next/NextButton";
+import NextButton from "../../common/btn-next/NextButton";
 import DropdownInputField from "../dropdown/DropdownInput";
 import classes from "./InfoForm.module.css";
 export interface InfoFormProps {
