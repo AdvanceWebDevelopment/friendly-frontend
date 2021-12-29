@@ -65,6 +65,11 @@
     color: var(--primary);
     text-align: right;
     margin-top: 0.5625rem;
+    cursor: pointer;
+}
+
+.forget-pwd:hover {
+    text-decoration: underline;
 }
 
 .alternate-login {
