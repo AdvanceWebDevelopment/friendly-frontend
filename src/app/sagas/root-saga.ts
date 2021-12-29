@@ -1,6 +1,7 @@
 import { all, fork } from "redux-saga/effects";
 import { authSaga } from "./auth-saga";
 import { watchRequestProductByCategory } from "./category-saga";
+import { forgotPasswordSaga } from "./forgot-pwd-saga";
 import { watchReqestTopFiveProducts, watchRequestProductDetail } from "./product-saga";
 
 export default function* rootSaga() {
@@ -10,5 +11,6 @@ export default function* rootSaga() {
         fork(watchRequestProductByCategory),
         fork(watchRequestProductDetail),
         authSaga(),
+        forgotPasswordSaga(),
     ]);
 }

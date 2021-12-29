@@ -9,7 +9,7 @@ export interface SearchBarDropdownProps {
     changeFilterHandler: (category: string) => void;
 }
 
-export default function SearchBarDropdown(props: SearchBarDropdownProps) {
+export default function SearchBarDropdown({ changeFilterHandler }: SearchBarDropdownProps) {
     const categories = useAppSelector(selectCategories);
     const dispatch = useAppDispatch();
 
@@ -17,20 +17,19 @@ export default function SearchBarDropdown(props: SearchBarDropdownProps) {
         dispatch(getCategories());
     }, []);
 
-    const updateFilter = React.useCallback((category: string) => {
-        console.log("Click");
-        props.changeFilterHandler(category);
-    }, []);
+    const updateFilter = React.useCallback(
+        (category: string) => {
+            console.log(category);
+            changeFilterHandler(category);
+        },
+        [changeFilterHandler],
+    );
 
     const renderCategories = React.useCallback(() => {
         return categories?.map((category: Category) => {
             return (
-                <li
-                    className={classes["dropdown-item"]}
-                    key={category.id}
-                    onClick={() => updateFilter(category.name ?? "")}
-                >
-                    {category.name}
+                <li className={classes["dropdown-item"]} key={category.id}>
+                    <div onClick={() => updateFilter(category.name ?? "")}>{category.name}</div>
                     <ul className={classes["sub-dropdown"]}>{renderSubcategories(category.subCategories ?? [])}</ul>
                 </li>
             );
@@ -39,12 +38,8 @@ export default function SearchBarDropdown(props: SearchBarDropdownProps) {
     const renderSubcategories = React.useCallback((subCategories: SubCategory[]) => {
         return subCategories.map((subCategory: SubCategory) => {
             return (
-                <li
-                    className={classes["sub-dropdown-item"]}
-                    key={subCategory.id}
-                    onClick={() => updateFilter(subCategory.name ?? "")}
-                >
-                    {subCategory.name}
+                <li className={classes["sub-dropdown-item"]} key={subCategory.id}>
+                    <div onClick={() => updateFilter(subCategory.name ?? "")}>{subCategory.name}</div>
                 </li>
             );
         });

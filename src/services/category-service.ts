@@ -49,7 +49,7 @@ export const categoryService = {
             },
             {
                 id: 7,
-                name: "Phương Tiện Di Chuyển",
+                name: "Phương Tiện",
                 subCategories: [
                     { id: 11, name: "Xe Hơi" },
                     { id: 12, name: "Tàu Bè" },

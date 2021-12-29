@@ -41,6 +41,10 @@ export const LoginPage = () => {
         e.preventDefault();
     };
 
+    const navigateToForgotPassword = () => {
+        navigate(`/${apiRoute.FORGOT}`);
+    };
+
     return (
         <div className={classes["page-wrapper"]}>
             <div className={classes.container}>
@@ -61,9 +65,9 @@ export const LoginPage = () => {
                         <button type="submit" className={classes["btn-submit"]} onClick={onLogin}>
                             Đăng nhập
                         </button>
-                        <Link to={"*"} className={classes["forget-pwd"]}>
+                        <div onClick={navigateToForgotPassword} className={classes["forget-pwd"]}>
                             Quên mật khẩu
-                        </Link>
+                        </div>
                     </div>
                 </form>
                 <div className={classes["alternate-login"]}>
