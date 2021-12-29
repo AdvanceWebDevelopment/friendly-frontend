@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { getCategories, setSelectedId } from "../../app/reducers/category-slice";
 import { apiRoute } from "../../constants/api-routes";
 import { colors } from "../../constants/colors";
+import { Category } from "../../models";
 import { DoranCarousel } from "./doran-carousel";
 
 export interface CategoryCarouselProps {
@@ -57,7 +58,7 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
                                     <Icon
                                         fontSize={120}
                                         color={selectedId === category.id ? colors.subPrimary : colors.primary}
-                                        icon={category.getIconByName()}
+                                        icon={Category.getIconByName(category.name ?? "")}
                                     />
                                 </div>
 

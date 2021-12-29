@@ -6,6 +6,7 @@ export { DoranPage } from "./doran-page";
 export { LoginPage } from "./login-page/login-page";
 export { ForgotPasswordPage } from "./forgot-password-page/forgot-password-page";
 export { RegisterPage } from "./register-page/register-page";
+export { ResetPasswordPage } from "./reset-password-page/reset-password-page";
 export { BiddingProducts } from "./profile-page/bidding-products/bidding-products";
 export { ExpiredProducts } from "./profile-page/expired-products/expired-products";
 export { FavoriteProducts } from "./profile-page/favorite-products/favorite-products";

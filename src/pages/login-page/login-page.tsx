@@ -1,21 +1,33 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { authActions, LoginRequest, selectAuthError, selectIsAuthenticated } from "../../app/reducers/auth-slice";
 import InputField from "../../components/common/input-field/InputField";
 import ToggleInputField from "../../components/common/input-field/toggle/ToggleInputField";
+import { apiRoute } from "../../constants";
 import classes from "./login-page.module.css";
 
 export const LoginPage = () => {
     const [isShown, setIsShown] = React.useState(false);
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const dispatch = useAppDispatch();
+    const isAuthenticated = useAppSelector(selectIsAuthenticated);
+    const error = useAppSelector(selectAuthError);
+    const navigate = useNavigate();
 
-    const togglePassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        setIsShown((prev) => !prev);
+    const onLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const loginRequest: LoginRequest = {
+            email,
+            password,
+        };
+        dispatch(authActions.login(loginRequest));
+        if (isAuthenticated) {
+            navigate(apiRoute.HOME);
+        }
     };
-
-    const onSubmitHandler = () => {};
 
     const receiveEmail = (email: string) => {
         setEmail(email);
@@ -23,6 +35,10 @@ export const LoginPage = () => {
 
     const receivePassword = (password: string) => {
         setPassword(password);
+    };
+
+    const alternateLogin = (e: React.MouseEvent<SVGElement>) => {
+        e.preventDefault();
     };
 
     return (
@@ -42,7 +58,7 @@ export const LoginPage = () => {
                         <ToggleInputField id="pwd" receiveValue={receivePassword} />
                     </div>
                     <div className={classes.redirects}>
-                        <button type="submit" className={classes["btn-submit"]} onSubmit={onSubmitHandler}>
+                        <button type="submit" className={classes["btn-submit"]} onClick={onLogin}>
                             Đăng nhập
                         </button>
                         <Link to={"*"} className={classes["forget-pwd"]}>
@@ -53,9 +69,13 @@ export const LoginPage = () => {
                 <div className={classes["alternate-login"]}>
                     <div className={classes.guidance}>Hoặc Đăng Nhập Với</div>
                     <div className={classes["login-methods"]}>
-                        <Icon icon="bi:facebook" className={classes.icons} />
-                        <Icon icon="akar-icons:google-contained-fill" className={classes.icons} />
-                        <Icon icon="akar-icons:github-fill" className={classes.icons} />
+                        <Icon icon="bi:facebook" className={classes.icons} onClick={alternateLogin} />
+                        <Icon
+                            icon="akar-icons:google-contained-fill"
+                            className={classes.icons}
+                            onClick={alternateLogin}
+                        />
+                        <Icon icon="akar-icons:github-fill" className={classes.icons} onClick={alternateLogin} />
                     </div>
                 </div>
             </div>

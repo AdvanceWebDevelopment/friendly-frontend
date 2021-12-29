@@ -25,4 +25,24 @@ export class User {
             role: data.role,
         };
     }
+
+    static roleNameOf(role?: UserRole): string {
+        switch (role) {
+            case UserRole.ADMIN:
+                return "Quản Trị Viên";
+            case UserRole.SELLER:
+                return "Người Bán";
+            default:
+                return "Người Bán";
+        }
+    }
+
+    static locationOf(user: User): string {
+        let location = user.street ? user.street + ", " : "";
+        location += user.district ? user.district + ", " : "";
+        location += user.city ? user.city + ", " : "";
+        location += user.nation;
+
+        return location;
+    }
 }
