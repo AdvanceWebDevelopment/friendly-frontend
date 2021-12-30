@@ -4,7 +4,7 @@ import { selectAuthError } from "./auth-slice";
 
 export enum STATUS {
     ACCEPTED = "ACCEPTED",
-    FAILED = 417,
+    FAILED = "407",
     OK = "OK",
 }
 
@@ -91,7 +91,7 @@ const forgotPasswordSlice = createSlice({
 });
 
 // Reducers
-export const forgotPasswordReducers = forgotPasswordSlice.reducer;
+export const forgotPasswordReducer = forgotPasswordSlice.reducer;
 
 // Actions
 export const forgotPasswordActions = forgotPasswordSlice.actions;

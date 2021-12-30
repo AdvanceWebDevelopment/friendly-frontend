@@ -76,5 +76,5 @@ function* getOtp(request: ForgotPasswordRequest) {
 }
 
 export function* forgotPasswordSaga() {
-    yield all([call(getOtpWatcher), call(sendOtpWatcher)]);
+    yield all([call(getOtpWatcher), call(sendOtpWatcher), call(resetPasswordWatcher)]);
 }
