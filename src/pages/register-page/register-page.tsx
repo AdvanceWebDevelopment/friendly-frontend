@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import {
     flowStepsActions,
@@ -48,17 +49,17 @@ export const RegisterPage = () => {
                 </div>
             </div>
             {currentStep === steps[0] && (
-                <React.Suspense fallback={<div>Loading...</div>}>
+                <React.Suspense fallback={<Spinner animation="border" variant="primary" className="d-block mx-auto" />}>
                     <InfoForm goToNextStep={goToNextStep} />
                 </React.Suspense>
             )}
             {currentStep === steps[1] && (
-                <React.Suspense fallback={<div>Loading...</div>}>
+                <React.Suspense fallback={<Spinner animation="border" variant="primary" className="d-block mx-auto" />}>
                     <OtpForm goToNextStep={goToNextStep} goToPrevStep={goToPrevStep} />
                 </React.Suspense>
             )}
             {currentStep === steps[2] && (
-                <React.Suspense fallback={<div>Loading...</div>}>
+                <React.Suspense fallback={<Spinner animation="border" variant="primary" className="d-block mx-auto" />}>
                     <Finish message="đăng ký" userLastName="Andy" />
                 </React.Suspense>
             )}

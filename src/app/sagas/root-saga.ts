@@ -3,6 +3,7 @@ import { authSaga } from "./auth-saga";
 import { watchRequestProductByCategory } from "./category-saga";
 import { forgotPasswordSaga } from "./forgot-pwd-saga";
 import { watchReqestTopFiveProducts, watchRequestProductDetail, watchRequestUploadProduct } from "./product-saga";
+import { registerSaga } from "./register-saga";
 
 export default function* rootSaga() {
     console.log(`Start root saga`);
@@ -13,5 +14,6 @@ export default function* rootSaga() {
         watchRequestUploadProduct(),
         authSaga(),
         forgotPasswordSaga(),
+        registerSaga(),
     ]);
 }
