@@ -2,6 +2,16 @@ import * as React from "react";
 import ToggleInputField from "../../common/input-field/toggle/ToggleInputField";
 import NextButton from "../../common/btn-next/NextButton";
 import classes from "./NewPasswordForm.module.css";
+import {
+    forgotPasswordActions,
+    ResetPasswordRequest,
+    selectEmail,
+    selectError,
+    selectIsPending,
+    selectOtp,
+} from "../../../app/reducers/forgot-pwd-slice";
+import { useAppDispatch, useAppSelector } from "../../../app/hook";
+import { validatePassword } from "../../../utils/helpers";
 
 export interface NewPasswordFormProps {
     goToNextStep: () => void;
@@ -10,12 +20,42 @@ export interface NewPasswordFormProps {
 export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) {
     const [newPassword, setNewPassword] = React.useState("");
     const [confirmPassword, setConfirmPassword] = React.useState("");
+    const [isSubmitClick, setIsSubmitClick] = React.useState(false);
+
+    const dispatch = useAppDispatch();
+
+    const errorMessage = useAppSelector(selectError);
+    const pending = useAppSelector(selectIsPending);
+    const otp = useAppSelector(selectOtp);
+    const email = useAppSelector(selectEmail);
+
+    React.useEffect(() => {
+        console.log(pending);
+        if (!pending) {
+            if (errorMessage.length > 0) {
+                alert(errorMessage);
+            } else {
+                goToNextStep();
+            }
+        }
+    }, [isSubmitClick, pending]);
+
     const onSubmitHandler = () => {
         if (newPassword === confirmPassword) {
             console.log("Submit");
             goToNextStep();
         } else {
-            alert("Not match");
+            if (newPassword !== confirmPassword) {
+                alert("Password and confirm password not match");
+                return;
+            }
+            const request: ResetPasswordRequest = {
+                email: email,
+                password: newPassword,
+                confirmPassword: confirmPassword,
+                otp: otp,
+            };
+            dispatch(forgotPasswordActions.resetPassword(request));
         }
     };
 

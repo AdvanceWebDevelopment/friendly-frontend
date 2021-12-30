@@ -29,17 +29,20 @@ export default function CategoryDropdown(props: CategoryDropdownProps) {
                 </li>
             );
         });
-    }, []);
+    }, [categories]);
 
-    const renderSubcategories = React.useCallback((subCategories: SubCategory[]) => {
-        return subCategories.map((subCategory: SubCategory) => {
-            return (
-                <li className={classes["sub-dropdown-item"]} key={subCategory.id}>
-                    {subCategory.name}
-                </li>
-            );
-        });
-    }, []);
+    const renderSubcategories = React.useCallback(
+        (subCategories: SubCategory[]) => {
+            return subCategories.map((subCategory: SubCategory) => {
+                return (
+                    <li className={classes["sub-dropdown-item"]} key={subCategory.id}>
+                        {subCategory.name}
+                    </li>
+                );
+            });
+        },
+        [categories],
+    );
 
     return (
         <ul
