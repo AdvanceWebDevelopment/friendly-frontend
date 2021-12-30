@@ -12,6 +12,6 @@ export const apiRoute = {
     SELLER: "seller",
 };
 
-export const API_HOST = "http://doran-backend.eastus.azurecontainer.io/api";
+export const API_HOST = "https://doran-backend.eastus.azurecontainer.io/api";
 
 export const IMAGE_HOST = "https://api.cloudinary.com/v1_1/nettruyenz/image/upload";
