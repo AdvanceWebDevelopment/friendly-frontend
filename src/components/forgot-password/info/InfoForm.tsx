@@ -9,7 +9,7 @@ import {
     forgotPasswordActions,
     ForgotPasswordRequest,
     selectError,
-    selectIsError,
+    selectIsPending,
 } from "../../../app/reducers/forgot-pwd-slice";
 export interface InfoFormProps {
     goToNextStep: () => void;
@@ -17,11 +17,24 @@ export interface InfoFormProps {
 
 export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [email, setEmail] = React.useState("");
+    const [isSubmitClick, setIsSubmitClick] = React.useState(false);
     const dispatch = useAppDispatch();
-    const isError = useAppSelector(selectIsError);
-    const errorMessage = useAppSelector(selectError);
 
+    const errorMessage = useAppSelector(selectError);
+    const pending = useAppSelector(selectIsPending);
+
+    React.useEffect(() => {
+        console.log(pending);
+        if (!pending) {
+            if (errorMessage.length > 0) {
+                alert(errorMessage);
+            } else {
+                goToNextStep();
+            }
+        }
+    }, [isSubmitClick, pending]);
     const onSubmitHandler = () => {
+        setIsSubmitClick(true);
         if (!validateEmail(email)) {
             alert("Email not valid");
             return;
@@ -30,15 +43,6 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
             email: email,
         };
         dispatch(forgotPasswordActions.getOtp(request));
-
-        if (isError && errorMessage.length !== 0) {
-            console.log("Alert message");
-            alert(errorMessage);
-            return;
-        } else {
-            console.log("Go to next steps");
-            goToNextStep();
-        }
     };
 
     const receiveValue = (value: string) => {
