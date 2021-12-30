@@ -3,6 +3,7 @@ import { Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { requestProductDetail } from "../../app/reducers/product-slice";
+import { SectionTitle } from "../../components/common/section-title/section-title";
 import { DoranCarousel } from "../../components/doran-carousel/doran-carousel";
 import { DoranShowroomCarousel } from "../../components/doran-carousel/doran-showroom-carousel";
 import { ProductDetail } from "../../components/product-detail/product-detail";
@@ -34,11 +35,14 @@ export const ProductDetailPage = () => {
 
                         <ProductDetail product={productDetail} />
 
-                        <DoranCarousel>
-                            {relatedProducts.map((relatedProduct, index) => {
-                                return <ProductCard key={index} product={relatedProduct} />;
-                            })}
-                        </DoranCarousel>
+                        <div className="my-5">
+                            <SectionTitle text="Sản Phẩm Tương Tự" className="mx-5" />
+                            <DoranCarousel>
+                                {relatedProducts.map((relatedProduct, index) => {
+                                    return <ProductCard key={index} product={relatedProduct} />;
+                                })}
+                            </DoranCarousel>
+                        </div>
                     </div>
                 )}
             </div>

@@ -31,8 +31,6 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
         setShowBidModal(false);
     };
 
-    console.log(product);
-
     return (
         <div>
             <Row className="mb-5">

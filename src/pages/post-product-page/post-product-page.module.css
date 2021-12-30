@@ -1,0 +1,80 @@
+.page-wrapper {
+    width: 100%;
+    height: 100%;
+    background-image: url("../../assets/images/star-and-cloud.svg");
+}
+
+.page-content {
+    margin-top: -10%;
+    padding-bottom: 10%;
+}
+
+.img-group {
+    background-color: var(--sub-primary);
+    border-radius: 5px;
+    box-shadow: 2px 4px 5px 2px rgba(128, 128, 128, 0.5);
+}
+
+.img-thumb {
+    background-color: var(--sub-primary);
+    border-radius: 10px;
+    box-shadow: 2px 4px 5px 2px rgba(128, 128, 128, 0.5);
+    width: 100%;
+    background-size: cover;
+}
+
+.img-remove {
+    position: absolute;
+    color: var(--red);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.upload-btn {
+    color: var(--primary);
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-style: dashed;
+}
+
+.info-form {
+    background-color: var(--sub-primary);
+    border-radius: 5px;
+    box-shadow: 2px 4px 5px 2px rgba(128, 128, 128, 0.5);
+}
+
+.text {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    background-color: var(--sub-primary);
+}
+
+input[type="checkbox"] {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(1.5); /* IE */
+    -moz-transform: scale(1.5); /* FF */
+    -webkit-transform: scale(1.5); /* Safari and Chrome */
+    -o-transform: scale(1.5); /* Opera */
+    transform: scale(1.5);
+    padding: 10px;
+}
+
+.editor {
+    border-radius: 5px;
+    /* border: 1px solid; */
+    box-shadow: 1px 2px 3px 2px rgba(128, 128, 128, 0.7);
+    line-height: normal;
+    min-height: 10rem;
+}
+
+.errors {
+    color: var(--red);
+}
+
+.submit-btn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+}

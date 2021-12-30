@@ -14,6 +14,10 @@ interface ProductState {
     isLoadingProductDetail: boolean;
     productDetail: Product;
     relatedProducts: Product[];
+
+    isUploadingProduct: boolean;
+    isUploadSuccessful: boolean;
+    uploadedProduct: Product;
 }
 
 const productSlice = createSlice({
@@ -31,6 +35,10 @@ const productSlice = createSlice({
         isLoadingProductDetail: true,
         productDetail: {},
         relatedProducts: [],
+
+        isUploadingProduct: false,
+        isUploadSuccessful: false,
+        uploadedProduct: {},
     } as ProductState,
     reducers: {
         requestTopFiveMostBidded: (state) => {
@@ -65,6 +73,20 @@ const productSlice = createSlice({
             state.productDetail = action.payload.productDetail;
             state.relatedProducts = action.payload.relatedProducts;
         },
+        requestUploadProduct: (state, action: PayloadAction<Product>) => {
+            state.isUploadingProduct = true;
+            state.isUploadSuccessful = false;
+            state.uploadedProduct = action.payload;
+        },
+        failUploadProduct: (state, action: PayloadAction<string>) => {
+            state.isUploadingProduct = false;
+            state.isUploadSuccessful = false;
+        },
+        completeUploadProduct: (state, action: PayloadAction<Product>) => {
+            state.isUploadingProduct = false;
+            state.isUploadSuccessful = true;
+            state.uploadedProduct = action.payload;
+        },
     },
 });
 
@@ -77,6 +99,8 @@ export const {
     completeGetTopFiveEndSoon,
     requestProductDetail,
     completeGetProductDetail,
+    requestUploadProduct,
+    completeUploadProduct,
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

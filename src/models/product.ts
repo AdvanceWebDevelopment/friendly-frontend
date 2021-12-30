@@ -11,6 +11,7 @@ export class Product {
     category?: Category;
     subCategory?: SubCategory;
     images?: string[];
+    imageFiles?: File[];
     postDate?: Date;
     endDate?: Date;
     currentPrice?: number;

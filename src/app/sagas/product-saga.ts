@@ -2,16 +2,17 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take, takeLatest } from "redux-saga/effects";
 import { Product } from "../../models";
 import { productService } from "../../services";
-import { completeGetProductsByCategoryId } from "../reducers/category-slice";
 import {
     completeGetProductDetail,
     completeGetTopFiveEndSoon,
     completeGetTopFiveHottest,
     completeGetTopFiveMostBidded,
+    completeUploadProduct,
     requestProductDetail,
     requestTopFiveEndSoon,
     requestTopFiveHottest,
     requestTopFiveMostBidded,
+    requestUploadProduct,
 } from "../reducers/product-slice";
 
 export function* watchReqestTopFiveProducts() {
@@ -26,11 +27,26 @@ export function* watchRequestProductDetail() {
     while (true) {
         const action: PayloadAction<string> = yield take(requestProductDetail.type);
 
-        console.log("Saga take action: ", action);
-
         const { product, relatedProducts } = yield call(productService.getProductById, parseInt(action.payload));
 
         yield put(completeGetProductDetail({ productDetail: product, relatedProducts: relatedProducts }));
+    }
+}
+
+export function* watchRequestUploadProduct() {
+    while (true) {
+        console.log(`watchRequestUploadProduct`);
+        const action: PayloadAction<Product> = yield take(requestUploadProduct.type);
+
+        const product: Product | string = yield call(productService.uploadProduct, action.payload);
+
+        if (typeof product === "string") {
+            alert(product);
+        } else {
+            yield put(completeUploadProduct(product));
+        }
+
+        console.log(`After upload product`, product);
     }
 }
 

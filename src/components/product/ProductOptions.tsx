@@ -26,7 +26,6 @@ export default function ProductOptions() {
     };
 
     const dummyFunc = () => {
-        console.log("Click");
         close();
     };
 

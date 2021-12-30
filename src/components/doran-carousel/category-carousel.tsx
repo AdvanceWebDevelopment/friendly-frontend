@@ -49,7 +49,6 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
                                     cursor: "pointer",
                                 }}
                                 onClick={() => {
-                                    console.log(`Category click!`);
                                     dispatch(setSelectedId(category.id));
                                     navigate(`/${apiRoute.CATEGORY}/${category.id}`);
                                 }}

@@ -8,6 +8,10 @@ export const apiRoute = {
     FORGOT: "forgot-pwd",
     REGISTER: "register",
     RESET: "reset-pwd",
+    POST_PRODUCT: "post-product",
+    SELLER: "seller",
 };
 
 export const API_HOST = "http://doran-backend.eastus.azurecontainer.io/api";
+
+export const IMAGE_HOST = "https://api.cloudinary.com/v1_1/nettruyenz/image/upload";

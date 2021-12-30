@@ -35,13 +35,11 @@ export default function ProductModal({ show, handleClose }: ProductModalProps) {
     };
 
     const changeModeHandler = (mode: string) => {
-        console.log(mode);
         setCurrentMode(mode);
         setIsDropdownOpen(false);
     };
 
     const confirmBidHandler = () => {
-        console.log("Bid");
         handleClose();
     };
 

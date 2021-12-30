@@ -19,6 +19,7 @@ import {
     WinningHistory,
     RegisterPage,
     LoginPage,
+    PostProductPage,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
 
@@ -46,6 +47,7 @@ function App() {
                         <Route path="users-list" element={<UsersList />} />
                         <Route path="upgrade-requests" element={<UpgradeRequests />} />
                     </Route>
+                    <Route path={apiRoute.POST_PRODUCT} element={<PostProductPage />} />
                 </Route>
             </Routes>
             <ScrollTopButton />

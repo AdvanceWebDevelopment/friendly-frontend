@@ -15,7 +15,6 @@ export default function ToggleInputField({ id, receiveValue }: ToggleInputFieldP
 
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         receiveValue(e.target.value);
-        console.log("Here");
     };
 
     return (

@@ -20,7 +20,6 @@ export const CategoryPage = () => {
     );
 
     useEffect(() => {
-        console.log(`Dispatch action for category ${selectedId}`);
         dispatch(requestProductsByCategoryId({ categoryId: selectedId ?? 1, currentPage: 1 }));
     }, [selectedId]);
 
