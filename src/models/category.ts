@@ -6,7 +6,7 @@ export class Category {
     subCategories?: SubCategory[];
 
     static getIconByName(name: string) {
-        switch (name) {
+        switch (name.trim()) {
             case "Tất Cả":
                 return "bx:bx-category";
             case "Điện Tử":
@@ -19,7 +19,7 @@ export class Category {
                 return "icon-park-outline:diamond-necklace";
             case "Tranh Vẽ":
                 return "ion:color-palette-outline";
-            case "Phương Tiện Di Chuyển":
+            case "Phương Tiện":
                 return "bx:bx-car";
             default:
                 return "";
