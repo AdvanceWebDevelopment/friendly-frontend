@@ -153,7 +153,6 @@ export const PostProductPage = () => {
     };
 
     const isValidated = (): boolean => {
-        console.log(!product.name || product.name.trim().length === 0);
         if (!product.name || product.name.trim().length === 0) {
             alert(errorsMsg.name);
             return false;

@@ -16,7 +16,6 @@ export const productService = {
         };
     },
     async uploadProduct(product: Product): Promise<Product | string> {
-        console.log(`uploadProduct`);
         try {
             const imageUrls = await imageService.uploadImages(product.imageFiles ?? []);
 

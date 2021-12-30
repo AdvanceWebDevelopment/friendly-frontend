@@ -35,7 +35,6 @@ export function* watchRequestProductDetail() {
 
 export function* watchRequestUploadProduct() {
     while (true) {
-        console.log(`watchRequestUploadProduct`);
         const action: PayloadAction<Product> = yield take(requestUploadProduct.type);
 
         const product: Product | string = yield call(productService.uploadProduct, action.payload);
@@ -45,8 +44,6 @@ export function* watchRequestUploadProduct() {
         } else {
             yield put(completeUploadProduct(product));
         }
-
-        console.log(`After upload product`, product);
     }
 }
 
