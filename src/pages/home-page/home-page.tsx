@@ -6,6 +6,7 @@ import {
     requestTopFiveHottest,
     requestTopFiveMostBidded,
 } from "../../app/reducers/product-slice";
+import { requestUser } from "../../app/reducers/user-slice";
 import bgImg3 from "../../assets/images/friends.svg";
 import bgImg2 from "../../assets/images/green-park.svg";
 import bgImg1 from "../../assets/images/happy-crowd.svg";
@@ -22,6 +23,7 @@ export const HomePage = () => {
         dispatch(requestTopFiveMostBidded());
         dispatch(requestTopFiveHottest());
         dispatch(requestTopFiveEndSoon());
+        dispatch(requestUser());
     }, []);
 
     const {

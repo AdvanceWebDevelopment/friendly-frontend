@@ -6,7 +6,7 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-    accessTokens: string;
+    accessToken: string;
     tokenType: string;
     refreshToken: string;
 }
@@ -19,7 +19,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
     authenticate: {
-        accessTokens: "",
+        accessToken: "",
         tokenType: "",
         refreshToken: "",
     },

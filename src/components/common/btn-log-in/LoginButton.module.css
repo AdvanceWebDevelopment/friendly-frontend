@@ -1,0 +1,16 @@
+.button {
+    background-color: var(--primary);
+    border: 1px solid #ffffff;
+    border-radius: 40px;
+    width: 9rem;
+    height: 2.5rem;
+    color: var(--sub-primary);
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 1.125em;
+    align-self: center;
+    align-items: center;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    position: relative;
+    margin-left: 2rem;
+}

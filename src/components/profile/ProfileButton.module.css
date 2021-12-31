@@ -35,13 +35,13 @@
 
 .user-img {
     position: absolute;
+    object-fit: cover;
     top: -0.25rem;
     left: -1rem;
     width: 3.125rem;
     height: 3.125rem;
     border: 1px solid white;
     border-radius: 40px;
-    background-color: black;
     box-sizing: border-box;
     cursor: pointer;
 }
