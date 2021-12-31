@@ -1,5 +1,12 @@
 import * as React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useAppDispatch, useAppSelector } from "../../../app/hook";
+import {
+    registerActions,
+    RegisterRequest,
+    selectRegisterError,
+    selectRegisterPending,
+} from "../../../app/reducers/register-slice";
 import { KEY } from "../../../constants";
 import { validateEmail, validatePassword } from "../../../utils/helpers";
 import NextButton from "../../common/btn-next/NextButton";
@@ -18,9 +25,42 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [confirmPwd, setConfirmPwd] = React.useState("");
     const [isAgree, setIsAgree] = React.useState(false);
     const reCaptchaRef = React.useRef<ReCAPTCHA>(null);
+    const [isSubmitClick, setIsSubmitClick] = React.useState(false);
+    const dispatch = useAppDispatch();
+    const pending = useAppSelector(selectRegisterPending);
+    const error = useAppSelector(selectRegisterError);
 
-    const onSubmitHandler = async () => {
-        console.log(reCaptchaRef.current);
+    React.useEffect(() => {
+        if (!pending) {
+            if (error.length > 0) {
+                alert(error);
+            } else {
+                goToNextStep();
+            }
+        }
+    });
+
+    const onSubmitHandler = () => {
+        setIsSubmitClick(true);
+        const captchaToken = reCaptchaRef.current?.getValue();
+        if (
+            name.length === 0 ||
+            !validateEmail(email) ||
+            !validatePassword(password) ||
+            password !== confirmPwd ||
+            !isAgree ||
+            captchaToken
+        ) {
+            alert("Điền đơn đăng ký đi");
+        } else {
+            const req: RegisterRequest = {
+                email: email,
+                name: name,
+                password: password,
+                captchaToken: captchaToken || "",
+            };
+            dispatch(registerActions.sendInfo);
+        }
     };
 
     const receiveName = (name: string) => {
@@ -39,8 +79,8 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
         setConfirmPwd(confirmPassword);
     };
 
-    const handleCheckboxOnChange = () => {
-        setIsAgree(!isAgree);
+    const handleCheckboxOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsAgree(e.target.checked);
     };
 
     return (
