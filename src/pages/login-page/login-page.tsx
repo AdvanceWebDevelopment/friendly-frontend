@@ -16,6 +16,16 @@ export const LoginPage = () => {
     const isAuthenticated = useAppSelector(selectIsAuthenticated);
     const error = useAppSelector(selectAuthError);
     const navigate = useNavigate();
+    const [isLoginClicked, setIsLoginClicked] = React.useState(false);
+
+    React.useEffect(() => {
+        if (isAuthenticated) {
+            navigate(apiRoute.HOME);
+        }
+        if (error) {
+            alert(error);
+        }
+    }, [isLoginClicked, isAuthenticated]);
 
     const onLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -24,9 +34,6 @@ export const LoginPage = () => {
             password,
         };
         dispatch(authActions.login(loginRequest));
-        if (isAuthenticated) {
-            navigate(apiRoute.HOME);
-        }
     };
 
     const receiveEmail = (email: string) => {

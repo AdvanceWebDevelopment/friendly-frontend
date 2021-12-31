@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router";
 import Footer from "../components/common/footer/Footer";
 import Header from "../components/common/header/Header";
@@ -6,7 +6,6 @@ import { colors } from "../constants/colors";
 import auctionBanner from "../assets/images/auction-banner.svg";
 import { Image, Spinner } from "react-bootstrap";
 import { apiRoute } from "../constants";
-
 export const DoranPage = () => {
     const location = useLocation();
 

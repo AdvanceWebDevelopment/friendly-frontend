@@ -8,9 +8,7 @@ function* watchRequestUser() {
     while (true) {
         try {
             yield take(requestUser.type);
-
             const user: User = yield call(userService.getUser);
-
             yield put(completeGetUser(user));
         } catch (error) {}
     }
