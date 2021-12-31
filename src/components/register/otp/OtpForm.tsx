@@ -5,7 +5,13 @@ import BackButton from "../../common/btn-back/BackButton";
 import NextButton from "../../common/btn-next/NextButton";
 import classes from "../../forgot-password/otp/OtpForm.module.css";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { ActivateRequest, registerActions, selectRegisterEmail, selectRegisterError, selectRegisterPending } from "../../../app/reducers/register-slice";
+import {
+    ActivateRequest,
+    registerActions,
+    selectRegisterEmail,
+    selectRegisterError,
+    selectRegisterPending,
+} from "../../../app/reducers/register-slice";
 
 export interface OtpFormProps {
     goToNextStep: () => void;

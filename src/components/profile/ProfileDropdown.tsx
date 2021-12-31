@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { apiRoute } from "../../constants";
+import { apiRoute, authConstants } from "../../constants";
 import classes from "./ProfileDropdown.module.css";
 
 interface DummyData {
@@ -34,6 +34,11 @@ export default function ProfileDropdowm() {
                     onClick={() => {
                         if (item.link) {
                             navigate(item.link);
+                        } else {
+                            console.log("A");
+                            localStorage.removeItem(authConstants.ACCESS_TOKEN);
+                            localStorage.removeItem(authConstants.REFRESH_TOKEN);
+                            navigate(`/`);
                         }
                     }}
                 >
