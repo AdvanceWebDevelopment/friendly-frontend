@@ -1,13 +1,12 @@
 import * as React from "react";
-import { User } from "../../../models";
+import ReCAPTCHA from "react-google-recaptcha";
+import { KEY } from "../../../constants";
+import { validateEmail, validatePassword } from "../../../utils/helpers";
+import NextButton from "../../common/btn-next/NextButton";
 import InputField from "../../common/input-field/InputField";
 import ToggleInputField from "../../common/input-field/toggle/ToggleInputField";
 import Label from "../../common/label/Label";
-import NextButton from "../../common/btn-next/NextButton";
-import DropdownInputField from "../dropdown/DropdownInput";
 import classes from "./InfoForm.module.css";
-import { validateEmail, validatePassword } from "../../../utils/helpers";
-import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 export interface InfoFormProps {
     goToNextStep: () => void;
 }
@@ -18,20 +17,11 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [password, setPassword] = React.useState("");
     const [confirmPwd, setConfirmPwd] = React.useState("");
     const [isAgree, setIsAgree] = React.useState(false);
-    const [recaptchaToken, setRecaptchaToken] = React.useState("");
+    const reCaptchaRef = React.useRef<ReCAPTCHA>(null);
 
-    const onSubmitHandler = () => {
-        if (
-            name.length === 0 ||
-            !validateEmail(email) ||
-            !validatePassword(password) ||
-            password === confirmPwd ||
-            !recaptchaToken ||
-            !isAgree
-        ) {
-            alert("Có lỗi xảy ra");
-        } else {
-        }
+    const onSubmitHandler = async () => {
+        const captchaToken = await reCaptchaRef.current?.executeAsync();
+        reCaptchaRef.current?.reset();
     };
 
     const receiveName = (name: string) => {
@@ -52,10 +42,6 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
 
     const handleCheckboxOnChange = () => {
         setIsAgree(!isAgree);
-    };
-
-    const handleCaptchaVerify = (token: any) => {
-        setRecaptchaToken(token);
     };
 
     return (
@@ -92,7 +78,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
                 </label>
             </div>
             <div className={classes.bottom}>
-                <GoogleReCaptcha onVerify={handleCaptchaVerify} />
+                <ReCAPTCHA sitekey={KEY} ref={reCaptchaRef} size="normal" />
                 <NextButton onSubmit={onSubmitHandler} />
             </div>
         </form>
