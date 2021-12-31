@@ -6,7 +6,7 @@ import { RootState } from "../store";
 
 interface CategoryState {
     categories: Category[];
-    selectedId?: number;
+    selectedCategoryId?: number;
     isLoading: boolean;
     categoryProducts: Product[];
     currentPage: number;
@@ -16,7 +16,6 @@ interface CategoryState {
 const categorySlice = createSlice({
     name: "category",
     initialState: {
-        selectedId: undefined,
         categories: [],
         categoryProducts: [],
         isLoading: true,
@@ -25,7 +24,7 @@ const categorySlice = createSlice({
     } as CategoryState,
     reducers: {
         setSelectedId: (state, action: PayloadAction<number | undefined>) => {
-            state.selectedId = action.payload;
+            state.selectedCategoryId = action.payload;
         },
         getCategories: (state) => {
             state.categories = categoryService.getCategories();

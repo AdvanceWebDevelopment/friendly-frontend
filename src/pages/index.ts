@@ -17,3 +17,4 @@ export { UserPoints } from "./profile-page/user-points/user-points";
 export { UsersList } from "./profile-page/users-list/users-list";
 export { WinningHistory } from "./profile-page/winning-history/winning-history";
 export { PostProductPage } from "./post-product-page/post-product-page";
+export { ProductSearchPage } from "./product-search-page/product-search-page";

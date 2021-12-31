@@ -1,21 +1,23 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take, takeLatest } from "redux-saga/effects";
 import { Product } from "../../models";
-import { productService } from "../../services";
+import { ProductResponseWithPaging, productService, SearchProductRequest } from "../../services";
 import {
     completeGetProductDetail,
     completeGetTopFiveEndSoon,
     completeGetTopFiveHottest,
     completeGetTopFiveMostBidded,
+    completeSearchProduct,
     completeUploadProduct,
     requestProductDetail,
+    requestSearchProduct,
     requestTopFiveEndSoon,
     requestTopFiveHottest,
     requestTopFiveMostBidded,
     requestUploadProduct,
 } from "../reducers/product-slice";
 
-export function* watchReqestTopFiveProducts() {
+function* watchReqestTopFiveProducts() {
     yield all([
         takeLatest(requestTopFiveMostBidded().type, getTopFive, "most-bids"),
         takeLatest(requestTopFiveHottest().type, getTopFive, "price"),
@@ -23,38 +25,67 @@ export function* watchReqestTopFiveProducts() {
     ]);
 }
 
-export function* watchRequestProductDetail() {
+function* watchRequestProductDetail() {
     while (true) {
-        const action: PayloadAction<string> = yield take(requestProductDetail.type);
+        try {
+            const action: PayloadAction<string> = yield take(requestProductDetail.type);
 
-        const { product, relatedProducts } = yield call(productService.getProductById, parseInt(action.payload));
+            const { product, relatedProducts } = yield call(productService.getProductById, parseInt(action.payload));
 
-        yield put(completeGetProductDetail({ productDetail: product, relatedProducts: relatedProducts }));
+            yield put(completeGetProductDetail({ productDetail: product, relatedProducts: relatedProducts }));
+        } catch (error) {}
     }
 }
 
-export function* watchRequestUploadProduct() {
+function* watchRequestUploadProduct() {
     while (true) {
-        const action: PayloadAction<Product> = yield take(requestUploadProduct.type);
+        try {
+            const action: PayloadAction<Product> = yield take(requestUploadProduct.type);
 
-        const product: Product | string = yield call(productService.uploadProduct, action.payload);
+            const product: Product | string = yield call(productService.uploadProduct, action.payload);
 
-        if (typeof product === "string") {
-            alert(product);
-        } else {
-            yield put(completeUploadProduct(product));
-        }
+            if (typeof product === "string") {
+                alert(product);
+            } else {
+                yield put(completeUploadProduct(product));
+            }
+        } catch (error) {}
     }
+}
+
+function* watchRequestSearchProduct() {
+    while (true) {
+        try {
+            const action: PayloadAction<SearchProductRequest> = yield take(requestSearchProduct.type);
+
+            const data: ProductResponseWithPaging = yield call(productService.search, {
+                ...action.payload,
+            });
+
+            yield put(completeSearchProduct(data));
+        } catch (error) {}
+    }
+}
+
+export function* productSaga() {
+    yield all([
+        watchReqestTopFiveProducts(),
+        watchRequestProductDetail(),
+        watchRequestUploadProduct(),
+        watchRequestSearchProduct(),
+    ]);
 }
 
 function* getTopFive(type: "most-bids" | "date" | "price") {
-    const data: Product[] = yield call(productService.getTopFiveOf, type);
+    try {
+        const data: Product[] = yield call(productService.getTopFiveOf, type);
 
-    if (type === "most-bids") {
-        yield put(completeGetTopFiveMostBidded(data));
-    } else if (type === "price") {
-        yield put(completeGetTopFiveHottest(data));
-    } else {
-        yield put(completeGetTopFiveEndSoon(data));
-    }
+        if (type === "most-bids") {
+            yield put(completeGetTopFiveMostBidded(data));
+        } else if (type === "price") {
+            yield put(completeGetTopFiveHottest(data));
+        } else {
+            yield put(completeGetTopFiveEndSoon(data));
+        }
+    } catch (error) {}
 }

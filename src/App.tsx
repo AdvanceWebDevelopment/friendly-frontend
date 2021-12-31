@@ -21,6 +21,7 @@ import {
     LoginPage,
     ForgotPasswordPage,
     PostProductPage,
+    ProductSearchPage,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
 
@@ -33,6 +34,7 @@ function App() {
                     <Route path={apiRoute.CATEGORY} element={<CategoryPage />}>
                         <Route path=":id" element={<CategoryPage />} />
                     </Route>
+                    <Route path={apiRoute.PRODUCT} element={<ProductSearchPage />} />
                     <Route path={`${apiRoute.PRODUCT}/:id`} element={<ProductDetailPage />} />
                     <Route path={apiRoute.PROFILE} element={<ProfilePage />} />
                     <Route path={apiRoute.LOGIN} element={<LoginPage />} />

@@ -71,6 +71,7 @@
     position: absolute;
     top: 0;
     left: 48rem;
+    cursor: pointer;
 }
 
 .btn-icon-search {

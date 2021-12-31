@@ -1,30 +1,32 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { requestProductsByCategoryId, setSelectedId } from "../../app/reducers/category-slice";
+import { requestSearchProduct } from "../../app/reducers/product-slice";
+import bgImg from "../../assets/images/star-and-cloud.svg";
 import { Paginator } from "../../components/common/paginator/paginator";
 import { CategoryCarousel } from "../../components/doran-carousel/category-carousel";
-import FilterSection from "../../components/filter/FilterSection";
 import ProductCard from "../../components/product/ProductCard";
-import bgImg from "../../assets/images/star-and-cloud.svg";
 
-export const CategoryPage = () => {
-    const { id } = useParams();
-    const dispatch = useAppDispatch();
+export const ProductSearchPage = () => {
+    const { state } = useLocation();
+    const { keyword, categoryId, subCategoryId } = state as any;
 
-    dispatch(setSelectedId(parseInt(id ?? "1")));
-
-    const { isLoading, categoryProducts, selectedCategoryId, totalPages, currentPage } = useAppSelector(
-        (state) => state.categoryState,
+    const { isSearchingProduct, searchedProducts, currentPage, totalPages } = useAppSelector(
+        (state) => state.productState,
     );
 
-    useEffect(() => {
-        dispatch(requestProductsByCategoryId({ categoryId: selectedCategoryId ?? 1, currentPage: 1 }));
-    }, [selectedCategoryId]);
+    const dispatch = useAppDispatch();
 
     const onPaginationClick = (page: number) => {
-        dispatch(requestProductsByCategoryId({ categoryId: selectedCategoryId ?? 1, currentPage: page }));
+        dispatch(
+            requestSearchProduct({
+                keyword: keyword,
+                categoryId: categoryId,
+                subCategoryId: subCategoryId,
+                page: page - 1,
+            }),
+        );
     };
 
     return (
@@ -32,16 +34,12 @@ export const CategoryPage = () => {
             <div className="container">
                 <CategoryCarousel style={{ marginTop: "-6rem" }} />
 
-                <div className="mb-5">
-                    <FilterSection />
-                </div>
-
                 <div className="d-flex justify-content-center my-5 py-5">
-                    {isLoading && <Spinner animation="border" variant="primary" className="d-block mx-auto" />}
-                    {!isLoading && (
+                    {isSearchingProduct && <Spinner animation="border" variant="primary" className="d-block mx-auto" />}
+                    {!isSearchingProduct && (
                         <div>
-                            <Row>
-                                {categoryProducts.map((product, index) => {
+                            <Row className="d-flex justify-content-between">
+                                {searchedProducts.map((product, index) => {
                                     return (
                                         <Col key={index} sm={4} className="my-3">
                                             <ProductCard product={product} />

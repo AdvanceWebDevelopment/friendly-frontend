@@ -1,4 +1,4 @@
-export { categoryService } from "./category-service";
-export { productService } from "./product-service";
-export { imageService } from "./image-service";
-export { userService } from "./user-service";
+export * from "./category-service";
+export * from "./product-service";
+export * from "./image-service";
+export * from "./user-service";

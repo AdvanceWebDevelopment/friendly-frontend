@@ -22,7 +22,7 @@ export class Category {
             case "Phương Tiện":
                 return "bx:bx-car";
             default:
-                return "";
+                return "bx:bx-category";
         }
     }
 

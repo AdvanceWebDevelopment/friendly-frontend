@@ -6,7 +6,7 @@ import { Category, SubCategory } from "../../models";
 import classes from "./SearchBarDropdown.module.css";
 
 export interface SearchBarDropdownProps {
-    changeFilterHandler: (category: string) => void;
+    changeFilterHandler: (category: string, categoryId?: number, subCategoryId?: number) => void;
 }
 
 export default function SearchBarDropdown({ changeFilterHandler }: SearchBarDropdownProps) {
@@ -14,13 +14,15 @@ export default function SearchBarDropdown({ changeFilterHandler }: SearchBarDrop
     const dispatch = useAppDispatch();
 
     React.useEffect(() => {
-        dispatch(getCategories());
+        if (categories.length === 0) {
+            dispatch(getCategories());
+        }
     }, []);
 
     const updateFilter = React.useCallback(
-        (category: string) => {
-            console.log(category);
-            changeFilterHandler(category);
+        (category: string, categoryId?: number, subCategoryId?: number) => {
+            console.log(category, categoryId, subCategoryId);
+            changeFilterHandler(category, categoryId, subCategoryId);
         },
         [changeFilterHandler],
     );
@@ -29,7 +31,7 @@ export default function SearchBarDropdown({ changeFilterHandler }: SearchBarDrop
         return categories?.map((category: Category) => {
             return (
                 <li className={classes["dropdown-item"]} key={category.id}>
-                    <div onClick={() => updateFilter(category.name ?? "")}>{category.name}</div>
+                    <div onClick={() => updateFilter(category.name ?? "", category.id)}>{category.name}</div>
                     <ul className={classes["sub-dropdown"]}>{renderSubcategories(category.subCategories ?? [])}</ul>
                 </li>
             );
@@ -39,7 +41,9 @@ export default function SearchBarDropdown({ changeFilterHandler }: SearchBarDrop
         return subCategories.map((subCategory: SubCategory) => {
             return (
                 <li className={classes["sub-dropdown-item"]} key={subCategory.id}>
-                    <div onClick={() => updateFilter(subCategory.name ?? "")}>{subCategory.name}</div>
+                    <div onClick={() => updateFilter(subCategory.name ?? "", undefined, subCategory.id)}>
+                        {subCategory.name}
+                    </div>
                 </li>
             );
         });

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../../models";
+import { ProductResponseWithPaging, SearchProductRequest, SortOption } from "../../services";
 
 interface ProductState {
     isLoadingMostBidded: boolean;
@@ -18,6 +19,11 @@ interface ProductState {
     isUploadingProduct: boolean;
     isUploadSuccessful: boolean;
     uploadedProduct: Product;
+
+    isSearchingProduct: boolean;
+    searchedProducts: Product[];
+    currentPage: number;
+    totalPages: number;
 }
 
 const productSlice = createSlice({
@@ -39,6 +45,11 @@ const productSlice = createSlice({
         isUploadingProduct: false,
         isUploadSuccessful: false,
         uploadedProduct: {},
+
+        isSearchingProduct: false,
+        searchedProducts: [],
+        currentPage: 1,
+        totalPages: 1,
     } as ProductState,
     reducers: {
         requestTopFiveMostBidded: (state) => {
@@ -87,20 +98,37 @@ const productSlice = createSlice({
             state.isUploadSuccessful = true;
             state.uploadedProduct = action.payload;
         },
+        requestSearchProduct: (state, action: PayloadAction<SearchProductRequest>) => {
+            state.isSearchingProduct = true;
+        },
+        completeSearchProduct: (state, action: PayloadAction<ProductResponseWithPaging>) => {
+            state.isSearchingProduct = false;
+
+            state.searchedProducts = action.payload.products;
+            state.totalPages = action.payload.totalPages;
+        },
     },
 });
 
 export const {
     requestTopFiveMostBidded,
     completeGetTopFiveMostBidded,
+
     requestTopFiveHottest,
     completeGetTopFiveHottest,
+
     requestTopFiveEndSoon,
     completeGetTopFiveEndSoon,
+
     requestProductDetail,
     completeGetProductDetail,
+
     requestUploadProduct,
     completeUploadProduct,
+    failUploadProduct,
+
+    requestSearchProduct,
+    completeSearchProduct,
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

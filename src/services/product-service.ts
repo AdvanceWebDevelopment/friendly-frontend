@@ -4,6 +4,22 @@ import { apiRoute, API_HOST } from "../constants/api-routes";
 import { Product } from "../models";
 import { authUtils } from "../utils";
 
+export type SortOption = "DATE" | "PRICE";
+
+export interface SearchProductRequest {
+    keyword: string;
+    categoryId?: number;
+    subCategoryId?: number;
+    sortBy?: SortOption;
+    page?: number;
+}
+
+export interface ProductResponseWithPaging {
+    products: Product[];
+    currentPage: number;
+    totalPages: number;
+}
+
 export const productService = {
     async getTopFiveOf(top: "date" | "price" | "most-bids"): Promise<Product[]> {
         const response = (await axios.get(`${API_HOST}/products?top=${top}`)) as any;
@@ -50,5 +66,32 @@ export const productService = {
         } catch (err: any) {
             return err?.response?.data?.error;
         }
+    },
+    async search({
+        keyword,
+        categoryId = 1,
+        subCategoryId,
+        sortBy,
+        page,
+    }: SearchProductRequest): Promise<ProductResponseWithPaging> {
+        const requestParams: any = {
+            text: keyword,
+            categoryId,
+            subCategoryId,
+            sortBy,
+            page: page ?? 0,
+            size: 12,
+        };
+
+        const response: any = await axios.get(`${API_HOST}/${apiRoute.PRODUCT}`, {
+            params: requestParams,
+        });
+
+        const products: Product[] = response?.data?.content.map((item: any) => {
+            return Product.fromData(item);
+        });
+        const totalPages: number = response?.data?.totalPages;
+
+        return { products, totalPages, currentPage: requestParams.page + 1 };
     },
 };
