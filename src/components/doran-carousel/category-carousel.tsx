@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import React, { CSSProperties, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { getCategories, setSelectedId } from "../../app/reducers/category-slice";
+import { getCategories, setSelectedCategoryId } from "../../app/reducers/category-slice";
 import { apiRoute } from "../../constants/api-routes";
 import { colors } from "../../constants/colors";
 import { Category } from "../../models";
@@ -25,7 +25,7 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
     const location = useLocation();
 
     if (!location.pathname.includes(apiRoute.CATEGORY)) {
-        dispatch(setSelectedId(undefined));
+        dispatch(setSelectedCategoryId(undefined));
     }
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
                                     cursor: "pointer",
                                 }}
                                 onClick={() => {
-                                    dispatch(setSelectedId(category.id));
+                                    dispatch(setSelectedCategoryId(category.id));
                                     navigate(`/${apiRoute.CATEGORY}/${category.id}`);
                                 }}
                             >

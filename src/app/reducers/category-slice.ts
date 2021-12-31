@@ -26,7 +26,7 @@ const categorySlice = createSlice({
         totalPages: 1,
     } as CategoryState,
     reducers: {
-        setSelectedId: (state, action: PayloadAction<number | undefined>) => {
+        setSelectedCategoryId: (state, action: PayloadAction<number | undefined>) => {
             state.selectedCategoryId = action.payload;
         },
         getCategories: (state) => {
@@ -57,7 +57,7 @@ const categorySlice = createSlice({
 });
 
 export const {
-    setSelectedId,
+    setSelectedCategoryId,
     getCategories,
     requestProductsByCategoryId,
     completeGetProductsByCategoryId,

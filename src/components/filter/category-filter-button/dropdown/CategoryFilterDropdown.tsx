@@ -1,37 +1,32 @@
 import * as React from "react";
-import { Prev } from "react-bootstrap/esm/PageItem";
 import { useAppDispatch, useAppSelector } from "../../../../app/hook";
-import { getCategories, selectCategories } from "../../../../app/reducers/category-slice";
+import { getCategories } from "../../../../app/reducers/category-slice";
 import { Category, SubCategory } from "../../../../models";
-import { FilteredCategory } from "../CategoryFilterButton";
 import classes from "./CategoryFilterDropdown.module.css";
 export interface CategoryFilterDropdownProps {
-    getFilterCategory: (cat: FilteredCategory) => void;
+    category?: Category;
+    onChange?: (subCategory: SubCategory) => void;
 }
 
-export default function CategoryFilterDropdown({ getFilterCategory }: CategoryFilterDropdownProps) {
-    const dispatch = useAppDispatch();
-    const categories = useAppSelector(selectCategories);
-
-    React.useEffect(() => {
-        dispatch(getCategories());
-    }, []);
-
+export default function CategoryFilterDropdown({ category, onChange }: CategoryFilterDropdownProps) {
     const renderCategories = () => {
-        return categories.map((cat: Category) => {
+        return category?.subCategories?.map((subCate: SubCategory) => {
             return (
-                <div className={classes.option} key={cat.id}>
+                <div className={classes.option} key={subCate.id}>
                     <input
                         type="radio"
                         id="category"
                         name="category"
                         className={classes.input}
-                        onChange={(e) => getFilterCategory({ id: cat.id, name: cat.name } as FilteredCategory)}
-                        value={cat.id}
-                        defaultChecked={cat.id === 1 ? true : false}
+                        onChange={(e) => {
+                            if (onChange) {
+                                onChange(subCate);
+                            }
+                        }}
+                        value={subCate.id}
                     />
-                    <label htmlFor={cat.name} className={classes.label}>
-                        {cat.name}
+                    <label htmlFor={subCate.name} className={classes.label}>
+                        {subCate.name}
                     </label>
                 </div>
             );
