@@ -9,7 +9,13 @@ export interface BidderProps {
 export default function Bidder({ totalBidCount, bidderImg }: BidderProps) {
     return (
         <div className={classes["bidder-img"]}>
-            <Image src={bidderImg} />
+            <Image
+                src={bidderImg}
+                width="100%"
+                height="100%"
+                className="rounded-circle"
+                style={{ objectFit: "cover" }}
+            />
             <div className={classes["total-bid"]}>{totalBidCount <= 99 ? totalBidCount : "99+"}</div>
         </div>
     );
