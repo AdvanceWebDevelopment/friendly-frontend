@@ -20,8 +20,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const reCaptchaRef = React.useRef<ReCAPTCHA>(null);
 
     const onSubmitHandler = async () => {
-        const captchaToken = await reCaptchaRef.current?.executeAsync();
-        reCaptchaRef.current?.reset();
+        console.log(reCaptchaRef.current);
     };
 
     const receiveName = (name: string) => {
