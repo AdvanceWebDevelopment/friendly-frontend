@@ -7,6 +7,7 @@ import NextButton from "../../common/btn-next/NextButton";
 import DropdownInputField from "../dropdown/DropdownInput";
 import classes from "./InfoForm.module.css";
 import { validateEmail, validatePassword } from "../../../utils/helpers";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 export interface InfoFormProps {
     goToNextStep: () => void;
 }
@@ -17,7 +18,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [password, setPassword] = React.useState("");
     const [confirmPwd, setConfirmPwd] = React.useState("");
     const [isAgree, setIsAgree] = React.useState(false);
-    const [isRobot, setIsRobot] = React.useState(false);
+    const [recaptchaToken, setRecaptchaToken] = React.useState("");
     const [dummyFlag, setDummyFlag] = React.useState(true);
 
     const onSubmitHandler = () => {
@@ -26,7 +27,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
             !validateEmail(email) ||
             !validatePassword(password) ||
             password === confirmPwd ||
-            !isRobot ||
+            !recaptchaToken ||
             !isAgree
         ) {
             alert("Có lỗi xảy ra");
@@ -52,6 +53,10 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
 
     const handleCheckboxOnChange = () => {
         setIsAgree(!isAgree);
+    };
+
+    const handleCaptchaVerify = (token: any) => {
+        setRecaptchaToken(token);
     };
 
     return (
@@ -88,6 +93,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
                 </label>
             </div>
             <div className={classes.bottom}>
+                <GoogleReCaptcha onVerify={handleCaptchaVerify} />
                 <NextButton onSubmit={onSubmitHandler} />
             </div>
         </form>
