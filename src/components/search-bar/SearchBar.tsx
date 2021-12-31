@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hook";
-import { requestSearchProduct } from "../../app/reducers/product-slice";
+import { requestSearchProduct } from "../../app/reducers/category-slice";
 import { apiRoute } from "../../constants";
 import classes from "./SearchBar.module.css";
 import SearchBarDropdown from "./SearchBarDropdown";
@@ -45,18 +45,10 @@ export default function SearchBar() {
             return;
         }
 
-        dispatch(
-            requestSearchProduct({
-                keyword: keyword,
-                categoryId: selectedCategoryId,
-                subCategoryId: selectedSubCategoryId,
-            }),
-        );
-
-        navigate(`/${apiRoute.PRODUCT}`, {
+        navigate(`/${apiRoute.CATEGORY}/${selectedCategoryId ?? 1}`, {
             state: {
                 keyword: keyword,
-                categoryId: selectedCategoryId,
+                categoryId: selectedCategoryId ?? 1,
                 subCategoryId: selectedSubCategoryId,
                 page: 0,
             },

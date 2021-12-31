@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { requestSearchProduct } from "../../app/reducers/product-slice";
+import { requestSearchProduct } from "../../app/reducers/category-slice";
 import bgImg from "../../assets/images/star-and-cloud.svg";
 import { Paginator } from "../../components/common/paginator/paginator";
 import { CategoryCarousel } from "../../components/doran-carousel/category-carousel";

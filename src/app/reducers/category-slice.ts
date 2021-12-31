@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../../models";
 import { Category } from "../../models/category";
+import { ProductResponseWithPaging, SearchProductRequest } from "../../services";
 import { categoryService } from "../../services/category-service";
 import { RootState } from "../store";
 
 interface CategoryState {
     categories: Category[];
     selectedCategoryId?: number;
+    selectedSubCategoryId?: number;
     isLoading: boolean;
     categoryProducts: Product[];
     currentPage: number;
@@ -17,6 +19,7 @@ const categorySlice = createSlice({
     name: "category",
     initialState: {
         categories: [],
+        selectedCategoryId: 1,
         categoryProducts: [],
         isLoading: true,
         currentPage: 1,
@@ -41,11 +44,26 @@ const categorySlice = createSlice({
             state.categoryProducts = action.payload.products;
             state.totalPages = action.payload.totalPages;
         },
+        requestSearchProduct: (state, action: PayloadAction<SearchProductRequest>) => {
+            state.isLoading = true;
+        },
+        completeSearchProduct: (state, action: PayloadAction<ProductResponseWithPaging>) => {
+            state.isLoading = false;
+            state.categoryProducts = action.payload.products;
+            state.currentPage = action.payload.currentPage;
+            state.totalPages = action.payload.totalPages;
+        },
     },
 });
 
-export const { setSelectedId, getCategories, requestProductsByCategoryId, completeGetProductsByCategoryId } =
-    categorySlice.actions;
+export const {
+    setSelectedId,
+    getCategories,
+    requestProductsByCategoryId,
+    completeGetProductsByCategoryId,
+    requestSearchProduct,
+    completeSearchProduct,
+} = categorySlice.actions;
 
 export const selectCategories = (state: RootState) => state.categoryState.categories;
 

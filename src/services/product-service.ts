@@ -68,7 +68,7 @@ export const productService = {
         }
     },
     async search({
-        keyword,
+        keyword = "",
         categoryId = 1,
         subCategoryId,
         sortBy,

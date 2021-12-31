@@ -32,16 +32,16 @@ export default function SearchBarDropdown({ changeFilterHandler }: SearchBarDrop
             return (
                 <li className={classes["dropdown-item"]} key={category.id}>
                     <div onClick={() => updateFilter(category.name ?? "", category.id)}>{category.name}</div>
-                    <ul className={classes["sub-dropdown"]}>{renderSubcategories(category.subCategories ?? [])}</ul>
+                    <ul className={classes["sub-dropdown"]}>{renderSubcategories(category)}</ul>
                 </li>
             );
         });
     }, []);
-    const renderSubcategories = React.useCallback((subCategories: SubCategory[]) => {
-        return subCategories.map((subCategory: SubCategory) => {
+    const renderSubcategories = React.useCallback((category: Category) => {
+        return category.subCategories?.map((subCategory: SubCategory) => {
             return (
                 <li className={classes["sub-dropdown-item"]} key={subCategory.id}>
-                    <div onClick={() => updateFilter(subCategory.name ?? "", undefined, subCategory.id)}>
+                    <div onClick={() => updateFilter(subCategory.name ?? "", category.id, subCategory.id)}>
                         {subCategory.name}
                     </div>
                 </li>

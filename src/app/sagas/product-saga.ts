@@ -1,16 +1,14 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take, takeLatest } from "redux-saga/effects";
 import { Product } from "../../models";
-import { ProductResponseWithPaging, productService, SearchProductRequest } from "../../services";
+import { productService } from "../../services";
 import {
     completeGetProductDetail,
     completeGetTopFiveEndSoon,
     completeGetTopFiveHottest,
     completeGetTopFiveMostBidded,
-    completeSearchProduct,
     completeUploadProduct,
     requestProductDetail,
-    requestSearchProduct,
     requestTopFiveEndSoon,
     requestTopFiveHottest,
     requestTopFiveMostBidded,
@@ -53,27 +51,8 @@ function* watchRequestUploadProduct() {
     }
 }
 
-function* watchRequestSearchProduct() {
-    while (true) {
-        try {
-            const action: PayloadAction<SearchProductRequest> = yield take(requestSearchProduct.type);
-
-            const data: ProductResponseWithPaging = yield call(productService.search, {
-                ...action.payload,
-            });
-
-            yield put(completeSearchProduct(data));
-        } catch (error) {}
-    }
-}
-
 export function* productSaga() {
-    yield all([
-        watchReqestTopFiveProducts(),
-        watchRequestProductDetail(),
-        watchRequestUploadProduct(),
-        watchRequestSearchProduct(),
-    ]);
+    yield all([watchReqestTopFiveProducts(), watchRequestProductDetail(), watchRequestUploadProduct()]);
 }
 
 function* getTopFive(type: "most-bids" | "date" | "price") {

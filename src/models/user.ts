@@ -10,21 +10,17 @@ export class User {
     name?: string;
     dob?: Date;
     avatar?: string;
-    nation?: string;
-    city?: string;
-    district?: string;
-    street?: string;
     points?: number;
     role?: UserRole;
 
     static fromData(data: any): User {
         return {
-            id: data.id,
-            name: data.name,
-            email: data.email,
-            avatar: data.imageUrl,
-            role: data.role,
-            dob: new Date(data.birthDay),
+            id: data?.id,
+            name: data?.name,
+            email: data?.email,
+            avatar: data?.imageUrl,
+            role: data?.role,
+            dob: new Date(data?.birthDay),
         };
     }
 
@@ -37,14 +33,5 @@ export class User {
             default:
                 return "Người Bán";
         }
-    }
-
-    static locationOf(user: User): string {
-        let location = user.street ? user.street + ", " : "";
-        location += user.district ? user.district + ", " : "";
-        location += user.city ? user.city + ", " : "";
-        location += user.nation;
-
-        return location;
     }
 }

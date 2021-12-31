@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../../models";
-import { ProductResponseWithPaging, SearchProductRequest, SortOption } from "../../services";
 
 interface ProductState {
     isLoadingMostBidded: boolean;
@@ -98,15 +97,6 @@ const productSlice = createSlice({
             state.isUploadSuccessful = true;
             state.uploadedProduct = action.payload;
         },
-        requestSearchProduct: (state, action: PayloadAction<SearchProductRequest>) => {
-            state.isSearchingProduct = true;
-        },
-        completeSearchProduct: (state, action: PayloadAction<ProductResponseWithPaging>) => {
-            state.isSearchingProduct = false;
-
-            state.searchedProducts = action.payload.products;
-            state.totalPages = action.payload.totalPages;
-        },
     },
 });
 
@@ -126,9 +116,6 @@ export const {
     requestUploadProduct,
     completeUploadProduct,
     failUploadProduct,
-
-    requestSearchProduct,
-    completeSearchProduct,
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

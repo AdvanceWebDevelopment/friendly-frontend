@@ -39,6 +39,7 @@ export class Product {
             currentBids: data.currentBids,
             postDate: new Date(data.createAt),
             endDate: new Date(data.endAt),
+            highestBidder: User.fromData(data.bidderHighest),
         };
 
         return product;

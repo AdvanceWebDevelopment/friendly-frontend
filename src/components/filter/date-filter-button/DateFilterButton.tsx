@@ -11,7 +11,7 @@ export default function DateFilterButton() {
         <div className={classes["date-filter-container"]}>
             <button className={classes["btn-date-filter"]} onClick={() => setIsDropdownOpen((prev) => !prev)}>
                 <Icon icon="bx:bx-filter" className={classes["icon-filter"]} />
-                <span>{`${sort}, ${order.toLowerCase()}`}</span>
+                <span>{sort}</span>
             </button>
             {isDropdownOpen && <DateFilterDropdown onSortedBy={setSort} onOrderedBy={setOrder} />}
         </div>

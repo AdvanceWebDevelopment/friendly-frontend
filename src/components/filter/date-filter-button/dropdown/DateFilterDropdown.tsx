@@ -40,7 +40,7 @@ export default function DateFilterDropdown({ onSortedBy, onOrderedBy }: DateFilt
                     </div>
                 </div>
             </div>
-            <div className={classes["order-by"]}>
+            {/* <div className={classes["order-by"]}>
                 <div className={classes.headings}>Thứ tự</div>
                 <div className={classes.options}>
                     <div className={classes.option}>
@@ -71,7 +71,7 @@ export default function DateFilterDropdown({ onSortedBy, onOrderedBy }: DateFilt
                         </label>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

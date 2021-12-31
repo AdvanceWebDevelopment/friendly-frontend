@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { useAppDispatch } from "./app/hook";
+import { requestUser } from "./app/reducers/user-slice";
 import { ScrollTopButton } from "./components/scroll-top-button/scroll-top-button";
 import { apiRoute } from "./constants/api-routes";
 import {
@@ -26,6 +28,11 @@ import {
 import { DoranPage } from "./pages/doran-page";
 
 function App() {
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(requestUser());
+    }, []);
+
     return (
         <BrowserRouter>
             <Routes>
