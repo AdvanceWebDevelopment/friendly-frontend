@@ -19,6 +19,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [confirmPwd, setConfirmPwd] = React.useState("");
     const [isAgree, setIsAgree] = React.useState(false);
     const [recaptchaToken, setRecaptchaToken] = React.useState("");
+    const [dummyFlag, setDummyFlag] = React.useState(true);
 
     const onSubmitHandler = () => {
         if (
