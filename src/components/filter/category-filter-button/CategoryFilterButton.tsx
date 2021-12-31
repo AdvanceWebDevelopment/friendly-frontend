@@ -5,12 +5,18 @@ import CategoryFilterDropdown from "./dropdown/CategoryFilterDropdown";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import { getCategories, selectCategories } from "../../../app/reducers/category-slice";
 
+export interface FilteredCategory {
+    id: number;
+    name: string;
+}
+
 export default function CategoryFilterButton() {
     const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-    const [filteredCategories, setFilteredCategories] = React.useState([] as number[]);
+    const [filteredCategory, setFilteredCategory] = React.useState({ id: 1, name: "Tất cả" } as FilteredCategory);
 
-    const getFilterCategories = (categories: number[]) => {
-        setFilteredCategories(categories);
+    const getFilterCategory = (category: FilteredCategory) => {
+        console.log(category);
+        setFilteredCategory(category);
     };
 
     return (
@@ -19,7 +25,7 @@ export default function CategoryFilterButton() {
                 <Icon icon="bx:bx-category-alt" className={classes["icon-filter"]} />
                 <span>Chọn</span>
             </button>
-            {isDropdownOpen && <CategoryFilterDropdown getFilterCategories={getFilterCategories} />}
+            {isDropdownOpen && <CategoryFilterDropdown getFilterCategory={getFilterCategory} />}
         </div>
     );
 }
