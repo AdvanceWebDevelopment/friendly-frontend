@@ -92,7 +92,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </div>
                     <div className={classes["bid-info"]}>
                         <div className={classes["bidder"]}>
-                            <Bidder totalBidCount={product?.currentBids ?? 0} bidderImg={product?.seller?.avatar} />
+                            <Bidder totalBidCount={product?.currentBids ?? 0} bidder={product?.seller} />
                             <Heading content="Giá hiện tại" color="#6fc47f" />
                             <div className={classes.price}>{formatPrice(product?.currentPrice ?? 0)}</div>
                         </div>

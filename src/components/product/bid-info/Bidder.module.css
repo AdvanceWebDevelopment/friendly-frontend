@@ -8,6 +8,19 @@
     position: relative;
 }
 
+.bidder-info {
+    position: absolute;
+    bottom: 1.75rem;
+    left: 1.75rem;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: var(--sub-primary);
+    border-radius: 3px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
 .total-bid {
     width: 1.5rem;
     height: 1.5rem;
