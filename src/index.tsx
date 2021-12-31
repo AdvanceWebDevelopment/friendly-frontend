@@ -12,7 +12,11 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <GoogleReCaptchaProvider reCaptchaKey={KEY} language="vi">
+            <GoogleReCaptchaProvider reCaptchaKey={KEY} language="vi" scriptProps={{
+                async: true,
+                defer: true,
+                appendTo: "body",
+            }}>
                 <App />
             </GoogleReCaptchaProvider>
         </Provider>
