@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import produce from "immer";
 import { User, UserRole } from "../../models";
+import { RootState } from "../store";
 
 interface UserState {
     isLoadingUser: boolean;
@@ -11,16 +12,11 @@ export const userSlice = createSlice({
     name: "user",
     initialState: {
         user: {
-            id: 1,
-            name: "Andy Wood",
-            avatar: "https://picsum.photos/id/1005/200",
-            role: UserRole.ADMIN,
-            points: 10,
-            email: "andy@gmail.com",
-            nation: "Việt Nam",
-            city: "Hồ Chí Minh",
-            district: "Quận 5",
-            street: "Nguyễn Văn Cừ",
+            id: 0,
+            name: "",
+            avatar: "",
+            points: 0,
+            email: "",
         },
         isLoadingUser: false,
     } as UserState,
@@ -31,6 +27,7 @@ export const userSlice = createSlice({
         completeGetUser: (state: UserState, action: PayloadAction<User>) => {
             state.isLoadingUser = false;
             state.user = action.payload;
+            console.log("End");
         },
         requestUpdateUser: (state: UserState, action: PayloadAction<User>) => {
             state.isLoadingUser = true;
@@ -49,3 +46,6 @@ export const userSlice = createSlice({
 export const { requestUser, completeGetUser, requestUpdateUser, completeUpdateUser } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
+
+export const selectUserName = (state: RootState) => state.userState.user.name;
+export const selectUserAvatar = (state: RootState) => state.userState.user.avatar;

@@ -14,7 +14,7 @@ function* login(data: LoginRequest) {
     try {
         const response: LoginResponse = yield call(authService.login, data);
         if (response) {
-            localStorage.setItem(authConstants.ACCESS_TOKEN, response.accessTokens);
+            localStorage.setItem(authConstants.ACCESS_TOKEN, response.accessToken);
             localStorage.setItem(authConstants.REFRESH_TOKEN, response.refreshToken);
             yield put(authActions.setData(response));
         }
