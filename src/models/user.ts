@@ -1,13 +1,14 @@
 export enum UserRole {
-    BIDDER = 0,
-    SELLER = 1,
-    ADMIN = 2,
+    ADMIN = 0,
+    BIDDER = 1,
+    SELLER = 2,
 }
 
 export class User {
     id?: number;
     email?: string;
     name?: string;
+    dob?: Date;
     avatar?: string;
     nation?: string;
     city?: string;
@@ -23,6 +24,7 @@ export class User {
             email: data.email,
             avatar: data.imageUrl,
             role: data.role,
+            dob: new Date(data.birthDay),
         };
     }
 

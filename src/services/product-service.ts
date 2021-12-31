@@ -2,6 +2,7 @@ import axios from "axios";
 import { imageService } from ".";
 import { apiRoute, API_HOST } from "../constants/api-routes";
 import { Product } from "../models";
+import { authUtils } from "../utils";
 
 export const productService = {
     async getTopFiveOf(top: "date" | "price" | "most-bids"): Promise<Product[]> {
@@ -38,7 +39,10 @@ export const productService = {
                 description: product.description,
             };
 
-            await axios.post(`${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCT}`, uploadRequest);
+            await axios.post(`${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCT}`, uploadRequest, {
+                headers: authUtils.getAuthHeader(),
+            });
+
             return {
                 ...product,
                 images: imageUrls,

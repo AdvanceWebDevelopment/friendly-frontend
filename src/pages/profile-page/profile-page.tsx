@@ -37,9 +37,9 @@ export const ProfilePage = () => {
                         <div className={`${classes["item-list"]}`}>
                             <ListGroup as="ul">
                                 {items.map((item, index) => {
-                                    if (user.role == UserRole.BIDDER && index > 4) {
+                                    if (user.role === UserRole.BIDDER && index > 4) {
                                         return;
-                                    } else if (user.role == UserRole.SELLER && index > 6) {
+                                    } else if (user.role === UserRole.SELLER && index > 6) {
                                         return;
                                     }
 

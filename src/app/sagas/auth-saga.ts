@@ -1,5 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
+import { authConstants } from "../../constants";
 import { authService } from "../../services/authenticate-service";
 import { authActions, LoginRequest, LoginResponse } from "../reducers/auth-slice";
 
@@ -13,8 +14,8 @@ function* login(data: LoginRequest) {
     try {
         const response: LoginResponse = yield call(authService.login, data);
         if (response) {
-            localStorage.setItem("doran-access-token", response.accessTokens);
-            localStorage.setItem("doran-refresh-token", response.refreshToken);
+            localStorage.setItem(authConstants.ACCESS_TOKEN, response.accessTokens);
+            localStorage.setItem(authConstants.REFRESH_TOKEN, response.refreshToken);
             yield put(authActions.setData(response));
         }
     } catch (e) {

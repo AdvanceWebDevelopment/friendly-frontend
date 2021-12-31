@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import produce from "immer";
 import { User, UserRole } from "../../models";
 
 interface UserState {
@@ -23,9 +24,28 @@ export const userSlice = createSlice({
         },
         isLoadingUser: false,
     } as UserState,
-    reducers: {},
+    reducers: {
+        requestUser: (state: UserState) => {
+            state.isLoadingUser = true;
+        },
+        completeGetUser: (state: UserState, action: PayloadAction<User>) => {
+            state.isLoadingUser = false;
+            state.user = action.payload;
+        },
+        requestUpdateUser: (state: UserState, action: PayloadAction<User>) => {
+            state.isLoadingUser = true;
+            state.user = action.payload;
+        },
+        completeUpdateUser: (state: UserState, action: PayloadAction<User>) => {
+            state.isLoadingUser = false;
+
+            state.user.name = action.payload.name;
+            state.user.email = action.payload.email;
+            state.user.dob = action.payload.dob;
+        },
+    },
 });
 
-export const {} = userSlice.actions;
+export const { requestUser, completeGetUser, requestUpdateUser, completeUpdateUser } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
