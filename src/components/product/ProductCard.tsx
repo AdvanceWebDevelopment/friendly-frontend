@@ -104,7 +104,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </div>
                     <div className={classes["card-bottom"]}>
                         <BidButton openModal={showBidModalHandler} />
-                        <ProductOptions />
+                        <ProductOptions product={product ?? {}} />
                     </div>
                 </div>
             </figure>

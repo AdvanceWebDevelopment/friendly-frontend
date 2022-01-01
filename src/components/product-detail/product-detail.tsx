@@ -58,7 +58,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                         </div>
 
                         <div>
-                            <ProductOptions />
+                            <ProductOptions product={product} />
                         </div>
                     </div>
 
@@ -137,7 +137,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
 
                     <div className="d-flex justify-content-between align-items-center mt-5">
                         <BidButton openModal={showBidModalHandler} />
-                        <ProductOptions />
+                        <ProductOptions product={product} />
                     </div>
                 </Col>
                 <ProductModal show={showBidModal} handleClose={closeBidModalHandler} />
