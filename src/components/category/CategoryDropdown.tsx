@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { getCategories, selectCategories } from "../../app/reducers/category-slice";
+import { requestGetCategories, selectCategories } from "../../app/reducers/category-slice";
 import { Category, SubCategory } from "../../models";
 import classes from "./CategoryDropdown.module.css";
 
@@ -14,7 +14,7 @@ export default function CategoryDropdown(props: CategoryDropdownProps) {
     const dispatch = useAppDispatch();
 
     React.useEffect(() => {
-        dispatch(getCategories());
+        dispatch(requestGetCategories());
     }, []);
 
     const handleOnMouseEvent = (state: boolean) => {

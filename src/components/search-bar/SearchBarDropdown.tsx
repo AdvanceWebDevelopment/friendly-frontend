@@ -1,7 +1,7 @@
 import * as React from "react";
 import { classicNameResolver } from "typescript";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { getCategories, selectCategories } from "../../app/reducers/category-slice";
+import { requestGetCategories, selectCategories } from "../../app/reducers/category-slice";
 import { Category, SubCategory } from "../../models";
 import classes from "./SearchBarDropdown.module.css";
 
@@ -15,7 +15,7 @@ export default function SearchBarDropdown({ changeFilterHandler }: SearchBarDrop
 
     React.useEffect(() => {
         if (categories.length === 0) {
-            dispatch(getCategories());
+            dispatch(requestGetCategories());
         }
     }, []);
 

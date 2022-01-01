@@ -1,8 +1,9 @@
 import { Icon } from "@iconify/react";
 import React, { CSSProperties, useEffect } from "react";
+import { Spinner } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { getCategories, setSelectedCategoryId } from "../../app/reducers/category-slice";
+import { requestGetCategories, setSelectedCategoryId } from "../../app/reducers/category-slice";
 import { apiRoute } from "../../constants/api-routes";
 import { colors } from "../../constants/colors";
 import { Category } from "../../models";
@@ -19,7 +20,7 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
     const navigate = useNavigate();
 
     const categoryState = useAppSelector((state) => state.categoryState);
-    const { selectedCategoryId, categories } = categoryState;
+    const { selectedCategoryId, categories, isLoadingCategories } = categoryState;
 
     const dispatch = useAppDispatch();
     const location = useLocation();
@@ -29,12 +30,13 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
     }
 
     useEffect(() => {
-        dispatch(getCategories());
+        dispatch(requestGetCategories());
     }, []);
 
     return (
         <div style={style}>
-            {categories.length > 0 && (
+            {isLoadingCategories && <Spinner animation="border" variant="primary" className="d-block mx-auto" />}
+            {!isLoadingCategories && (
                 <DoranCarousel className={className} itemToShow={6}>
                     {categories.map((category, index) => {
                         return (

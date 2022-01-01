@@ -6,6 +6,7 @@ import { categoryService } from "../../services/category-service";
 import { RootState } from "../store";
 
 interface CategoryState {
+    isLoadingCategories: boolean;
     categories: Category[];
     selectedCategoryId?: number;
     selectedSubCategoryId?: number;
@@ -18,7 +19,9 @@ interface CategoryState {
 const categorySlice = createSlice({
     name: "category",
     initialState: {
+        isLoadingCategories: true,
         categories: [],
+
         selectedCategoryId: 1,
         categoryProducts: [],
         isLoading: true,
@@ -29,8 +32,12 @@ const categorySlice = createSlice({
         setSelectedCategoryId: (state, action: PayloadAction<number | undefined>) => {
             state.selectedCategoryId = action.payload;
         },
-        getCategories: (state) => {
-            state.categories = categoryService.getCategories();
+        requestGetCategories: (state) => {
+            state.isLoadingCategories = true;
+        },
+        completeGetCategories: (state, action: PayloadAction<Category[]>) => {
+            state.isLoadingCategories = false;
+            state.categories = action.payload;
         },
         requestProductsByCategoryId: (state, action: PayloadAction<{ categoryId: number; currentPage: number }>) => {
             state.isLoading = true;
@@ -58,9 +65,13 @@ const categorySlice = createSlice({
 
 export const {
     setSelectedCategoryId,
-    getCategories,
+
+    requestGetCategories,
+    completeGetCategories,
+
     requestProductsByCategoryId,
     completeGetProductsByCategoryId,
+
     requestSearchProduct,
     completeSearchProduct,
 } = categorySlice.actions;

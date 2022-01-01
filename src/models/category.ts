@@ -22,14 +22,15 @@ export class Category {
             case "Phương Tiện":
                 return "bx:bx-car";
             default:
-                return "bx:bx-category";
+                return "zmdi:collection-item";
         }
     }
 
     static fromData(data: any): Category {
         return {
-            id: data.id,
-            name: data.name,
+            id: data?.id,
+            name: data?.name,
+            subCategories: data?.subCategories?.map((item: SubCategory) => SubCategory.fromData(item)),
         };
     }
 }
