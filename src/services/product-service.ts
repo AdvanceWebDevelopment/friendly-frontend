@@ -32,17 +32,17 @@ export const productService = {
             relatedProducts: response.data?.products?.content?.map((item: any) => Product.fromData(item)) as Product[],
         };
     },
-    async uploadProduct(product: Product): Promise<Product | string> {
+    async uploadProduct(product: Product): Promise<Product | undefined> {
         try {
             const imageUrls = await imageService.uploadImages(product.imageFiles ?? []);
 
             const uploadRequest: any = {
                 name: product.name,
-                endAt: product.endDate,
+                endAt: product.endDate?.toISOString(),
                 currentPrice: product.currentPrice,
                 stepPrice: product.stepPrice,
                 quickPrice: product.buyPrice,
-                autoBid: product.buyPrice !== undefined,
+                autoBid: product.autoExtendTime,
                 subCategory: {
                     id: product.subCategory?.id,
                 },
@@ -52,7 +52,9 @@ export const productService = {
                         isMain: index === 0,
                     };
                 }),
-                description: product.description,
+                descriptions: product.description?.map((item) => {
+                    return { description: item.content };
+                }),
             };
 
             await axios.post(`${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCT}`, uploadRequest, {
@@ -64,7 +66,8 @@ export const productService = {
                 images: imageUrls,
             };
         } catch (err: any) {
-            return err?.response?.data?.error;
+            console.warn(err?.response?.data);
+            return undefined;
         }
     },
     async search({

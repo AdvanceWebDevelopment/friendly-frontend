@@ -49,7 +49,7 @@ const categorySlice = createSlice({
         ) => {
             state.isLoading = false;
             state.categoryProducts = action.payload.products;
-            state.totalPages = action.payload.totalPages;
+            state.totalPages = action.payload.totalPages === 0 ? 1 : action.payload.totalPages;
         },
         requestSearchProduct: (state, action: PayloadAction<SearchProductRequest>) => {
             state.isLoading = true;
@@ -58,7 +58,7 @@ const categorySlice = createSlice({
             state.isLoading = false;
             state.categoryProducts = action.payload.products;
             state.currentPage = action.payload.currentPage;
-            state.totalPages = action.payload.totalPages;
+            state.totalPages = action.payload.totalPages === 0 ? 1 : action.payload.totalPages;
         },
     },
 });

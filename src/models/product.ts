@@ -21,6 +21,7 @@ export class Product {
     highestBidder?: User;
     biddingList?: Bid[];
     currentBids?: number;
+    autoExtendTime?: boolean;
 
     static fromData(data: any): Product {
         const product: Product = {
@@ -40,6 +41,7 @@ export class Product {
             postDate: new Date(data.createAt),
             endDate: new Date(data.endAt),
             highestBidder: User.fromData(data.bidderHighest),
+            autoExtendTime: data?.autoBid,
         };
 
         return product;

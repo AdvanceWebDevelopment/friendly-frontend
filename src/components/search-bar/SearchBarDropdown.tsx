@@ -21,7 +21,6 @@ export default function SearchBarDropdown({ changeFilterHandler }: SearchBarDrop
 
     const updateFilter = React.useCallback(
         (category: string, categoryId?: number, subCategoryId?: number) => {
-            console.log(category, categoryId, subCategoryId);
             changeFilterHandler(category, categoryId, subCategoryId);
         },
         [changeFilterHandler],

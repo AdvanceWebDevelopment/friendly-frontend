@@ -13,7 +13,6 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [confirmPassword, setConfirmPassword] = React.useState("");
     const onSubmitHandler = () => {
         if (newPassword !== password && newPassword === confirmPassword) {
-            console.log("Submit");
             goToNextStep();
         } else {
             alert("Nhập sai đâu đó, vui lòng kiểm tra lại :D");
