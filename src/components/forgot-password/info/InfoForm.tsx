@@ -24,7 +24,6 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const pending = useAppSelector(selectIsPending);
 
     React.useEffect(() => {
-        console.log(pending);
         if (!pending) {
             if (errorMessage.length > 0) {
                 alert(errorMessage);

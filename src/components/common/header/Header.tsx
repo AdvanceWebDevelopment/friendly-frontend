@@ -19,8 +19,6 @@ export default function Header() {
     const userName = useAppSelector(selectUserName);
     const userAvatar = useAppSelector(selectUserAvatar);
 
-    console.log("Header");
-
     return (
         <header className={classes.header}>
             <div className={classes.container}>

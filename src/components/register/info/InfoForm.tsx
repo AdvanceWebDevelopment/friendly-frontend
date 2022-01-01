@@ -59,7 +59,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
                 password: password,
                 captchaToken: captchaToken || "",
             };
-            dispatch(registerActions.sendInfo);
+            dispatch(registerActions.sendInfo(req));
         }
     };
 

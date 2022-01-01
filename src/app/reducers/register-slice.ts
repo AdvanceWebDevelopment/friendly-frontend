@@ -45,7 +45,7 @@ export interface RegisterState {
 const initialState: RegisterState = {
     email: "",
     otp: "",
-    isPending: false,
+    isPending: true,
     error: "",
 };
 
