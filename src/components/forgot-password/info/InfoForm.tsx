@@ -8,8 +8,8 @@ import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import {
     forgotPasswordActions,
     ForgotPasswordRequest,
-    selectError,
-    selectIsPending,
+    selectEmailPending,
+    selectForgotPasswordError,
 } from "../../../app/reducers/forgot-pwd-slice";
 export interface InfoFormProps {
     goToNextStep: () => void;
@@ -20,8 +20,8 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [isSubmitClick, setIsSubmitClick] = React.useState(false);
     const dispatch = useAppDispatch();
 
-    const errorMessage = useAppSelector(selectError);
-    const pending = useAppSelector(selectIsPending);
+    const errorMessage = useAppSelector(selectForgotPasswordError);
+    const pending = useAppSelector(selectEmailPending);
 
     React.useEffect(() => {
         if (!pending) {
@@ -32,7 +32,8 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
             }
         }
     }, [isSubmitClick, pending]);
-    const onSubmitHandler = () => {
+    const onSubmitHandler = (e: React.SyntheticEvent) => {
+        e.preventDefault();
         setIsSubmitClick(true);
         if (!validateEmail(email)) {
             alert("Email not valid");
@@ -48,15 +49,17 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
         setEmail(value);
     };
 
+    const dummyFunc = () => {};
+
     return (
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={onSubmitHandler}>
             <div className={classes["input-group"]}>
                 <Label htmlFor="email" content="Email" />
                 <div className={classes["input-wrapper"]}>
                     <InputField id="email" type="email" receiveValue={receiveValue} />
                 </div>
             </div>
-            <NextButton onSubmit={onSubmitHandler} />
+            <NextButton onSubmit={dummyFunc} />
         </form>
     );
 }
