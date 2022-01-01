@@ -29,6 +29,7 @@ export const CategoryPage = () => {
                 keyword: keyword,
                 categoryId: selectedCategoryId,
                 subCategoryId: subCategoryId,
+                page: 0,
             }),
         );
     }, [selectedCategoryId]);

@@ -53,6 +53,7 @@ const categorySlice = createSlice({
         },
         requestSearchProduct: (state, action: PayloadAction<SearchProductRequest>) => {
             state.isLoading = true;
+            state.currentPage = action.payload.page ? action.payload.page + 1 : 1;
         },
         completeSearchProduct: (state, action: PayloadAction<ProductResponseWithPaging>) => {
             state.isLoading = false;
