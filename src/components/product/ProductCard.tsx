@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { apiRoute } from "../../constants";
+import { apiRoute, timeConstants } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
 import Bidder from "./bid-info/Bidder";
@@ -11,6 +11,7 @@ import ProductModal from "./modal/product/ProductBidModal";
 import Heading from "./price-heading/Heading";
 import classes from "./ProductCard.module.css";
 import ProductOptions from "./ProductOptions";
+import dayjs from "dayjs";
 
 /**
  * Product card props include:
@@ -20,17 +21,6 @@ import ProductOptions from "./ProductOptions";
 export interface ProductCardProps {
     product?: Product;
 }
-
-const DUMMY_DATA = {
-    img: "../../assets/images/banner.jpg",
-    name: "Product very long name but i still want to play game",
-    totalBidCount: 72,
-    endDate: "end date",
-    postDate: "post date",
-    currentBidPrice: "2000000",
-    bidderImg: "../../assets/images/banner.jpg",
-    buyPrice: "2000000",
-};
 
 export default function ProductCard({ product }: ProductCardProps) {
     const [showBidModal, setShowBidModal] = React.useState(false);
@@ -45,9 +35,10 @@ export default function ProductCard({ product }: ProductCardProps) {
     };
 
     React.useEffect(() => {
-        if (product?.endDate) {
-            const delta = product?.endDate.getMilliseconds() - Date.now();
-            if (delta > 0 && delta < 24 * 60 * 60 * 1000) {
+        if (product?.postDate) {
+            const delta = dayjs(new Date()).diff(product?.postDate, "minute") - timeConstants.TIMEZONE_DIFF_MINUTE;
+
+            if (delta < 30) {
                 setIsNewProd(true);
             } else {
                 setIsNewProd(false);
@@ -99,7 +90,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <div className={classes["buy"]}>
                             <Icon icon="emojione-monotone:money-bag" className={classes.icon} width={42} height={45} />
                             <Heading content="Mua ngay" color="#ee4730" />
-                            <div className={classes.price}>{formatPrice(product?.currentPrice ?? 0)}</div>
+                            <div className={classes.price}>{formatPrice(product?.buyPrice ?? 0)}</div>
                         </div>
                     </div>
                     <div className={classes["card-bottom"]}>
