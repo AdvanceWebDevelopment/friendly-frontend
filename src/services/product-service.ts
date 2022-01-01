@@ -14,6 +14,11 @@ export interface SearchProductRequest {
     page?: number;
 }
 
+export interface UpdateProductDescriptionRequest {
+    product: Product;
+    description: string;
+}
+
 export interface ProductResponseWithPaging {
     products: Product[];
     currentPage: number;
@@ -68,6 +73,30 @@ export const productService = {
         } catch (err: any) {
             console.warn(err?.response?.data);
             return undefined;
+        }
+    },
+    async updateProductDescription({ product, description }: UpdateProductDescriptionRequest): Promise<boolean> {
+        try {
+            const request = {
+                description,
+            };
+
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCT}/${product.id}`,
+                request,
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken?.length > 0) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            return true;
+        } catch (error: any) {
+            console.error(error.response);
+            return false;
         }
     },
     async search({
