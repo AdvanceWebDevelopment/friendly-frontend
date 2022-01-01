@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../../models";
+import { UpdateProductDescriptionRequest } from "../../services";
 
 interface ProductState {
     isLoadingMostBidded: boolean;
@@ -23,6 +24,9 @@ interface ProductState {
     searchedProducts: Product[];
     currentPage: number;
     totalPages: number;
+
+    isEditProduct: boolean;
+    isUpdatingProductDescription: boolean;
 }
 
 const productSlice = createSlice({
@@ -49,6 +53,9 @@ const productSlice = createSlice({
         searchedProducts: [],
         currentPage: 1,
         totalPages: 1,
+
+        isEditProduct: false,
+        isUpdatingProductDescription: false,
     } as ProductState,
     reducers: {
         requestTopFiveMostBidded: (state) => {
@@ -97,6 +104,16 @@ const productSlice = createSlice({
             state.isUploadSuccessful = true;
             state.uploadedProduct = action.payload;
         },
+        setEditProduct: (state, action: PayloadAction<boolean>) => {
+            state.isEditProduct = action.payload;
+        },
+        requestUpdateProductDescription: (state, action: PayloadAction<UpdateProductDescriptionRequest>) => {
+            state.isUpdatingProductDescription = true;
+        },
+        completeUpdateProductDescription: (state, action: PayloadAction<Product>) => {
+            state.isUpdatingProductDescription = false;
+            state.productDetail = action.payload;
+        },
     },
 });
 
@@ -116,6 +133,10 @@ export const {
     requestUploadProduct,
     completeUploadProduct,
     failUploadProduct,
+
+    setEditProduct,
+    requestUpdateProductDescription,
+    completeUpdateProductDescription,
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

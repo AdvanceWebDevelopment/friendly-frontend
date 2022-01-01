@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import produce from "immer";
-import { User, UserRole } from "../../models";
+import { Product, User, UserRole } from "../../models";
 import { RootState } from "../store";
 
 interface UserState {
     isLoadingUser: boolean;
     user: User;
+
+    isAddingToWatchedList: boolean;
+    watchedProducts: Product[];
 }
 
 export const userSlice = createSlice({
@@ -19,6 +22,8 @@ export const userSlice = createSlice({
             email: "",
         },
         isLoadingUser: false,
+        isAddingToWatchedList: false,
+        watchedProducts: [],
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -39,10 +44,24 @@ export const userSlice = createSlice({
             state.user.email = action.payload.email;
             state.user.dob = action.payload.dob;
         },
+        requestAddToWatchList: (state: UserState, action: PayloadAction<Product>) => {
+            state.isAddingToWatchedList = true;
+        },
+        completeAddToWatchList: (state: UserState, action: PayloadAction<Product>) => {
+            state.isAddingToWatchedList = false;
+            state.watchedProducts.push(action.payload);
+        },
     },
 });
 
-export const { requestUser, completeGetUser, requestUpdateUser, completeUpdateUser } = userSlice.actions;
+export const {
+    requestUser,
+    completeGetUser,
+    requestUpdateUser,
+    completeUpdateUser,
+    requestAddToWatchList,
+    completeAddToWatchList,
+} = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
 

@@ -26,7 +26,7 @@ export const Paginator = (props: PaginatorProps) => {
                         setPage(page - 1);
 
                         if (onPrevClicked) {
-                            onPrevClicked(page - 1);
+                            onPrevClicked(page - 2);
                         }
                     }
                 }}
@@ -52,7 +52,7 @@ export const Paginator = (props: PaginatorProps) => {
                                         setPage(index + 1);
 
                                         if (onItemSelected) {
-                                            onItemSelected(index + 1);
+                                            onItemSelected(index);
                                         }
                                     }}
                                 >
@@ -74,7 +74,7 @@ export const Paginator = (props: PaginatorProps) => {
                         setPage(page + 1);
 
                         if (onNextClicked) {
-                            onNextClicked(page + 1);
+                            onNextClicked(page);
                         }
                     }
                 }}

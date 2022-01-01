@@ -1,12 +1,15 @@
 import { Icon } from "@iconify/react";
-import { ContentState, EditorState } from "draft-js";
+import { ContentState, convertToRaw, EditorState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import React, { useState } from "react";
-import { Col, Image, Row } from "react-bootstrap";
+import { Button, Col, Image, Row, Spinner } from "react-bootstrap";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Link } from "react-router-dom";
-import { apiRoute } from "../../constants";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { requestUpdateProductDescription, setEditProduct } from "../../app/reducers/product-slice";
+import { apiRoute, colors } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
 import Bidder from "../product/bid-info/Bidder";
@@ -21,6 +24,14 @@ interface ProductDetailProps {
 }
 
 export const ProductDetail = ({ product }: ProductDetailProps) => {
+    const dispatch = useAppDispatch();
+    const { isEditProduct, isUpdatingProductDescription } = useAppSelector((state) => state.productState);
+
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const onEditorStateChange = (editorState: EditorState) => {
+        setEditorState(editorState);
+    };
+
     const [showBidModal, setShowBidModal] = useState(false);
 
     const showBidModalHandler = () => {
@@ -29,6 +40,19 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
 
     const closeBidModalHandler = () => {
         setShowBidModal(false);
+    };
+
+    const onCancelEdit = () => {
+        dispatch(setEditProduct(false));
+    };
+
+    const onSave = () => {
+        dispatch(setEditProduct(false));
+
+        const newDescription = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+        if (newDescription.trim().length > 0) {
+            dispatch(requestUpdateProductDescription({ product, description: newDescription.trim() }));
+        }
     };
 
     return (
@@ -95,7 +119,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                             const editorState = EditorState.createWithContent(contentState);
 
                             return (
-                                <div key={index} className="my-2">
+                                <div key={index}>
                                     <div className={`${classes["description-label"]}`}>
                                         <Icon icon="bx:bx-pen" />
                                         <span>{productDescription?.createdAt?.toLocaleDateString("en-AU")}</span>
@@ -107,7 +131,38 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                                 </div>
                             );
                         })}
+                        {isUpdatingProductDescription && (
+                            <Spinner animation="border" variant="primary" className="d-block mx-auto" />
+                        )}
                     </div>
+
+                    {isEditProduct && (
+                        <div>
+                            <Editor
+                                editorState={editorState}
+                                onEditorStateChange={onEditorStateChange}
+                                editorClassName={`${classes["editor"]} px-3`}
+                            />
+
+                            <div className="d-flex justify-content-end mt-3">
+                                <Button className="mx-1" style={{ backgroundColor: colors.primary }} onClick={onSave}>
+                                    Lưu Thay Đổi
+                                </Button>
+
+                                <Button
+                                    className="mx-1"
+                                    style={{
+                                        backgroundColor: colors.subPrimary,
+                                        color: colors.subSecondary,
+                                        borderColor: colors.primary,
+                                    }}
+                                    onClick={onCancelEdit}
+                                >
+                                    Hủy
+                                </Button>
+                            </div>
+                        </div>
+                    )}
                 </Col>
 
                 <Col className={`p-3 mx-2 d-inline-block h-25 ${classes["field-content"]}`}>

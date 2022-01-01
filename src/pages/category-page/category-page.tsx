@@ -29,9 +29,10 @@ export const CategoryPage = () => {
                 keyword: keyword,
                 categoryId: selectedCategoryId,
                 subCategoryId: subCategoryId,
+                page: 0,
             }),
         );
-    }, [selectedCategoryId]);
+    }, [selectedCategoryId, subCategoryId]);
 
     const onPaginationClick = (page: number) => {
         dispatch(

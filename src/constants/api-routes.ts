@@ -12,6 +12,7 @@ export const apiRoute = {
     POST_PRODUCT: "post-product",
     SELLER: "seller",
     USER: "user",
+    WATCH_LIST: "watch-list",
 };
 
 export const API_HOST = "https://doran-backend.eastus.azurecontainer.io/api";

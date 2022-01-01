@@ -14,6 +14,11 @@ export interface SearchProductRequest {
     page?: number;
 }
 
+export interface UpdateProductDescriptionRequest {
+    product: Product;
+    description: string;
+}
+
 export interface ProductResponseWithPaging {
     products: Product[];
     currentPage: number;
@@ -70,6 +75,30 @@ export const productService = {
             return undefined;
         }
     },
+    async updateProductDescription({ product, description }: UpdateProductDescriptionRequest): Promise<boolean> {
+        try {
+            const request = {
+                description,
+            };
+
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCT}/${product.id}`,
+                request,
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken?.length > 0) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            return true;
+        } catch (error: any) {
+            console.error(error.response);
+            return false;
+        }
+    },
     async search({
         keyword = "",
         categoryId = 1,
@@ -80,7 +109,7 @@ export const productService = {
         const requestParams: any = {
             text: keyword,
             categoryId,
-            subCategoryId,
+            subcategoryId: subCategoryId,
             sortBy,
             page: page ?? 0,
             size: 12,
@@ -96,5 +125,26 @@ export const productService = {
         const totalPages: number = response?.data?.totalPages;
 
         return { products, totalPages, currentPage: requestParams.page + 1 };
+    },
+    async addToWatchList(product: Product): Promise<boolean> {
+        try {
+            const response = await axios.post(
+                `${API_HOST}/${apiRoute.USER}/${apiRoute.WATCH_LIST}/${apiRoute.PRODUCT}/${product.id}`,
+                {},
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            const accessToken = response.data?.responseHeader?.accessToken;
+            if (accessToken) {
+                authUtils.updateAccessToken(accessToken);
+            }
+
+            return true;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return false;
+        }
     },
 };

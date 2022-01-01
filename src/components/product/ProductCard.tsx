@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { apiRoute } from "../../constants";
+import { apiRoute, timeConstants } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
 import Bidder from "./bid-info/Bidder";
@@ -11,6 +11,30 @@ import ProductModal from "./modal/product/ProductBidModal";
 import Heading from "./price-heading/Heading";
 import classes from "./ProductCard.module.css";
 import ProductOptions from "./ProductOptions";
+import updateLocale from "dayjs/plugin/updateLocale";
+import relativeTime from "dayjs/plugin/relativeTime";
+import dayjs from "dayjs";
+
+dayjs.extend(updateLocale);
+dayjs.extend(relativeTime);
+
+dayjs.updateLocale("en", {
+    relativeTime: {
+        future: "Trong %s",
+        past: "%s trước",
+        s: "Vài giây",
+        m: "1 phút",
+        mm: "%d minutes",
+        h: "1 giờ",
+        hh: "%d giờ",
+        d: "1 ngày",
+        dd: "%d ngày",
+        M: "1 tháng",
+        MM: "%d tháng",
+        y: "1 năm",
+        yy: "%d năm",
+    },
+});
 
 /**
  * Product card props include:
@@ -20,17 +44,6 @@ import ProductOptions from "./ProductOptions";
 export interface ProductCardProps {
     product?: Product;
 }
-
-const DUMMY_DATA = {
-    img: "../../assets/images/banner.jpg",
-    name: "Product very long name but i still want to play game",
-    totalBidCount: 72,
-    endDate: "end date",
-    postDate: "post date",
-    currentBidPrice: "2000000",
-    bidderImg: "../../assets/images/banner.jpg",
-    buyPrice: "2000000",
-};
 
 export default function ProductCard({ product }: ProductCardProps) {
     const [showBidModal, setShowBidModal] = React.useState(false);
@@ -45,15 +58,26 @@ export default function ProductCard({ product }: ProductCardProps) {
     };
 
     React.useEffect(() => {
-        if (product?.endDate) {
-            const delta = product?.endDate.getMilliseconds() - Date.now();
-            if (delta > 0 && delta < 24 * 60 * 60 * 1000) {
+        if (product?.postDate) {
+            const delta = dayjs(new Date()).diff(product?.postDate, "minute") - timeConstants.TIMEZONE_DIFF_MINUTE;
+
+            if (delta < 30) {
                 setIsNewProd(true);
             } else {
                 setIsNewProd(false);
             }
         }
     }, [product]);
+
+    const renderRelativeEndDate = (endDate?: Date) => {
+        const delta = dayjs(endDate).diff(new Date(), "minute") - timeConstants.TIMEZONE_DIFF_MINUTE;
+
+        if (delta < 3 * 24 * 60) {
+            return dayjs(Date.now()).to(endDate);
+        }
+
+        return endDate?.toLocaleDateString("en-AU");
+    };
 
     const navigate = useNavigate();
 
@@ -83,7 +107,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     <div className={classes.date}>
                         <div className={classes["end-date"]}>
                             <div>Kết thúc</div>
-                            <div className={classes.times}>{product?.endDate?.toLocaleDateString("en-AU")}</div>
+                            <div className={classes.times}>{renderRelativeEndDate(product?.endDate)}</div>
                         </div>
                         <div className={classes["post-date"]}>
                             <div>Đăng từ</div>
@@ -99,7 +123,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                         <div className={classes["buy"]}>
                             <Icon icon="emojione-monotone:money-bag" className={classes.icon} width={42} height={45} />
                             <Heading content="Mua ngay" color="#ee4730" />
-                            <div className={classes.price}>{formatPrice(product?.currentPrice ?? 0)}</div>
+                            <div className={classes.price}>{formatPrice(product?.buyPrice ?? 0)}</div>
                         </div>
                     </div>
                     <div className={classes["card-bottom"]}>
