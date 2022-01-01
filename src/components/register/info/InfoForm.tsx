@@ -38,7 +38,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
                 goToNextStep();
             }
         }
-    });
+    }, [isSubmitClick, pending]);
 
     const onSubmitHandler = () => {
         setIsSubmitClick(true);
