@@ -1,6 +1,6 @@
 import axios from "axios";
 import { apiRoute, API_HOST } from "../constants";
-import { User } from "../models";
+import { Product, User } from "../models";
 import { authUtils } from "../utils";
 
 export const userService = {
@@ -32,6 +32,26 @@ export const userService = {
             return true;
         } catch (error) {
             return false;
+        }
+    },
+    async getUserSellingProducts(): Promise<Product[] | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCTS}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page: 0,
+                    size: 99,
+                },
+            });
+
+            const products: Product[] = response.data?.responseBody?.content?.map((product: Product) =>
+                Product.fromData(product),
+            );
+
+            return products;
+        } catch (error: any) {
+            console.log(error?.response?.data);
+            return undefined;
         }
     },
 };

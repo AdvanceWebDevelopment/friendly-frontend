@@ -50,7 +50,8 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                             <span className={`mx-1`}>/</span>
                             <Link
                                 className={classes["breadcrumb-item"]}
-                                to={`/${apiRoute.CATEGORY}/${product?.category?.id}/${product?.subCategory?.id}`}
+                                to={`/${apiRoute.CATEGORY}/${product?.category?.id}`}
+                                state={{ subCategoryId: product?.subCategory?.id }}
                             >
                                 {product?.subCategory?.name}
                             </Link>

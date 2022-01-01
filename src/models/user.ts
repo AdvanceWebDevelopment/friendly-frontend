@@ -1,3 +1,5 @@
+import { Product } from ".";
+
 export enum UserRole {
     ADMIN = 0,
     BIDDER = 1,
@@ -12,6 +14,7 @@ export class User {
     avatar?: string;
     points?: number;
     role?: UserRole;
+    sellingProducts?: Product[];
 
     static fromData(data: any): User {
         return {
@@ -21,6 +24,7 @@ export class User {
             avatar: data?.imageUrl,
             role: data?.role,
             dob: new Date(data?.birthDay),
+            points: data?.point,
         };
     }
 

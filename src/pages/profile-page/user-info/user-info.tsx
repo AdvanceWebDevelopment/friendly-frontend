@@ -112,6 +112,9 @@ export const UserInfo = () => {
                                         }}
                                         dateFormat="dd/MM/yyyy"
                                         className={`px-3`}
+                                        showYearDropdown
+                                        scrollableYearDropdown
+                                        yearDropdownItemNumber={60}
                                     />
                                 </div>
                             </div>
