@@ -10,8 +10,8 @@ import {
 import classes from "./register-page.module.css";
 
 const InfoForm = React.lazy(() => import("../../components/register/info/InfoForm"));
-const OtpForm = React.lazy(() => import("../../components/forgot-password/otp/OtpForm"));
-const Finish = React.lazy(() => import("../../components/forgot-password/finish/Finish"));
+const OtpForm = React.lazy(() => import("../../components/register/otp/OtpForm"));
+const Finish = React.lazy(() => import("../../components/register/finish/Finish"));
 
 // export interface RegisterPageProps { }
 
@@ -60,7 +60,7 @@ export const RegisterPage = () => {
             )}
             {currentStep === steps[2] && (
                 <React.Suspense fallback={<Spinner animation="border" variant="primary" className="d-block mx-auto" />}>
-                    <Finish message="đăng ký" userLastName="Andy" />
+                    <Finish message="đăng ký" />
                 </React.Suspense>
             )}
         </div>

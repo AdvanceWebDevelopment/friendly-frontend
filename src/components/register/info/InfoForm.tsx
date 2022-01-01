@@ -18,12 +18,18 @@ export interface InfoFormProps {
     goToNextStep: () => void;
 }
 
+export interface InputField {
+    value: string;
+    error: string;
+}
+
 export default function InfoForm({ goToNextStep }: InfoFormProps) {
-    const [name, setName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [confirmPwd, setConfirmPwd] = React.useState("");
+    const [name, setName] = React.useState<InputField>({ value: "", error: "" });
+    const [email, setEmail] = React.useState<InputField>({ value: "", error: "" });
+    const [password, setPassword] = React.useState<InputField>({ value: "", error: "" });
+    const [confirmPwd, setConfirmPwd] = React.useState<InputField>({ value: "", error: "" });
     const [isAgree, setIsAgree] = React.useState(false);
+    const [captchaToken, setCaptchaToken] = React.useState<InputField>({ value: "", error: "" });
     const reCaptchaRef = React.useRef<ReCAPTCHA>(null);
     const [isSubmitClick, setIsSubmitClick] = React.useState(false);
     const dispatch = useAppDispatch();
@@ -40,43 +46,63 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
         }
     }, [isSubmitClick, pending]);
 
-    const onSubmitHandler = () => {
+    const onSubmitHandler = (e: React.SyntheticEvent) => {
+        e.preventDefault();
         setIsSubmitClick(true);
-        const captchaToken = reCaptchaRef.current?.getValue();
+        setCaptchaToken({ value: reCaptchaRef.current?.getValue() as string } as InputField);
         if (
-            name.length === 0 ||
-            !validateEmail(email) ||
-            !validatePassword(password) ||
-            password !== confirmPwd ||
-            !isAgree ||
+            name.value.length !== 0 &&
+            validateEmail(email.value) &&
+            validatePassword(password.value) &&
+            password.value === confirmPwd.value &&
+            isAgree &&
             captchaToken
         ) {
-            alert("Điền đơn đăng ký đi");
-        } else {
             const req: RegisterRequest = {
-                email: email,
-                name: name,
-                password: password,
-                captchaToken: captchaToken || "",
+                email: email.value,
+                name: name.value,
+                password: password.value,
+                captchaToken: captchaToken.value || "",
             };
             dispatch(registerActions.sendInfo(req));
+        } else {
+            if (name.value.length === 0) {
+                name.error = "Tên không được để trống";
+            }
+            if (!validateEmail(email.value)) {
+                email.error = "Email không hợp lệ";
+            }
+            if (!validatePassword(password.value)) {
+                password.error = "Password phải có tối thiểu 6 ký tự bao gồm ký tự in hoa, in thường và chữ số";
+            }
+            if (password.value !== confirmPwd.value) {
+                confirmPwd.error = "Mã xác nhận không trùng khớp";
+            }
+            if (!isAgree) {
+                alert("Bạn chưa đồng ý với điều khoản sử dụng");
+            }
+            if (!captchaToken) {
+                alert("Vui lòng xác nhận captcha");
+            }
         }
     };
 
+    const dummyFunc = () => {};
+
     const receiveName = (name: string) => {
-        setName(name);
+        setName({ value: name } as InputField);
     };
 
     const receiveEmail = (email: string) => {
-        setEmail(email);
+        setEmail({ value: email } as InputField);
     };
 
     const receivePassword = (password: string) => {
-        setPassword(password);
+        setPassword({ value: password } as InputField);
     };
 
     const receiveConfirmPassword = (confirmPassword: string) => {
-        setConfirmPwd(confirmPassword);
+        setConfirmPwd({ value: confirmPassword } as InputField);
     };
 
     const handleCheckboxOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,24 +110,28 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     };
 
     return (
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={onSubmitHandler}>
             <div className={classes["single-input-wrapper"]}>
                 <div className={classes["last-name"]}>
-                    <Label htmlFor="last-name" content="Họ" />
+                    <Label htmlFor="last-name" content="Họ và tên" />
                     <InputField id="last-name" type="text" receiveValue={receiveName} />
+                    {name.error && <span className={classes.error}>{name.error}</span>}
                 </div>
             </div>
             <div className={classes["single-input-wrapper"]}>
                 <Label htmlFor="email" content="Email" />
                 <InputField id="email" type="email" receiveValue={receiveEmail} />
+                {email.error && <span className={classes.error}>{email.error}</span>}
             </div>
             <div className={classes["single-input-wrapper"]}>
                 <Label htmlFor="password" content="Mật khẩu" />
                 <ToggleInputField id="password" receiveValue={receivePassword} />
+                {password.error && <span className={classes.error}>{password.error}</span>}
             </div>
             <div className={classes["single-input-wrapper"]}>
                 <Label htmlFor="confirm-pwd" content="Nhập lại mật khẩu" />
                 <ToggleInputField id="confirm-pwd" receiveValue={receiveConfirmPassword} />
+                {confirmPwd.error && <span className={classes.error}>{confirmPwd.error}</span>}
             </div>
             <div className={classes["terms-of-service-checkbox"]}>
                 <input
@@ -118,7 +148,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
             </div>
             <div className={classes.bottom}>
                 <ReCAPTCHA sitekey={KEY} ref={reCaptchaRef} size="normal" />
-                <NextButton onSubmit={onSubmitHandler} />
+                <NextButton onSubmit={dummyFunc} />
             </div>
         </form>
     );

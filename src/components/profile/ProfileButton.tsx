@@ -31,11 +31,17 @@ export default function ProfileButton({ name, avatar }: ProfileButtonProps) {
     return (
         <div className={classes["btn-profile-comp"]} ref={ref}>
             <button className={classes["btn-dropdown"]} onClick={() => setIsDropdownOpen((prev) => !prev)}>
-                <span className={classes["username"]}>{name.substring(0, name.indexOf(" "))}</span>
+                <span className={classes["username"]}>
+                    {name.indexOf(" ") !== -1 ? name.substring(0, name.indexOf(" ")) : name}
+                </span>
                 <Icon icon="ant-design:caret-down-filled" />
                 {isDropdownOpen && <ProfileDropdowm />}
             </button>
-            <img src={avatar} className={classes["user-img"]} onClick={() => navigate(apiRoute.PROFILE)} />
+            {avatar ? (
+                <img src={avatar} className={classes["user-img"]} onClick={() => navigate(apiRoute.PROFILE)} />
+            ) : (
+                <div className={classes["user-img-blank"]} onClick={() => navigate(apiRoute.PROFILE)}></div>
+            )}
         </div>
     );
 }
