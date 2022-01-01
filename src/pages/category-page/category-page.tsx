@@ -32,7 +32,7 @@ export const CategoryPage = () => {
                 page: 0,
             }),
         );
-    }, [selectedCategoryId]);
+    }, [selectedCategoryId, subCategoryId]);
 
     const onPaginationClick = (page: number) => {
         dispatch(

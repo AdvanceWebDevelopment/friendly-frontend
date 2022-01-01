@@ -50,7 +50,6 @@ function* register(req: RegisterRequest) {
 function* activate(req: ActivateRequest) {
     try {
         const response: ActivateResponse = yield call(registerService.activate, req);
-        console.log(response);
         if (response?.status === ACTIVATE_STATUS.OK) {
             yield put(registerActions.sendOtpSuccess(req.otp));
         } else {

@@ -34,7 +34,6 @@ export default function Finish({ message }: FinishProps) {
     }, [counter]);
 
     const login = () => {
-        console.log("Login");
         const req: LoginRequest = {
             email: email,
             password: password,

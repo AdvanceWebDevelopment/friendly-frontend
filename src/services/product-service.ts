@@ -109,7 +109,7 @@ export const productService = {
         const requestParams: any = {
             text: keyword,
             categoryId,
-            subCategoryId,
+            subcategoryId: subCategoryId,
             sortBy,
             page: page ?? 0,
             size: 12,
