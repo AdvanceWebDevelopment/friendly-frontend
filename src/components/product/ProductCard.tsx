@@ -72,8 +72,6 @@ export default function ProductCard({ product }: ProductCardProps) {
     const renderRelativeEndDate = (endDate?: Date) => {
         const delta = dayjs(endDate).diff(new Date(), "minute") - timeConstants.TIMEZONE_DIFF_MINUTE;
 
-        console.log(delta);
-
         if (delta < 3 * 24 * 60) {
             return dayjs(Date.now()).to(endDate);
         }
