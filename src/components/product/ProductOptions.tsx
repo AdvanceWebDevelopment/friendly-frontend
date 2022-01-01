@@ -3,6 +3,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { setEditProduct } from "../../app/reducers/product-slice";
+import { requestAddToWatchList } from "../../app/reducers/user-slice";
 import { apiRoute } from "../../constants";
 import { Product, UserRole } from "../../models";
 import HistoryBidModal from "./modal/history/HistoryBidModal";
@@ -71,6 +72,10 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
         navigate(`/${apiRoute.PRODUCT}/${product.id}`);
     };
 
+    const onWatchProduct = () => {
+        dispatch(requestAddToWatchList(product));
+    };
+
     return (
         <>
             <div className={classes.options} ref={ref}>
@@ -83,7 +88,13 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
                             <Icon icon="bx:bx-dollar-circle" width={24} height={24} className={classes.icon} />
                             <div className={classes.headings}>Mua Ngay</div>
                         </li>
-                        <li className={classes.row} onClick={dummyFunc}>
+                        <li
+                            className={classes.row}
+                            onClick={() => {
+                                dummyFunc();
+                                onWatchProduct();
+                            }}
+                        >
                             <Icon icon="akar-icons:eye" width={24} height={24} className={classes.icon} />
                             <div className={classes.headings}>Theo Dõi</div>
                         </li>
