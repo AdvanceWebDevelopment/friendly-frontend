@@ -74,7 +74,7 @@ const registerSlice = createSlice({
 
         sendOtpSuccess(state, action: PayloadAction<string>) {
             state.otp = action.payload;
-            state.isPending = true;
+            state.isPending = false;
             state.error = "";
         },
     },
