@@ -1,12 +1,29 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { all, call, put, take } from "redux-saga/effects";
+import { all, call, put, take, takeLatest } from "redux-saga/effects";
+import { Category } from "../../models";
 import { categoryService, ProductResponseWithPaging, productService, SearchProductRequest } from "../../services";
 import {
+    completeGetCategories,
     completeGetProductsByCategoryId,
     completeSearchProduct,
+    requestGetCategories,
     requestProductsByCategoryId,
     requestSearchProduct,
 } from "../reducers/category-slice";
+
+function* watchGetCategories() {
+    while (true) {
+        try {
+            yield take(requestGetCategories.type);
+
+            const categories: Category[] = yield call(categoryService.getCategories);
+
+            yield put(completeGetCategories(categories));
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
 
 function* watchRequestProductByCategory() {
     while (true) {
@@ -44,5 +61,5 @@ function* getProductByCategoryId(categoryId: number, currentPage: number) {
 }
 
 export function* categorySaga() {
-    yield all([watchRequestProductByCategory(), watchRequestSearchProduct()]);
+    yield all([watchRequestProductByCategory(), watchRequestSearchProduct(), watchGetCategories()]);
 }

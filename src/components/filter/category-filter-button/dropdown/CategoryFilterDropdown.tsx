@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useAppDispatch, useAppSelector } from "../../../../app/hook";
-import { getCategories } from "../../../../app/reducers/category-slice";
+import { requestGetCategories } from "../../../../app/reducers/category-slice";
 import { Category, SubCategory } from "../../../../models";
 import classes from "./CategoryFilterDropdown.module.css";
 export interface CategoryFilterDropdownProps {

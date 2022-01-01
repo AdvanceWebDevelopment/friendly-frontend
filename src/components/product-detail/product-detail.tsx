@@ -50,14 +50,15 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                             <span className={`mx-1`}>/</span>
                             <Link
                                 className={classes["breadcrumb-item"]}
-                                to={`/${apiRoute.CATEGORY}/${product?.category?.id}/${product?.subCategory?.id}`}
+                                to={`/${apiRoute.CATEGORY}/${product?.category?.id}`}
+                                state={{ subCategoryId: product?.subCategory?.id }}
                             >
                                 {product?.subCategory?.name}
                             </Link>
                         </div>
 
                         <div>
-                            <ProductOptions />
+                            <ProductOptions product={product} />
                         </div>
                     </div>
 
@@ -136,7 +137,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
 
                     <div className="d-flex justify-content-between align-items-center mt-5">
                         <BidButton openModal={showBidModalHandler} />
-                        <ProductOptions />
+                        <ProductOptions product={product} />
                     </div>
                 </Col>
                 <ProductModal show={showBidModal} handleClose={closeBidModalHandler} />

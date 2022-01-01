@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import * as React from "react";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { getCategories } from "../../../app/reducers/category-slice";
+import { requestGetCategories } from "../../../app/reducers/category-slice";
 import { SubCategory } from "../../../models";
 import classes from "./CategoryFilterButton.module.css";
 import CategoryFilterDropdown from "./dropdown/CategoryFilterDropdown";
@@ -17,7 +17,7 @@ export default function CategoryFilterButton({ onSubcategoryChange }: CategoryFi
     const dispatch = useAppDispatch();
     React.useEffect(() => {
         if (categories.length === 0) {
-            dispatch(getCategories());
+            dispatch(requestGetCategories());
         }
     }, []);
 

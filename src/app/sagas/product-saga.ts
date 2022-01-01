@@ -40,11 +40,12 @@ function* watchRequestUploadProduct() {
         try {
             const action: PayloadAction<Product> = yield take(requestUploadProduct.type);
 
-            const product: Product | string = yield call(productService.uploadProduct, action.payload);
+            const product: Product = yield call(productService.uploadProduct, action.payload);
 
-            if (typeof product === "string") {
-                alert(product);
+            if (!product) {
+                alert("Đã có lỗi xảy ra trong quá trình đăng bán. Vui lòng thử lại sau.");
             } else {
+                alert("Sản phẩm của bạn đăng bán thành công.");
                 yield put(completeUploadProduct(product));
             }
         } catch (error) {}

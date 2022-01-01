@@ -7,12 +7,6 @@ import { UserRole } from "../../models";
 import classes from "./profile-page.module.css";
 
 export const ProfilePage = () => {
-    const navigate = useNavigate();
-    useEffect(() => {
-        // Default route
-        navigate(`/${apiRoute.PROFILE}/user-info`);
-    }, []);
-
     const items = [
         { name: "Thông Tin Cá Nhân", value: "user-info" },
         { name: "Điểm Và Đánh Giá", value: "user-points" },

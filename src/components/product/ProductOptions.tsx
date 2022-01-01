@@ -1,11 +1,19 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
+import { useAppSelector } from "../../app/hook";
+import { Product, UserRole } from "../../models";
 import HistoryBidModal from "./modal/history/HistoryBidModal";
 import classes from "./ProductOptions.module.css";
 
-export default function ProductOptions() {
+interface ProductOptionsProps {
+    product: Product;
+}
+
+export default function ProductOptions({ product }: ProductOptionsProps) {
     const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
     const ref = React.useRef<HTMLDivElement>(null);
+
+    const { user } = useAppSelector((state) => state.userState);
 
     const [showHistoryModal, setShowHistoryModal] = React.useState(false);
 
@@ -38,6 +46,20 @@ export default function ProductOptions() {
         setShowHistoryModal(false);
     };
 
+    const sellingProducts = user.sellingProducts ?? [];
+
+    const shouldHideEdit = () => {
+        if (user.role === UserRole.BIDDER) {
+            return true;
+        }
+
+        if (sellingProducts.find((item) => item.id === product?.id)) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+
     return (
         <>
             <div className={classes.options} ref={ref}>
@@ -58,11 +80,11 @@ export default function ProductOptions() {
                             <Icon icon="bi:table" width={20} height={20} className={classes.icon} />
                             <div className={classes.headings}>Lịch Sử Giá</div>
                         </li>
-                        <li className={classes.row} onClick={dummyFunc}>
+                        <li className={classes.row} onClick={dummyFunc} hidden={shouldHideEdit()}>
                             <Icon icon="clarity:note-edit-line" width={24} height={24} className={classes.icon} />
                             <div className={classes.headings}>Chỉnh Sửa</div>
                         </li>
-                        <li className={classes.row} onClick={dummyFunc}>
+                        <li className={classes.row} onClick={dummyFunc} hidden={user.role !== UserRole.ADMIN}>
                             <Icon icon="carbon:delete" width={24} height={24} className={classes["icon-last"]} />
                             <div className={classes.headings}>Xóa</div>
                         </li>

@@ -27,7 +27,6 @@ export const userSlice = createSlice({
         completeGetUser: (state: UserState, action: PayloadAction<User>) => {
             state.isLoadingUser = false;
             state.user = action.payload;
-            console.log("End");
         },
         requestUpdateUser: (state: UserState, action: PayloadAction<User>) => {
             state.isLoadingUser = true;

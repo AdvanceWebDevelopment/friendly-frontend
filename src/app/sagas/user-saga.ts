@@ -1,6 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
-import { User } from "../../models";
+import { User, UserRole } from "../../models";
 import { userService } from "../../services";
 import { completeGetUser, completeUpdateUser, requestUpdateUser, requestUser } from "../reducers/user-slice";
 
@@ -9,6 +9,11 @@ function* watchRequestUser() {
         try {
             yield take(requestUser.type);
             const user: User = yield call(userService.getUser);
+
+            if (user && user.role !== UserRole.BIDDER) {
+                user.sellingProducts = yield call(userService.getUserSellingProducts);
+            }
+
             yield put(completeGetUser(user));
         } catch (error) {}
     }

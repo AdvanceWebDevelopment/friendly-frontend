@@ -3,6 +3,7 @@ export const apiRoute = {
     CATEGORY: "category",
     SUB_CATEGORY: "subcategory",
     PRODUCT: "product",
+    PRODUCTS: "products",
     PROFILE: "profile",
     LOGIN: "login",
     FORGOT: "forgot-pwd",

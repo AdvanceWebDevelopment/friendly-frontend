@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
-import { EditorState, convertToRaw } from "draft-js";
+import { convertToRaw, EditorState } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import React, { useRef, useState } from "react";
 import {
     Button,
@@ -14,17 +15,15 @@ import {
     InputGroup,
     Row,
 } from "react-bootstrap";
+import DatePicker from "react-datepicker";
 import { Editor } from "react-draft-wysiwyg";
-import htmlToDraft from "html-to-draftjs";
-import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { requestUploadProduct } from "../../app/reducers/product-slice";
 import { apiRoute, colors } from "../../constants";
 import { Category, Product, ProductDescription, SubCategory } from "../../models";
 import classes from "./post-product-page.module.css";
-import { imageService } from "../../services";
-import { requestUploadProduct } from "../../app/reducers/product-slice";
-import { useNavigate } from "react-router-dom";
 
 interface PostError {
     name?: string;
@@ -126,6 +125,9 @@ export const PostProductPage = () => {
         }
     };
 
+    const [expriedDate, setExpriedDate] = useState(new Date());
+    const [autoExtend, setAutoExtend] = useState(false);
+
     const { categories } = useAppSelector((state) => state.categoryState);
 
     const onCategoryChange = (category: Category) => {
@@ -211,6 +213,8 @@ export const PostProductPage = () => {
                     ...product,
                     description: [description],
                     imageFiles: imageFiles,
+                    endDate: expriedDate,
+                    autoExtendTime: autoExtend,
                 }),
             );
 
@@ -350,6 +354,39 @@ export const PostProductPage = () => {
                                         <input id="isHavingBuyPrice" type="checkbox" onChange={onBuyPriceEnable} />
                                         <label className="mx-2" htmlFor="isHavingBuyPrice">
                                             Có giá mua ngay
+                                        </label>
+                                    </div>
+                                </FormGroup>
+
+                                <FormGroup className="my-3">
+                                    <div className={`d-flex justify-content-between ${classes["text"]}`}>
+                                        <InputGroup.Text className={`${classes["label"]}`}>
+                                            Thời Gian Kết Thúc
+                                        </InputGroup.Text>
+                                        <div>
+                                            <DatePicker
+                                                selected={expriedDate}
+                                                minDate={new Date()}
+                                                onChange={(date) => {
+                                                    if (date) {
+                                                        setExpriedDate(date);
+                                                    }
+                                                }}
+                                                dateFormat="dd/MM/yyyy h:mm aa"
+                                                className={`px-3`}
+                                                showTimeSelect
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="d-flex justify-content-end align-items-center">
+                                        <input
+                                            id="isAutoExtend"
+                                            type="checkbox"
+                                            onChange={(e) => setAutoExtend(e.target.checked)}
+                                        />
+                                        <label className="mx-2" htmlFor="isAutoExtend">
+                                            Tự Động Gia Hạn Khi Có Người Đặt Giá
                                         </label>
                                     </div>
                                 </FormGroup>

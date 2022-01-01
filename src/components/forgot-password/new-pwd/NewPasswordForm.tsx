@@ -30,7 +30,6 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
     const email = useAppSelector(selectEmail);
 
     React.useEffect(() => {
-        console.log(pending);
         if (!pending) {
             if (errorMessage.length > 0) {
                 alert(errorMessage);
@@ -42,7 +41,6 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
 
     const onSubmitHandler = () => {
         if (newPassword === confirmPassword) {
-            console.log("Submit");
             goToNextStep();
         } else {
             if (newPassword !== confirmPassword) {

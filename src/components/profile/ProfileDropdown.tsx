@@ -35,7 +35,6 @@ export default function ProfileDropdowm() {
                         if (item.link) {
                             navigate(item.link);
                         } else {
-                            console.log("A");
                             localStorage.removeItem(authConstants.ACCESS_TOKEN);
                             localStorage.removeItem(authConstants.REFRESH_TOKEN);
                             navigate(`/`);

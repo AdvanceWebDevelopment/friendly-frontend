@@ -29,7 +29,6 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
     const email = useAppSelector(selectEmail);
 
     React.useEffect(() => {
-        console.log(pending);
         if (!pending) {
             if (errorMessage.length > 0) {
                 alert(errorMessage);
