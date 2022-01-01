@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getOutputFileNames } from "typescript";
 import { RootState } from "../store";
 import { selectAuthError } from "./auth-slice";
 
@@ -44,16 +45,22 @@ export interface ForgotPasswordResponse {
 }
 
 export interface ForgotPasswordState {
-    passwordState: ForgotPasswordRequest;
+    email: string;
+    newPassword: string;
     error: string;
-    isPending: boolean;
+    isEmailPending: boolean;
+    isOtpPending: boolean;
+    isNewPasswordPending: boolean;
     otp: string;
 }
 
 const initialState: ForgotPasswordState = {
-    passwordState: { email: "" },
+    email: "",
+    newPassword: "",
     error: "",
-    isPending: true,
+    isEmailPending: true,
+    isOtpPending: true,
+    isNewPasswordPending: true,
     otp: "",
 };
 
@@ -61,31 +68,29 @@ const forgotPasswordSlice = createSlice({
     name: "forgot-pwd",
     initialState,
     reducers: {
-        setEmail(state, action: PayloadAction<string>) {
-            state.passwordState.email = action.payload;
-            state.error = "";
-            state.isPending = false;
-        },
-        setError(state, action: PayloadAction<string>) {
-            state.error = action.payload;
-            state.isPending = false;
-        },
-
-        setIsPending(state, action: PayloadAction<boolean>) {
-            state.isPending = action.payload;
-        },
-
-        setOtp(state, action: PayloadAction<string>) {
-            state.otp = action.payload;
-        },
         getOtp(state, action: PayloadAction<ForgotPasswordRequest>) {
-            state.isPending = true;
+            state.isEmailPending = true;
+        },
+        getOtpSuccess(state, action: PayloadAction<string>) {
+            state.email = action.payload;
+            state.isEmailPending = false;
         },
         sendOtp(state, action: PayloadAction<OtpRequest>) {
-            state.isPending = true;
+            state.isOtpPending = true;
         },
-        resetPassword(state, action: PayloadAction<ResetPasswordRequest>) {
-            state.isPending = true;
+        sendOtpSuccess(state, action: PayloadAction<string>) {
+            state.otp = action.payload;
+            state.isOtpPending = false;
+        },
+        sendNewPassword(state, action: PayloadAction<ResetPasswordRequest>) {
+            state.isNewPasswordPending = true;
+        },
+        sendNewPasswordSuccess(state, action: PayloadAction<string>) {
+            state.isNewPasswordPending = false;
+            state.newPassword = action.payload;
+        },
+        failure(state, action: PayloadAction<string>) {
+            state.error = action.payload;
         },
     },
 });
@@ -97,7 +102,10 @@ export const forgotPasswordReducer = forgotPasswordSlice.reducer;
 export const forgotPasswordActions = forgotPasswordSlice.actions;
 
 // Selectors
-export const selectEmail = (state: RootState) => state.forgotPasswordState.passwordState.email;
-export const selectError = (state: RootState) => state.forgotPasswordState.error;
-export const selectIsPending = (state: RootState) => state.forgotPasswordState.isPending;
-export const selectOtp = (state: RootState) => state.forgotPasswordState.otp;
+export const selectForgotPasswordEmail = (state: RootState) => state.forgotPasswordState.email;
+export const selectForgotPasswordError = (state: RootState) => state.forgotPasswordState.error;
+export const selectForgotPasswordNew = (state: RootState) => state.forgotPasswordState.newPassword;
+export const selectForgotPasswordOtp = (state: RootState) => state.forgotPasswordState.otp;
+export const selectEmailPending = (state: RootState) => state.forgotPasswordState.isEmailPending;
+export const selectOtpPending = (state: RootState) => state.forgotPasswordState.isOtpPending;
+export const selectNewPasswordPending = (state: RootState) => state.forgotPasswordState.isNewPasswordPending;

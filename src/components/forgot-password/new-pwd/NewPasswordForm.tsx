@@ -1,17 +1,17 @@
 import * as React from "react";
-import ToggleInputField from "../../common/input-field/toggle/ToggleInputField";
-import NextButton from "../../common/btn-next/NextButton";
-import classes from "./NewPasswordForm.module.css";
+import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import {
     forgotPasswordActions,
     ResetPasswordRequest,
-    selectEmail,
-    selectError,
-    selectIsPending,
-    selectOtp,
+    selectForgotPasswordEmail,
+    selectForgotPasswordError,
+    selectForgotPasswordOtp,
+    selectNewPasswordPending,
 } from "../../../app/reducers/forgot-pwd-slice";
-import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { validatePassword } from "../../../utils/helpers";
+import { validatePassword } from "../../../utils";
+import NextButton from "../../common/btn-next/NextButton";
+import ToggleInputField from "../../common/input-field/toggle/ToggleInputField";
+import classes from "./NewPasswordForm.module.css";
 
 export interface NewPasswordFormProps {
     goToNextStep: () => void;
@@ -24,10 +24,10 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
 
     const dispatch = useAppDispatch();
 
-    const errorMessage = useAppSelector(selectError);
-    const pending = useAppSelector(selectIsPending);
-    const otp = useAppSelector(selectOtp);
-    const email = useAppSelector(selectEmail);
+    const errorMessage = useAppSelector(selectForgotPasswordError);
+    const pending = useAppSelector(selectNewPasswordPending);
+    const otp = useAppSelector(selectForgotPasswordOtp);
+    const email = useAppSelector(selectForgotPasswordEmail);
 
     React.useEffect(() => {
         if (!pending) {
@@ -39,21 +39,20 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
         }
     }, [isSubmitClick, pending]);
 
-    const onSubmitHandler = () => {
-        if (newPassword === confirmPassword) {
-            goToNextStep();
+    const onSubmitHandler = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        setIsSubmitClick(true);
+        if (newPassword !== confirmPassword && !validatePassword(newPassword)) {
+            alert("Password and confirm password not match");
+            return;
         } else {
-            if (newPassword !== confirmPassword) {
-                alert("Password and confirm password not match");
-                return;
-            }
             const request: ResetPasswordRequest = {
                 email: email,
                 password: newPassword,
                 confirmPassword: confirmPassword,
                 otp: otp,
             };
-            dispatch(forgotPasswordActions.resetPassword(request));
+            dispatch(forgotPasswordActions.sendNewPassword(request));
         }
     };
 
@@ -65,8 +64,12 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
         setConfirmPassword(confirmPassword);
     };
 
+    const dummyFunc = () => {
+        console.log();
+    };
+
     return (
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={onSubmitHandler}>
             <div className={classes["input-group"]}>
                 <label htmlFor="new-pwd" className={classes.labels}>
                     MẬT KHẨU MỚI
@@ -80,7 +83,7 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
                 <ToggleInputField id="confirm-pwd" receiveValue={receiveConfirmPassword} />
             </div>
             <div className={classes.redirects}>
-                <NextButton onSubmit={onSubmitHandler} />
+                <NextButton onSubmit={dummyFunc} />
             </div>
         </form>
     );

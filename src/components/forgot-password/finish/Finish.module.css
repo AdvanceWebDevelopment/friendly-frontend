@@ -15,6 +15,13 @@
     align-self: center;
 }
 
+.icon-invalid {
+    width: 2.8125rem;
+    height: 2.8125rem;
+    color: var(--red);
+    align-self: center;
+}
+
 .content {
     font-weight: 600;
     font-size: 1.5em;

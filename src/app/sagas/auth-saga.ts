@@ -13,10 +13,11 @@ function* loginWatcher() {
 function* login(data: LoginRequest) {
     try {
         const response: LoginResponse = yield call(authService.login, data);
+        console.log(`From login saga: ${response}`);
         if (response) {
             localStorage.setItem(authConstants.ACCESS_TOKEN, response.accessToken);
             localStorage.setItem(authConstants.REFRESH_TOKEN, response.refreshToken);
-            yield put(authActions.setData(response));
+            yield put(authActions.loginSuccess(response));
         }
     } catch (e) {
         yield put(authActions.loginFailure("Error login"));

@@ -32,9 +32,12 @@ export const forgotPasswordService = {
 
     async resetPassword(req: ResetPasswordRequest): Promise<ResetPasswordResponse> {
         try {
+            console.log(req);
             const response = (await axios.post(`${API_HOST}/auth/reset-password`, req)) as any;
+            // console.log(response.data);
             return response.data;
         } catch (error: any) {
+            console.log(JSON.stringify(error?.response));
             return error?.response?.data;
         }
     },

@@ -32,7 +32,7 @@ const authenticateSlice = createSlice({
     initialState,
     reducers: {
         login(state, action: PayloadAction<LoginRequest>) {},
-        setData(state, action: PayloadAction<LoginResponse>) {
+        loginSuccess(state, action: PayloadAction<LoginResponse>) {
             state.authenticate = action.payload;
             state.isAuthenticated = true;
         },

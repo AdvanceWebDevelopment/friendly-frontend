@@ -15,7 +15,9 @@ function* watchRequestUser() {
             }
 
             yield put(completeGetUser(user));
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
