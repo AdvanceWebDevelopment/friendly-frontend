@@ -11,7 +11,30 @@ import ProductModal from "./modal/product/ProductBidModal";
 import Heading from "./price-heading/Heading";
 import classes from "./ProductCard.module.css";
 import ProductOptions from "./ProductOptions";
+import updateLocale from "dayjs/plugin/updateLocale";
+import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
+
+dayjs.extend(updateLocale);
+dayjs.extend(relativeTime);
+
+dayjs.updateLocale("en", {
+    relativeTime: {
+        future: "Trong %s",
+        past: "%s trước",
+        s: "Vài giây",
+        m: "1 phút",
+        mm: "%d minutes",
+        h: "1 giờ",
+        hh: "%d giờ",
+        d: "1 ngày",
+        dd: "%d ngày",
+        M: "1 tháng",
+        MM: "%d tháng",
+        y: "1 năm",
+        yy: "%d năm",
+    },
+});
 
 /**
  * Product card props include:
@@ -46,6 +69,18 @@ export default function ProductCard({ product }: ProductCardProps) {
         }
     }, [product]);
 
+    const renderRelativeEndDate = (endDate?: Date) => {
+        const delta = dayjs(endDate).diff(new Date(), "minute") - timeConstants.TIMEZONE_DIFF_MINUTE;
+
+        console.log(delta);
+
+        if (delta < 3 * 24 * 60) {
+            return dayjs(Date.now()).to(endDate);
+        }
+
+        return endDate?.toLocaleDateString("en-AU");
+    };
+
     const navigate = useNavigate();
 
     const onProductClick = () => {
@@ -74,7 +109,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                     <div className={classes.date}>
                         <div className={classes["end-date"]}>
                             <div>Kết thúc</div>
-                            <div className={classes.times}>{product?.endDate?.toLocaleDateString("en-AU")}</div>
+                            <div className={classes.times}>{renderRelativeEndDate(product?.endDate)}</div>
                         </div>
                         <div className={classes["post-date"]}>
                             <div>Đăng từ</div>
