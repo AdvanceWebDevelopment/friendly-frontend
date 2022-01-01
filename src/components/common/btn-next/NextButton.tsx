@@ -6,14 +6,9 @@ export interface NextButtonProps {
 }
 
 export default function NextButton({ onSubmit }: NextButtonProps) {
-    const onSubmitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        onSubmit();
-    };
-
     return (
         <div className={classes.wrapper}>
-            <button className={classes["btn-next"]} onClick={onSubmitHandler}>
+            <button type="submit" className={classes["btn-next"]}>
                 Đi tiếp
             </button>
         </div>

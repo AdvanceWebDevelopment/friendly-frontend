@@ -38,14 +38,26 @@ export interface ActivateResponse {
 export interface RegisterState {
     email: string;
     otp: string;
-    isPending: boolean;
+    password: string;
+    name: string;
+    isRegisterPending: boolean;
+    isActivatePending: boolean;
     error: string;
+}
+
+export interface LoginState {
+    email: string;
+    password: string;
+    name: string;
 }
 
 const initialState: RegisterState = {
     email: "",
     otp: "",
-    isPending: false,
+    password: "",
+    name: "",
+    isRegisterPending: true,
+    isActivatePending: true,
     error: "",
 };
 
@@ -54,27 +66,29 @@ const registerSlice = createSlice({
     initialState,
     reducers: {
         sendInfo(state, action: PayloadAction<RegisterRequest>) {
-            state.isPending = true;
+            state.isRegisterPending = true;
         },
 
-        sendInfoSuccess(state, action: PayloadAction<string>) {
-            state.email = action.payload;
-            state.isPending = false;
+        sendInfoSuccess(state, action: PayloadAction<LoginState>) {
+            state.email = action.payload.email;
+            state.password = action.payload.password;
+            state.name = action.payload.name;
+            state.isRegisterPending = false;
             state.error = "";
         },
 
         sendFailure(state, action: PayloadAction<string>) {
             state.error = action.payload;
-            state.isPending = false;
+            state.isRegisterPending = false;
         },
 
         sendOtp(state, action: PayloadAction<ActivateRequest>) {
-            state.isPending = true;
+            state.isActivatePending = true;
         },
 
         sendOtpSuccess(state, action: PayloadAction<string>) {
             state.otp = action.payload;
-            state.isPending = false;
+            state.isActivatePending = false;
             state.error = "";
         },
     },
@@ -88,6 +102,9 @@ export const registerActions = registerSlice.actions;
 
 // Selector
 export const selectRegisterEmail = (state: RootState) => state.registerState.email;
+export const selectRegisterPassword = (state: RootState) => state.registerState.password;
+export const selectRegisterName = (state: RootState) => state.registerState.name;
 export const selectRegisterOtp = (state: RootState) => state.registerState.otp;
-export const selectRegisterPending = (state: RootState) => state.registerState.isPending;
+export const selectRegisterPending = (state: RootState) => state.registerState.isRegisterPending;
+export const selectActivatePending = (state: RootState) => state.registerState.isActivatePending;
 export const selectRegisterError = (state: RootState) => state.registerState.error;

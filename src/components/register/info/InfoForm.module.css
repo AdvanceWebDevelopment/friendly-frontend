@@ -26,3 +26,8 @@
 .bottom {
     margin-top: 2.4375rem;
 }
+
+.error {
+    color: var(--red);
+    font-size: 1.25em;
+}

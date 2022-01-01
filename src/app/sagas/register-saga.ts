@@ -1,9 +1,12 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
 import { registerService } from "../../services/register-service";
+import { OtpResponse } from "../reducers/forgot-pwd-slice";
 import {
     ActivateRequest,
     ActivateResponse,
+    ACTIVATE_STATUS,
+    LoginState,
     registerActions,
     RegisterRequest,
     RegisterResponse,
@@ -30,7 +33,12 @@ function* register(req: RegisterRequest) {
     try {
         const response: RegisterResponse = yield call(registerService.register, req);
         if (response?.status === REGISTER_STATUS.CREATED) {
-            yield put(registerActions.sendInfoSuccess(req.email));
+            const user: LoginState = {
+                email: req.email,
+                name: req.name,
+                password: req.password,
+            };
+            yield put(registerActions.sendInfoSuccess(user));
         } else {
             yield put(registerActions.sendFailure("Email đã tồn tại, vui lòng sử dụng email khác."));
         }
@@ -41,9 +49,10 @@ function* register(req: RegisterRequest) {
 
 function* activate(req: ActivateRequest) {
     try {
-        const response: RegisterResponse = yield call(registerService.activate, req);
-        if (response?.status === REGISTER_STATUS.CREATED) {
-            yield put(registerActions.sendInfoSuccess(req.email));
+        const response: ActivateResponse = yield call(registerService.activate, req);
+        console.log(response);
+        if (response?.status === ACTIVATE_STATUS.OK) {
+            yield put(registerActions.sendOtpSuccess(req.otp));
         } else {
             yield put(registerActions.sendFailure("OTP sai, vui lòng thử lại"));
         }

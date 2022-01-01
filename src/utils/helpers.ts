@@ -34,11 +34,7 @@ export const validateEmail = (email: string) => {
 };
 
 export const validatePassword = (password: string) => {
-    return password.length >= 6 &&
-        password.match(/[A-Z]/) &&
-        password.match(/[a-z]/) &&
-        password.match(/[0-9]/) &&
-        password.match(/[^A-Za-z0-9]/)
+    return password.length >= 6 && password.match(/[A-Z]/) && password.match(/[a-z]/) && password.match(/[0-9]/)
         ? true
         : false;
 };

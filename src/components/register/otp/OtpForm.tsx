@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import {
     ActivateRequest,
     registerActions,
+    selectActivatePending,
     selectRegisterEmail,
     selectRegisterError,
     selectRegisterPending,
@@ -25,7 +26,7 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
     const dispatch = useAppDispatch();
 
     const errorMessage = useAppSelector(selectRegisterError);
-    const pending = useAppSelector(selectRegisterPending);
+    const pending = useAppSelector(selectActivatePending);
     const email = useAppSelector(selectRegisterEmail);
 
     React.useEffect(() => {
@@ -38,7 +39,8 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
         }
     }, [isSubmitClick, pending]);
 
-    const onSubmitHandler = () => {
+    const onSubmitHandler = (e: React.SyntheticEvent) => {
+        e.preventDefault();
         setIsSubmitClick(true);
         if (otp.length !== 6) {
             alert("OTP not valid");
@@ -48,6 +50,7 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
                 otp,
                 email,
             };
+            console.log(otpRequest);
             dispatch(registerActions.sendOtp(otpRequest));
         }
     };
@@ -56,8 +59,12 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
         setOtp(otp);
     };
 
+    const dummyFunc = () => {
+        console.log(" ");
+    };
+
     return (
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={onSubmitHandler}>
             <div className={classes.inform}>Mã xác nhận đã được gửi tới email của bạn!</div>
             <div className={classes["input-group"]}>
                 <label htmlFor="otp" className={classes.label}>
@@ -73,7 +80,7 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
                 </div>
             </div>
             <div className={classes.redirects}>
-                <NextButton onSubmit={onSubmitHandler} />
+                <NextButton onSubmit={dummyFunc} />
                 <BackButton goBack={goToPrevStep} />
             </div>
         </form>

@@ -5,7 +5,7 @@ import { ActivateRequest, ActivateResponse, RegisterRequest, RegisterResponse } 
 export const registerService = {
     async register(req: RegisterRequest): Promise<RegisterResponse> {
         try {
-            const response = (await axios.post(`${API_HOST}/auth/regiser`, req)) as any;
+            const response = (await axios.post(`${API_HOST}/auth/register`, req)) as any;
             return response.data;
         } catch (error: any) {
             return error?.response?.data;
@@ -14,7 +14,7 @@ export const registerService = {
 
     async activate(req: ActivateRequest): Promise<ActivateResponse> {
         try {
-            const response = (await axios.post(`${API_HOST}/auth/verify`)) as any;
+            const response = (await axios.post(`${API_HOST}/auth/verify`, req)) as any;
             return response.data;
         } catch (error: any) {
             return error?.response?.data;
