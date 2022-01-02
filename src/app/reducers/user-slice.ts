@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product, User, UserRole } from "../../models";
-import { ProductResponseWithPaging } from "../../services";
+import { ProductResponseWithPaging, UserResponseWithPaging } from "../../services";
 import { RootState } from "../store";
 
 interface UserState {
@@ -8,10 +8,16 @@ interface UserState {
     user: User;
 
     isAddingToWatchedList: boolean;
+
     isLoadingWatchList: boolean;
     watchedProducts: Product[];
     watchedProductsCurrentPage: number;
     watchedProductsTotalPages: number;
+
+    isLoadingSellers: boolean;
+    watchedSellers: User[];
+    watchedSellersCurrentPage: number;
+    watchedSellersTotalPages: number;
 
     isUpgrading: boolean;
     isDowngrading: boolean;
@@ -29,10 +35,17 @@ export const userSlice = createSlice({
         },
         isLoadingUser: false,
         isAddingToWatchedList: false,
-        watchedProducts: [],
+
         isLoadingWatchList: false,
+        watchedProducts: [],
         watchedProductsTotalPages: 1,
         watchedProductsCurrentPage: 1,
+
+        isLoadingSellers: false,
+        watchedSellers: [],
+        watchedSellersCurrentPage: 1,
+        watchedSellersTotalPages: 1,
+
         isUpgrading: false,
         isDowngrading: false,
     } as UserState,
@@ -73,19 +86,30 @@ export const userSlice = createSlice({
             state.watchedProductsCurrentPage = action.payload.currentPage ?? 1;
             state.watchedProductsTotalPages = action.payload.totalPages ?? 1;
         },
+        requestListSeller: (state: UserState, action: PayloadAction<number>) => {
+            state.isLoadingSellers = true;
+            state.watchedSellersCurrentPage = 1;
+            state.watchedSellersTotalPages = 1;
+        },
+        completeGetListSeller: (state: UserState, action: PayloadAction<UserResponseWithPaging>) => {
+            state.isLoadingSellers = false;
+            state.watchedSellers = action.payload.sellers ?? [];
+            state.watchedSellersCurrentPage = action.payload.currentPage ?? 1;
+            state.watchedSellersTotalPages = action.payload.totalPages ?? 1;
+        },
 
-        upgrade(state: UserState, action: PayloadAction<string>) {
+        upgrade: (state: UserState, action: PayloadAction<string>) => {
             state.isUpgrading = true;
         },
-        completeUpgrade(state: UserState) {
+        completeUpgrade: (state: UserState) => {
             state.isUpgrading = false;
         },
 
-        downgrade(state: UserState, action: PayloadAction<string>) {
+        downgrade: (state: UserState, action: PayloadAction<string>) => {
             state.isDowngrading = true;
             state.user.role = UserRole.SELLER;
         },
-        completeDowngrade(state: UserState) {
+        completeDowngrade: (state: UserState) => {
             state.isDowngrading = false;
             state.user.role = UserRole.BIDDER;
         },
@@ -104,6 +128,9 @@ export const {
 
     requestWatchList,
     completeGetWatchList,
+
+    requestListSeller,
+    completeGetListSeller,
 
     upgrade,
     completeUpgrade,

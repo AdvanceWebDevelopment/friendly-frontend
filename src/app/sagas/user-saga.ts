@@ -1,14 +1,16 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
 import { Product, User, UserRole } from "../../models";
-import { ProductResponseWithPaging, userService } from "../../services";
+import { ProductResponseWithPaging, UserResponseWithPaging, userService } from "../../services";
 import {
     completeDowngrade,
+    completeGetListSeller,
     completeGetUser,
     completeGetWatchList,
     completeUpdateUser,
     completeUpgrade,
     requestAddToWatchList,
+    requestListSeller,
     requestUpdateUser,
     requestUser,
     requestWatchList,
@@ -87,6 +89,24 @@ function* watchRequestWatchList() {
     }
 }
 
+function* watchRequestListSellers() {
+    while (true) {
+        try {
+            const action: PayloadAction<number> = yield take(requestListSeller);
+
+            const response: UserResponseWithPaging | undefined = yield call(userService.getListSellers, action.payload);
+
+            if (response) {
+                yield put(completeGetListSeller(response));
+            } else {
+                alert("Có lỗi xảy ra khi lấy danh sách người bán. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 function* watchUpgradeUser() {
     while (true) {
         try {
@@ -129,6 +149,7 @@ export function* userSaga() {
         watchUpdateUser(),
         watchRequestAddToWatchList(),
         watchRequestWatchList(),
+        watchRequestListSellers(),
         watchUpgradeUser(),
         watchDowngradeUser(),
     ]);

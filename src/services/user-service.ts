@@ -151,7 +151,7 @@ export const userService = {
         }
     },
 
-    async getListSeller(page: number = 0): Promise<UserResponseWithPaging | undefined> {
+    async getListSellers(page: number = 0): Promise<UserResponseWithPaging | undefined> {
         try {
             const response = await axios.get(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.SELLER}`, {
                 headers: authUtils.getAuthHeader(),
