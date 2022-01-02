@@ -6,7 +6,7 @@ import { Product, User } from "../models";
 import { authUtils } from "../utils";
 
 export interface UserResponseWithPaging {
-    sellers?: User[];
+    users?: User[];
     currentPage?: number;
     totalPages?: number;
 }
@@ -160,9 +160,9 @@ export const userService = {
                     size: pagingConstant.PAGE_SIZE,
                 },
             });
-            const sellers: User[] = response.data?.responseBody?.content?.map((seller: any) => User.fromData(seller));
+            const users: User[] = response.data?.responseBody?.content?.map((seller: any) => User.fromData(seller));
             return {
-                sellers: sellers,
+                users: users,
                 currentPage: page + 1,
                 totalPages: response.data?.responseBody?.totalPages ?? 1,
             };
@@ -180,9 +180,9 @@ export const userService = {
                     size: pagingConstant.PAGE_SIZE,
                 },
             });
-            const sellers: User[] = response.data?.responseBody?.content?.map((seller: any) => User.fromData(seller));
+            const users: User[] = response.data?.responseBody?.content?.map((seller: any) => User.fromData(seller));
             return {
-                sellers: sellers,
+                users: users,
                 currentPage: page + 1,
                 totalPages: response.data?.responseBody?.totalPages ?? 1,
             };
