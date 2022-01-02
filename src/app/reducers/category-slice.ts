@@ -14,6 +14,8 @@ interface CategoryState {
     categoryProducts: Product[];
     currentPage: number;
     totalPages: number;
+
+    isAddingCategory: boolean;
 }
 
 const categorySlice = createSlice({
@@ -27,6 +29,8 @@ const categorySlice = createSlice({
         isLoading: true,
         currentPage: 1,
         totalPages: 1,
+
+        isAddingCategory: false,
     } as CategoryState,
     reducers: {
         setSelectedCategoryId: (state, action: PayloadAction<number | undefined>) => {
@@ -61,6 +65,13 @@ const categorySlice = createSlice({
             state.currentPage = action.payload.currentPage ?? 1;
             state.totalPages = action.payload.totalPages === 0 ? 1 : action.payload.totalPages!;
         },
+        requestAddCategory: (state, action: PayloadAction<Category>) => {
+            state.isAddingCategory = true;
+        },
+        completeAddCategory: (state, action: PayloadAction<Category>) => {
+            state.isAddingCategory = false;
+            state.categories.push(action.payload);
+        },
     },
 });
 
@@ -75,6 +86,9 @@ export const {
 
     requestSearchProduct,
     completeSearchProduct,
+
+    requestAddCategory,
+    completeAddCategory,
 } = categorySlice.actions;
 
 export const selectCategories = (state: RootState) => state.categoryState.categories;

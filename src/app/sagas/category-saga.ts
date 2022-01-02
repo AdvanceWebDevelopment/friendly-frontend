@@ -3,9 +3,11 @@ import { all, call, put, take, takeLatest } from "redux-saga/effects";
 import { Category } from "../../models";
 import { categoryService, ProductResponseWithPaging, productService, SearchProductRequest } from "../../services";
 import {
+    completeAddCategory,
     completeGetCategories,
     completeGetProductsByCategoryId,
     completeSearchProduct,
+    requestAddCategory,
     requestGetCategories,
     requestProductsByCategoryId,
     requestSearchProduct,
@@ -34,7 +36,9 @@ function* watchRequestProductByCategory() {
 
             const { categoryId, currentPage } = action.payload as any;
             yield call(getProductByCategoryId, categoryId, currentPage);
-        } catch (error) {}
+        } catch (error) {
+            console.error(error);
+        }
     }
 }
 
@@ -49,7 +53,7 @@ function* watchRequestSearchProduct() {
 
             yield put(completeSearchProduct(data));
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 }
@@ -60,6 +64,29 @@ function* getProductByCategoryId(categoryId: number, currentPage: number) {
     yield put(completeGetProductsByCategoryId({ products, totalPages }));
 }
 
+function* watchRequestAddCategory() {
+    while (true) {
+        try {
+            const action: PayloadAction<Category> = yield take(requestAddCategory.type);
+
+            const response: Category | undefined = yield call(categoryService.addCategory, action.payload);
+
+            if (response) {
+                yield put(completeAddCategory(response));
+            } else {
+                alert("Xảy ra lỗi. Xin thử lại sau.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* categorySaga() {
-    yield all([watchRequestProductByCategory(), watchRequestSearchProduct(), watchGetCategories()]);
+    yield all([
+        watchRequestProductByCategory(),
+        watchRequestSearchProduct(),
+        watchGetCategories(),
+        watchRequestAddCategory(),
+    ]);
 }

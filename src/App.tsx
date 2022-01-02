@@ -24,6 +24,7 @@ import {
     ForgotPasswordPage,
     PostProductPage,
     ProductSearchPage,
+    CategoryManagement,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
 
@@ -55,6 +56,7 @@ function App() {
                         <Route path="winning-history" element={<WinningHistory />} />
                         <Route path="selling-products" element={<SellingProducts />} />
                         <Route path="expired-products" element={<ExpiredProducts />} />
+                        <Route path="category-management" element={<CategoryManagement />} />
                         <Route path="users-list" element={<UsersList />} />
                         <Route path="upgrade-requests" element={<UpgradeRequests />} />
                     </Route>

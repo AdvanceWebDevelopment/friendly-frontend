@@ -1,0 +1,11 @@
+.text {
+    font-family: "Montserrat", sans-serif;
+}
+.category-name {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.clickable {
+    cursor: pointer;
+}

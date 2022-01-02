@@ -44,6 +44,11 @@ export const ProfilePage = () => {
             role: UserRole.SELLER,
         },
         {
+            name: "Quản Lý Danh Mục",
+            value: "category-management",
+            role: UserRole.ADMIN,
+        },
+        {
             name: "Danh Sách Người Dùng",
             value: "users-list",
             role: UserRole.ADMIN,

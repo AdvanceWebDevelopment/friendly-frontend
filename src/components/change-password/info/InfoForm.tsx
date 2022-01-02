@@ -4,7 +4,12 @@ import NextButton from "../../common/btn-next/NextButton";
 import ToggleInputField from "../../common/input-field/toggle/ToggleInputField";
 import classes from "./InfoForm.module.css";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { changePasswordActions, ChangePasswordRequest, selectChangePasswordError, selectChangePasswordPending } from "../../../app/reducers/change-password-slice";
+import {
+    changePasswordActions,
+    ChangePasswordRequest,
+    selectChangePasswordError,
+    selectChangePasswordPending,
+} from "../../../app/reducers/change-password-slice";
 export interface InfoFormProps {
     goToNextStep: () => void;
 }
@@ -24,25 +29,23 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
         if (!isPending) {
             if (errorMessage) {
                 alert(errorMessage);
-            }
-            else {
+            } else {
                 goToNextStep();
             }
         }
-    }, [isPending, isSubmitClicked])
+    }, [isPending, isSubmitClicked]);
 
     const onSubmitHandler = (e: React.SyntheticEvent) => {
         e.preventDefault();
         setIsSubmitClicked(true);
         if (newPassword !== password && newPassword === confirmPassword) {
             alert("Not valid");
-        }
-        else {
+        } else {
             const request: ChangePasswordRequest = {
                 password: password,
                 newPassword: newPassword,
                 confirmPassword: confirmPassword,
-            }
+            };
             dispatch(changePasswordActions.changePassword(request));
         }
     };

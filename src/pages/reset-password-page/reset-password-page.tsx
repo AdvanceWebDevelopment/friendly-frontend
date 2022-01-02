@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Spinner } from "react-bootstrap";
-const Finish = React.lazy(() => import("../../components/reset-password/finish/Finish"));
-const InfoForm = React.lazy(() => import("../../components/reset-password/info/InfoForm"));
+const Finish = React.lazy(() => import("../../components/forgot-password/finish/Finish"));
+const InfoForm = React.lazy(() => import("../../components/forgot-password/info/InfoForm"));
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import {
     flowStepsActions,
