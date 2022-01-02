@@ -2,7 +2,12 @@ import { Icon } from "@iconify/react";
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup, ListGroup, ListGroupItem, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { requestAddCategory, requestDeleteCategory, requestGetCategories } from "../../../app/reducers/category-slice";
+import {
+    requestAddCategory,
+    requestDeleteCategory,
+    requestGetCategories,
+    requestUpdateCategory,
+} from "../../../app/reducers/category-slice";
 import { ConfirmModal } from "../../../components/common/confirm-modal/confirm-modal";
 import { colors } from "../../../constants";
 import { Category, SubCategory } from "../../../models";
@@ -43,6 +48,8 @@ export const CategoryManagement = () => {
 
         if (!category.id) {
             dispatch(requestAddCategory(category));
+        } else {
+            dispatch(requestUpdateCategory(category));
         }
     };
 

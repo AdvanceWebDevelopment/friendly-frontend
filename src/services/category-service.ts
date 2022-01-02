@@ -47,6 +47,30 @@ export const categoryService = {
             return undefined;
         }
     },
+    async updateCategory(category: Category): Promise<Category | undefined> {
+        try {
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.ADMIN}/${apiRoute.CATEGORY}/${category.id}`,
+                {
+                    name: category.name,
+                    subCategories: [],
+                },
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            const accessToken = response.data?.responseHeader?.accessToken;
+            if (accessToken) {
+                authUtils.updateAccessToken(accessToken);
+            }
+
+            return category;
+        } catch (error: any) {
+            console.error(error.response?.data);
+            return undefined;
+        }
+    },
     async deleteCategory(category: Category): Promise<Category | undefined> {
         try {
             const response = await axios.delete(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.CATEGORY}/${category.id}`, {

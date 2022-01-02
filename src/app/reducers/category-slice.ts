@@ -16,8 +16,8 @@ interface CategoryState {
     totalPages: number;
 
     isAddingCategory: boolean;
-
     isDeletingCategory: boolean;
+    isUpdatingCategory: boolean;
 }
 
 const categorySlice = createSlice({
@@ -33,8 +33,8 @@ const categorySlice = createSlice({
         totalPages: 1,
 
         isAddingCategory: false,
-
         isDeletingCategory: false,
+        isUpdatingCategory: false,
     } as CategoryState,
     reducers: {
         setSelectedCategoryId: (state, action: PayloadAction<number | undefined>) => {
@@ -83,6 +83,18 @@ const categorySlice = createSlice({
             state.isDeletingCategory = false;
             state.categories = state.categories.filter((category) => category.id !== action.payload.id);
         },
+        requestUpdateCategory: (state, action: PayloadAction<Category>) => {
+            state.isUpdatingCategory = true;
+        },
+        completeUpdateCategory: (state, action: PayloadAction<Category>) => {
+            state.isUpdatingCategory = false;
+
+            state.categories.forEach((category) => {
+                if (category.id === action.payload.id) {
+                    category.name = action.payload.name;
+                }
+            });
+        },
     },
 });
 
@@ -103,6 +115,9 @@ export const {
 
     requestDeleteCategory,
     completeDeleteCategory,
+
+    requestUpdateCategory,
+    completeUpdateCategory,
 } = categorySlice.actions;
 
 export const selectCategories = (state: RootState) => state.categoryState.categories;
