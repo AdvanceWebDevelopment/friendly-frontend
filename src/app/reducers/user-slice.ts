@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product, User } from "../../models";
+import { Product, User, UserRole } from "../../models";
 import { ProductResponseWithPaging } from "../../services";
 import { RootState } from "../store";
 
@@ -12,6 +12,9 @@ interface UserState {
     watchedProducts: Product[];
     watchedProductsCurrentPage: number;
     watchedProductsTotalPages: number;
+
+    isUpgrading: boolean;
+    isDowngrading: boolean;
 }
 
 export const userSlice = createSlice({
@@ -30,6 +33,8 @@ export const userSlice = createSlice({
         isLoadingWatchList: false,
         watchedProductsTotalPages: 1,
         watchedProductsCurrentPage: 1,
+        isUpgrading: false,
+        isDowngrading: false,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -68,6 +73,22 @@ export const userSlice = createSlice({
             state.watchedProductsCurrentPage = action.payload.currentPage ?? 1;
             state.watchedProductsTotalPages = action.payload.totalPages ?? 1;
         },
+
+        upgrade(state: UserState, action: PayloadAction<string>) {
+            state.isUpgrading = true;
+        },
+        completeUpgrade(state: UserState) {
+            state.isUpgrading = false;
+        },
+
+        downgrade(state: UserState, action: PayloadAction<string>) {
+            state.isDowngrading = true;
+            state.user.role = UserRole.SELLER;
+        },
+        completeDowngrade(state: UserState) {
+            state.isDowngrading = false;
+            state.user.role = UserRole.BIDDER;
+        },
     },
 });
 
@@ -83,6 +104,12 @@ export const {
 
     requestWatchList,
     completeGetWatchList,
+
+    upgrade,
+    completeUpgrade,
+
+    downgrade,
+    completeDowngrade,
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

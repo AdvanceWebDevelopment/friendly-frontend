@@ -115,4 +115,33 @@ export const userService = {
             };
         }
     },
+    async upgrade(userId: string): Promise<string | undefined> {
+        try {
+            const response = await axios.patch(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.BIDDER}/${userId}`, {
+                Headers: authUtils.getAuthHeader(),
+            });
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+            return response.data?.message;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
+
+    async downgrade(userId: string): Promise<string | undefined> {
+        try {
+            const response = await axios.patch(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.SELLER}/${userId}`, {
+                Headers: authUtils.getAuthHeader(),
+            });
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+            return response.data?.message;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
 };

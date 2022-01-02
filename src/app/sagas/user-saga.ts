@@ -3,13 +3,16 @@ import { all, call, put, take } from "redux-saga/effects";
 import { Product, User, UserRole } from "../../models";
 import { ProductResponseWithPaging, userService } from "../../services";
 import {
+    completeDowngrade,
     completeGetUser,
     completeGetWatchList,
     completeUpdateUser,
+    completeUpgrade,
     requestAddToWatchList,
     requestUpdateUser,
     requestUser,
     requestWatchList,
+    upgrade,
 } from "../reducers/user-slice";
 
 function* watchRequestUser() {
@@ -84,6 +87,49 @@ function* watchRequestWatchList() {
     }
 }
 
+function* watchUpgradeUser() {
+    while (true) {
+        try {
+            const action: PayloadAction<string> = yield take(upgrade);
+
+            const response: string | undefined = yield call(userService.upgrade, action.payload);
+
+            if (response) {
+                yield put(completeUpgrade());
+            } else {
+                alert("Có lỗi xảy ra khi nâng cấp người dùng");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+function* watchDowngradeUser() {
+    while (true) {
+        try {
+            const action: PayloadAction<string> = yield take(upgrade);
+
+            const response: string | undefined = yield call(userService.downgrade, action.payload);
+
+            if (response) {
+                yield put(completeDowngrade());
+            } else {
+                alert("Có lỗi xảy ra khi giảm cấp người dùng");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
-    yield all([watchRequestUser(), watchUpdateUser(), watchRequestAddToWatchList(), watchRequestWatchList()]);
+    yield all([
+        watchRequestUser(),
+        watchUpdateUser(),
+        watchRequestAddToWatchList(),
+        watchRequestWatchList(),
+        watchUpgradeUser(),
+        watchDowngradeUser(),
+    ]);
 }

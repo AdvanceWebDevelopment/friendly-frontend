@@ -2,6 +2,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
 import { authConstants } from "../../constants";
 import { authService } from "../../services/authenticate-service";
+import { authUtils } from "../../utils";
 import { authActions, LoginRequest, LoginResponse } from "../reducers/auth-slice";
 
 function* loginWatcher() {
@@ -14,7 +15,7 @@ function* login(data: LoginRequest) {
     try {
         const response: LoginResponse = yield call(authService.login, data);
         if (response) {
-            localStorage.setItem(authConstants.ACCESS_TOKEN, response.accessToken);
+            authUtils.updateAccessToken(response.accessToken);
             localStorage.setItem(authConstants.REFRESH_TOKEN, response.refreshToken);
             yield put(authActions.loginSuccess(response));
         }
