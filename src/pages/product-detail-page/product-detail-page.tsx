@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { requestProductDetail } from "../../app/reducers/product-slice";
 import { SectionTitle } from "../../components/common/section-title/section-title";
@@ -13,13 +13,22 @@ import classes from "./product-detail-page.module.css";
 
 export const ProductDetailPage = () => {
     const { isLoadingProductDetail, productDetail, relatedProducts } = useAppSelector((state) => state.productState);
+    const { deletedProduct } = useAppSelector((state) => state.productState);
 
     const { id } = useParams();
     const dispatch = useAppDispatch();
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         dispatch(requestProductDetail(id!));
     }, [id]);
+
+    useEffect(() => {
+        if (deletedProduct && productDetail.id === deletedProduct.id) {
+            navigate(-1);
+        }
+    }, [deletedProduct]);
 
     return (
         <div className={`pb-5 ${classes["page-wrapper"]}`}>

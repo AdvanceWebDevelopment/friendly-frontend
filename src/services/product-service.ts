@@ -126,4 +126,20 @@ export const productService = {
 
         return { products, totalPages, currentPage: requestParams.page + 1 };
     },
+    async deleteProduct(product: Product): Promise<Product | undefined> {
+        try {
+            const response = await axios.delete(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.PRODUCT}/${product.id}`, {
+                headers: authUtils.getAuthHeader(),
+            });
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            return product;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
 };

@@ -27,6 +27,9 @@ interface ProductState {
 
     isEditProduct: boolean;
     isUpdatingProductDescription: boolean;
+
+    isDeletingProduct?: boolean;
+    deletedProduct?: Product;
 }
 
 const productSlice = createSlice({
@@ -56,6 +59,9 @@ const productSlice = createSlice({
 
         isEditProduct: false,
         isUpdatingProductDescription: false,
+
+        isDeletingProduct: undefined,
+        deletedProduct: undefined,
     } as ProductState,
     reducers: {
         requestTopFiveMostBidded: (state) => {
@@ -114,6 +120,16 @@ const productSlice = createSlice({
             state.isUpdatingProductDescription = false;
             state.productDetail = action.payload;
         },
+        requestDeleteProduct: (state, action: PayloadAction<Product>) => {
+            state.isDeletingProduct = true;
+        },
+        completeDeleteProduct: (state, action: PayloadAction<Product>) => {
+            state.isDeletingProduct = false;
+            state.deletedProduct = action.payload;
+        },
+        setIsDeletingProduct: (state, action: PayloadAction<boolean | undefined>) => {
+            state.isDeletingProduct = action.payload;
+        },
     },
 });
 
@@ -137,6 +153,10 @@ export const {
     setEditProduct,
     requestUpdateProductDescription,
     completeUpdateProductDescription,
+
+    requestDeleteProduct,
+    completeDeleteProduct,
+    setIsDeletingProduct,
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

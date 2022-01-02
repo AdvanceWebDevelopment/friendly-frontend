@@ -1,4 +1,5 @@
 export const apiRoute = {
+    ADMIN: "admin",
     HOME: "/",
     CATEGORY: "category",
     SUB_CATEGORY: "subcategory",

@@ -14,6 +14,7 @@ import ProductOptions from "./ProductOptions";
 import updateLocale from "dayjs/plugin/updateLocale";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
+import { useAppSelector } from "../../app/hook";
 
 dayjs.extend(updateLocale);
 dayjs.extend(relativeTime);
@@ -48,6 +49,8 @@ export interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
     const [showBidModal, setShowBidModal] = React.useState(false);
     const [isNewProd, setIsNewProd] = React.useState(false);
+
+    const { deletedProduct } = useAppSelector((state) => state.productState);
 
     const showBidModalHandler = () => {
         setShowBidModal(true);
@@ -87,52 +90,63 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     return (
         <>
-            <figure className={`mb-2 ${classes.card}`}>
-                {isNewProd && (
-                    <div className={classes["new-badge"]}>
-                        <span className={classes["badge-content"]}>NEW</span>
-                    </div>
-                )}
-                <div className={classes["product-container"]}>
-                    <div>
-                        <Image
-                            className={classes["product-img"]}
-                            src={product?.images ? product?.images[0] : ""}
-                            width={"100%"}
-                        />
-                    </div>
-                    <div className={classes["product-name"]} onClick={onProductClick}>
-                        {product?.name}
-                    </div>
-                    <div className={classes.date}>
-                        <div className={classes["end-date"]}>
-                            <div>Kết thúc</div>
-                            <div className={classes.times}>{renderRelativeEndDate(product?.endDate)}</div>
+            {deletedProduct?.id !== product?.id && (
+                <div>
+                    <figure className={`mb-2 ${classes.card}`}>
+                        {isNewProd && (
+                            <div className={classes["new-badge"]}>
+                                <span className={classes["badge-content"]}>NEW</span>
+                            </div>
+                        )}
+                        <div className={classes["product-container"]}>
+                            <div>
+                                <Image
+                                    className={classes["product-img"]}
+                                    src={product?.images ? product?.images[0] : ""}
+                                    width={"100%"}
+                                />
+                            </div>
+                            <div className={classes["product-name"]} onClick={onProductClick}>
+                                {product?.name}
+                            </div>
+                            <div className={classes.date}>
+                                <div className={classes["end-date"]}>
+                                    <div>Kết thúc</div>
+                                    <div className={classes.times}>{renderRelativeEndDate(product?.endDate)}</div>
+                                </div>
+                                <div className={classes["post-date"]}>
+                                    <div>Đăng từ</div>
+                                    <div className={classes.times}>
+                                        {product?.postDate?.toLocaleDateString("en-AU")}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={classes["bid-info"]}>
+                                <div className={classes["bidder"]}>
+                                    <Bidder totalBidCount={product?.currentBids ?? 0} bidder={product?.highestBidder} />
+                                    <Heading content="Giá hiện tại" color="#6fc47f" />
+                                    <div className={classes.price}>{formatPrice(product?.currentPrice ?? 0)}</div>
+                                </div>
+                                <div className={classes["buy"]}>
+                                    <Icon
+                                        icon="emojione-monotone:money-bag"
+                                        className={classes.icon}
+                                        width={42}
+                                        height={45}
+                                    />
+                                    <Heading content="Mua ngay" color="#ee4730" />
+                                    <div className={classes.price}>{formatPrice(product?.buyPrice ?? 0)}</div>
+                                </div>
+                            </div>
+                            <div className={classes["card-bottom"]}>
+                                <BidButton openModal={showBidModalHandler} />
+                                <ProductOptions product={product ?? {}} />
+                            </div>
                         </div>
-                        <div className={classes["post-date"]}>
-                            <div>Đăng từ</div>
-                            <div className={classes.times}>{product?.postDate?.toLocaleDateString("en-AU")}</div>
-                        </div>
-                    </div>
-                    <div className={classes["bid-info"]}>
-                        <div className={classes["bidder"]}>
-                            <Bidder totalBidCount={product?.currentBids ?? 0} bidder={product?.highestBidder} />
-                            <Heading content="Giá hiện tại" color="#6fc47f" />
-                            <div className={classes.price}>{formatPrice(product?.currentPrice ?? 0)}</div>
-                        </div>
-                        <div className={classes["buy"]}>
-                            <Icon icon="emojione-monotone:money-bag" className={classes.icon} width={42} height={45} />
-                            <Heading content="Mua ngay" color="#ee4730" />
-                            <div className={classes.price}>{formatPrice(product?.buyPrice ?? 0)}</div>
-                        </div>
-                    </div>
-                    <div className={classes["card-bottom"]}>
-                        <BidButton openModal={showBidModalHandler} />
-                        <ProductOptions product={product ?? {}} />
-                    </div>
+                    </figure>
+                    <ProductModal show={showBidModal} handleClose={closeBidModalHandler} />
                 </div>
-            </figure>
-            <ProductModal show={showBidModal} handleClose={closeBidModalHandler} />
+            )}
         </>
     );
 }

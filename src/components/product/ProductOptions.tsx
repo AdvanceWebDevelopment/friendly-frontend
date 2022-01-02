@@ -2,10 +2,11 @@ import { Icon } from "@iconify/react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { setEditProduct } from "../../app/reducers/product-slice";
+import { requestDeleteProduct, setEditProduct } from "../../app/reducers/product-slice";
 import { requestAddToWatchList } from "../../app/reducers/user-slice";
 import { apiRoute } from "../../constants";
 import { Product, UserRole } from "../../models";
+import { ConfirmModal } from "../common/confirm-modal/confirm-modal";
 import HistoryBidModal from "./modal/history/HistoryBidModal";
 import classes from "./ProductOptions.module.css";
 
@@ -23,6 +24,8 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
     const { user } = useAppSelector((state) => state.userState);
 
     const [showHistoryModal, setShowHistoryModal] = React.useState(false);
+
+    const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
 
     React.useEffect(() => {
         const checkIfClickedOutside = (e: MouseEvent) => {
@@ -76,6 +79,24 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
         dispatch(requestAddToWatchList(product));
     };
 
+    const onDeleteProduct = () => {
+        if (user.role !== UserRole.ADMIN) {
+            return;
+        }
+
+        setShowDeleteConfirm(true);
+    };
+
+    const onCancelDelete = () => {
+        setShowDeleteConfirm(false);
+    };
+
+    const onConfirmDelete = () => {
+        setShowDeleteConfirm(false);
+
+        dispatch(requestDeleteProduct(product));
+    };
+
     return (
         <>
             <div className={classes.options} ref={ref}>
@@ -113,7 +134,14 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
                             <Icon icon="clarity:note-edit-line" width={24} height={24} className={classes.icon} />
                             <div className={classes.headings}>Bổ Sung</div>
                         </li>
-                        <li className={classes.row} onClick={dummyFunc} hidden={user.role !== UserRole.ADMIN}>
+                        <li
+                            className={classes.row}
+                            onClick={() => {
+                                dummyFunc();
+                                onDeleteProduct();
+                            }}
+                            hidden={user.role !== UserRole.ADMIN}
+                        >
                             <Icon icon="carbon:delete" width={24} height={24} className={classes["icon-last"]} />
                             <div className={classes.headings}>Xóa</div>
                         </li>
@@ -121,6 +149,13 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
                 )}
             </div>
             <HistoryBidModal show={showHistoryModal} handleClose={closeHistoryModalHandler} />
+            <ConfirmModal
+                show={showDeleteConfirm}
+                headingTitle="Xác Nhận"
+                bodyContent="Bạn có chắc là muốn xóa sản phẩm này?"
+                onComfirm={onConfirmDelete}
+                onCancel={onCancelDelete}
+            />
         </>
     );
 }

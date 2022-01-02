@@ -1,20 +1,23 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take, takeLatest } from "redux-saga/effects";
-import { Product, ProductDescription } from "../../models";
+import { Product } from "../../models";
 import { productService, UpdateProductDescriptionRequest } from "../../services";
 import {
+    completeDeleteProduct,
     completeGetProductDetail,
     completeGetTopFiveEndSoon,
     completeGetTopFiveHottest,
     completeGetTopFiveMostBidded,
     completeUpdateProductDescription,
     completeUploadProduct,
+    requestDeleteProduct,
     requestProductDetail,
     requestTopFiveEndSoon,
     requestTopFiveHottest,
     requestTopFiveMostBidded,
     requestUpdateProductDescription,
     requestUploadProduct,
+    setIsDeletingProduct,
 } from "../reducers/product-slice";
 
 function* watchReqestTopFiveProducts() {
@@ -86,12 +89,32 @@ function* watchRequestUpdateProductDescription() {
     }
 }
 
+function* watchRequestDeleteProduct() {
+    while (true) {
+        try {
+            const action: PayloadAction<Product> = yield take(requestDeleteProduct.type);
+
+            const product: Product | undefined = yield call(productService.deleteProduct, action.payload);
+
+            if (!product) {
+                alert("Đã có lỗi xảy ra trong quá trình xóa sản phẩm. Vui lòng thử lại sau.");
+                yield put(setIsDeletingProduct(undefined));
+            } else {
+                yield put(completeDeleteProduct(product));
+            }
+        } catch (error: any) {
+            console.error(error);
+        }
+    }
+}
+
 export function* productSaga() {
     yield all([
         watchReqestTopFiveProducts(),
         watchRequestProductDetail(),
         watchRequestUploadProduct(),
         watchRequestUpdateProductDescription(),
+        watchRequestDeleteProduct(),
     ]);
 }
 
