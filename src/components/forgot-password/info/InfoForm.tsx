@@ -49,8 +49,6 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
         setEmail(value);
     };
 
-    const dummyFunc = () => {};
-
     return (
         <form className={classes.form} onSubmit={onSubmitHandler}>
             <div className={classes["input-group"]}>
@@ -59,7 +57,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
                     <InputField id="email" type="email" receiveValue={receiveValue} />
                 </div>
             </div>
-            <NextButton onSubmit={dummyFunc} />
+            <NextButton />
         </form>
     );
 }

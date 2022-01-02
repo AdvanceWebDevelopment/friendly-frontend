@@ -8,7 +8,7 @@ export interface BackButtonProps {
 export default function BackButton({ goBack }: BackButtonProps) {
     return (
         <div className={classes.wrapper}>
-            <button className={classes["btn-back"]} onClick={goBack}>
+            <button type="button" className={classes["btn-back"]} onClick={goBack}>
                 Quay lại
             </button>
         </div>

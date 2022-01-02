@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ProductResponseWithPaging } from ".";
+import { ChangePasswordRequest, ChangePasswordResponse, CHANGE_STATUS } from "../app/reducers/change-password-slice";
 import { apiRoute, API_HOST, pagingConstant } from "../constants";
 import { Product, User } from "../models";
 import { authUtils } from "../utils";
@@ -98,6 +99,20 @@ export const userService = {
         } catch (error: any) {
             console.error(error?.response?.data);
             return undefined;
+        }
+    },
+
+    async changePassword(request: ChangePasswordRequest): Promise<ChangePasswordResponse> {
+        try {
+            const response = (await axios.post(`${API_HOST}/auth/change-password`, request)) as any;
+            return response.data;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return {
+                status: CHANGE_STATUS.FAILED,
+                timeStamp: "",
+                message: "Error changing password",
+            };
         }
     },
 };

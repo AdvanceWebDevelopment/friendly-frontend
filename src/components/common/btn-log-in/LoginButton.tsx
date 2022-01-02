@@ -9,7 +9,7 @@ export default function LoginButton() {
         navigate(`/${apiRoute.LOGIN}`);
     };
     return (
-        <button onClick={onNavigateToRegister} className={classes.button}>
+        <button type="button" onClick={onNavigateToRegister} className={classes.button}>
             Đăng nhập
         </button>
     );

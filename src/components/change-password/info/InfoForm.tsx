@@ -3,6 +3,8 @@ import Label from "../../common/label/Label";
 import NextButton from "../../common/btn-next/NextButton";
 import ToggleInputField from "../../common/input-field/toggle/ToggleInputField";
 import classes from "./InfoForm.module.css";
+import { useAppDispatch, useAppSelector } from "../../../app/hook";
+import { changePasswordActions, ChangePasswordRequest, selectChangePasswordError, selectChangePasswordPending } from "../../../app/reducers/change-password-slice";
 export interface InfoFormProps {
     goToNextStep: () => void;
 }
@@ -11,14 +13,37 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [password, setPassword] = React.useState("");
     const [newPassword, setNewPassword] = React.useState("");
     const [confirmPassword, setConfirmPassword] = React.useState("");
-    const onSubmitHandler = () => {
+    const [isSubmitClicked, setIsSubmitClicked] = React.useState(false);
+
+    const dispatch = useAppDispatch();
+
+    const errorMessage = useAppSelector(selectChangePasswordError);
+    const isPending = useAppSelector(selectChangePasswordPending);
+
+    React.useEffect(() => {
+        if (!isPending) {
+            if (errorMessage) {
+                alert(errorMessage);
+            }
+            else {
+                goToNextStep();
+            }
+        }
+    }, [isPending, isSubmitClicked])
+
+    const onSubmitHandler = (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        setIsSubmitClicked(true);
         if (newPassword !== password && newPassword === confirmPassword) {
-            goToNextStep();
-        } else {
-            alert("Nhập sai đâu đó, vui lòng kiểm tra lại :D");
-            setPassword("");
-            setNewPassword("");
-            setConfirmPassword("");
+            alert("Not valid");
+        }
+        else {
+            const request: ChangePasswordRequest = {
+                password: password,
+                newPassword: newPassword,
+                confirmPassword: confirmPassword,
+            }
+            dispatch(changePasswordActions.changePassword(request));
         }
     };
 
@@ -31,11 +56,11 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     };
 
     const receiveConfirmPassword = (confPwd: string) => {
-        setConfirmPassword(confirmPassword);
+        setConfirmPassword(confPwd);
     };
 
     return (
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={onSubmitHandler}>
             <div className={classes["input-group"]}>
                 <Label htmlFor="pwd" content="Mật khẩu hiện tại" />
                 <div className={classes["input-wrapper"]}>
@@ -54,7 +79,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
                     <ToggleInputField id="conf-pwd" receiveValue={receiveConfirmPassword} />
                 </div>
             </div>
-            <NextButton onSubmit={onSubmitHandler} />
+            <NextButton />
         </form>
     );
 }
