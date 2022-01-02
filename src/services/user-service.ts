@@ -5,6 +5,12 @@ import { apiRoute, API_HOST, pagingConstant } from "../constants";
 import { Product, User } from "../models";
 import { authUtils } from "../utils";
 
+export interface UserResponseWithPaging {
+    sellers?: User[];
+    currentPage?: number;
+    totalPages?: number;
+}
+
 export const userService = {
     async getUser(): Promise<User> {
         const response = await axios.get(`${API_HOST}/${apiRoute.USER}`, {
@@ -142,6 +148,46 @@ export const userService = {
         } catch (error: any) {
             console.error(error?.response?.data);
             return undefined;
+        }
+    },
+
+    async getListSeller(page: number = 0): Promise<UserResponseWithPaging | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.SELLER}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page,
+                    size: pagingConstant.PAGE_SIZE,
+                },
+            });
+            const sellers: User[] = response.data?.responseBody?.content?.map((seller: any) => User.fromData(seller));
+            return {
+                sellers: sellers,
+                currentPage: page + 1,
+                totalPages: response.data?.responseBody?.totalPages ?? 1,
+            };
+        } catch (error: any) {
+            console.error(error?.response?.data);
+        }
+    },
+
+    async getListRequestUpgrade(page: number): Promise<UserResponseWithPaging | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.BIDDER}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page,
+                    size: pagingConstant.PAGE_SIZE,
+                },
+            });
+            const sellers: User[] = response.data?.responseBody?.content?.map((seller: any) => User.fromData(seller));
+            return {
+                sellers: sellers,
+                currentPage: page + 1,
+                totalPages: response.data?.responseBody?.totalPages ?? 1,
+            };
+        } catch (error: any) {
+            console.error(error?.response?.data);
         }
     },
 };
