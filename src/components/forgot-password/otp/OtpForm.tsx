@@ -7,6 +7,7 @@ import classes from "./OtpForm.module.css";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import {
     forgotPasswordActions,
+    ForgotPasswordRequest,
     OtpRequest,
     selectForgotPasswordEmail,
     selectForgotPasswordError,
@@ -53,11 +54,16 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
         }
     };
 
+    const onRefreshOtpHandler = () => {
+        const getOtpRequest: ForgotPasswordRequest = {
+            email,
+        };
+        dispatch(forgotPasswordActions.getOtp(getOtpRequest));
+    };
+
     const receiveOtp = (otp: string) => {
         setOtp(otp);
     };
-
-    const dummyFunc = () => {};
 
     return (
         <form className={classes.form} onSubmit={onSubmitHandler}>
@@ -70,13 +76,13 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
                     <div className={classes["input-wrapper"]}>
                         <InputField id="otp" type="text" receiveValue={receiveOtp} />
                     </div>
-                    <button className={classes["btn-refresh"]}>
+                    <button type="button" className={classes["btn-refresh"]} onClick={onRefreshOtpHandler}>
                         <Icon icon="oi:reload" className={classes.icon} />
                     </button>
                 </div>
             </div>
             <div className={classes.redirects}>
-                <NextButton onSubmit={dummyFunc} />
+                <NextButton />
                 <BackButton goBack={goToPrevStep} />
             </div>
         </form>

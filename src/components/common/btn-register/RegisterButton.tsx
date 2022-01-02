@@ -9,7 +9,7 @@ export default function RegisterButton() {
         navigate(`/${apiRoute.REGISTER}`);
     };
     return (
-        <button onClick={onNavigateToRegister} className={classes.button}>
+        <button type="button" onClick={onNavigateToRegister} className={classes.button}>
             Đăng kí
         </button>
     );

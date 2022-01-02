@@ -1,5 +1,7 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
+import { useNavigate } from "react-router";
+import { apiRoute } from "../../../constants";
 import classes from "./Finish.module.css";
 export interface FinishProps {
     userLastName: string;
@@ -8,13 +10,14 @@ export interface FinishProps {
 
 export default function Finish({ userLastName, message }: FinishProps) {
     const [counter, setCounter] = React.useState(5);
+    const navigate = useNavigate();
 
     React.useEffect(() => {
-        counter > 0 ? setTimeout(() => setCounter(counter - 1), 1000) : login();
+        counter > 0 ? setTimeout(() => setCounter(counter - 1), 1000) : backToHome();
     }, [counter]);
 
-    const login = () => {
-        console.log("Login");
+    const backToHome = () => {
+        navigate(`/${apiRoute.HOME}`);
     };
 
     return (
@@ -27,8 +30,8 @@ export default function Finish({ userLastName, message }: FinishProps) {
                 </div>
             </div>
             <div className={classes["btn-wrapper"]}>
-                <button className={classes["btn-auto-log"]} onClick={login}>
-                    Tự động đăng nhập ({counter})
+                <button className={classes["btn-auto-log"]} onClick={backToHome}>
+                    Quay về trang chủ
                 </button>
             </div>
         </div>

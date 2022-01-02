@@ -31,7 +31,7 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
 
     React.useEffect(() => {
         if (!pending) {
-            if (errorMessage.length > 0) {
+            if (errorMessage) {
                 alert(errorMessage);
             } else {
                 goToNextStep();
@@ -64,8 +64,6 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
         setConfirmPassword(confirmPassword);
     };
 
-    const dummyFunc = () => {};
-
     return (
         <form className={classes.form} onSubmit={onSubmitHandler}>
             <div className={classes["input-group"]}>
@@ -81,7 +79,7 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
                 <ToggleInputField id="confirm-pwd" receiveValue={receiveConfirmPassword} />
             </div>
             <div className={classes.redirects}>
-                <NextButton onSubmit={dummyFunc} />
+                <NextButton />
             </div>
         </form>
     );

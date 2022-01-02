@@ -48,7 +48,6 @@ export const ResetPasswordPage = () => {
             </div>
             {currentStep === steps[0] && (
                 <React.Suspense fallback={<Spinner animation="border" variant="primary" className="d-block mx-auto" />}>
-                    {" "}
                     <InfoForm goToNextStep={goToNextStep} />
                 </React.Suspense>
             )}

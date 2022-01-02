@@ -6,6 +6,7 @@ import { authReducers } from "./auth-slice";
 import { forgotPasswordReducer } from "./forgot-pwd-slice";
 import { flowStepsReducer } from "./account-flow-steps-slice";
 import { registerReducer } from "./register-slice";
+import { changePasswordReducer } from "./change-password-slice";
 export const rootReducer = combineReducers({
     categoryState: categoryReducer,
     productState: productReducer,
@@ -14,4 +15,5 @@ export const rootReducer = combineReducers({
     forgotPasswordState: forgotPasswordReducer,
     flowStepsState: flowStepsReducer,
     registerState: registerReducer,
+    changePasswordState: changePasswordReducer,
 });

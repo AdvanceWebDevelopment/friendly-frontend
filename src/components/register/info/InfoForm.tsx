@@ -87,8 +87,6 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
         }
     };
 
-    const dummyFunc = () => {};
-
     const receiveName = (name: string) => {
         setName({ value: name } as InputField);
     };
@@ -148,7 +146,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
             </div>
             <div className={classes.bottom}>
                 <ReCAPTCHA sitekey={KEY} ref={reCaptchaRef} size="normal" />
-                <NextButton onSubmit={dummyFunc} />
+                <NextButton />
             </div>
         </form>
     );

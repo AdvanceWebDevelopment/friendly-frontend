@@ -1,11 +1,7 @@
 import * as React from "react";
 import classes from "./NextButton.module.css";
 
-export interface NextButtonProps {
-    onSubmit: () => void;
-}
-
-export default function NextButton({ onSubmit }: NextButtonProps) {
+export default function NextButton() {
     return (
         <div className={classes.wrapper}>
             <button type="submit" className={classes["btn-next"]}>

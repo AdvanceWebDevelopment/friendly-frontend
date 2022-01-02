@@ -58,8 +58,6 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
         setOtp(otp);
     };
 
-    const dummyFunc = () => {};
-
     return (
         <form className={classes.form} onSubmit={onSubmitHandler}>
             <div className={classes.inform}>Mã xác nhận đã được gửi tới email của bạn!</div>
@@ -77,7 +75,7 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
                 </div>
             </div>
             <div className={classes.redirects}>
-                <NextButton onSubmit={dummyFunc} />
+                <NextButton />
                 <BackButton goBack={goToPrevStep} />
             </div>
         </form>
