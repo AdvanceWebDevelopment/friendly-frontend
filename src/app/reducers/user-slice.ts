@@ -15,9 +15,14 @@ interface UserState {
     watchedProductsTotalPages: number;
 
     isLoadingSellers: boolean;
-    watchedSellers: User[];
-    watchedSellersCurrentPage: number;
-    watchedSellersTotalPages: number;
+    loadedSellers: User[];
+    loadedSellersCurrentPage: number;
+    loadedSellersTotalPages: number;
+
+    isLoadingListRequestUpgrade: boolean;
+    loadedListReqUpgrade: User[];
+    loadedListReqUpgradeCurrentPage: number;
+    loadedListReqUpgradeTotalPages: number;
 
     isUpgrading: boolean;
     isDowngrading: boolean;
@@ -42,9 +47,14 @@ export const userSlice = createSlice({
         watchedProductsCurrentPage: 1,
 
         isLoadingSellers: false,
-        watchedSellers: [],
-        watchedSellersCurrentPage: 1,
-        watchedSellersTotalPages: 1,
+        loadedSellers: [],
+        loadedSellersCurrentPage: 1,
+        loadedSellersTotalPages: 1,
+
+        isLoadingListRequestUpgrade: false,
+        loadedListReqUpgrade: [],
+        loadedListReqUpgradeCurrentPage: 1,
+        loadedListReqUpgradeTotalPages: 1,
 
         isUpgrading: false,
         isDowngrading: false,
@@ -86,16 +96,29 @@ export const userSlice = createSlice({
             state.watchedProductsCurrentPage = action.payload.currentPage ?? 1;
             state.watchedProductsTotalPages = action.payload.totalPages ?? 1;
         },
+
         requestListSeller: (state: UserState, action: PayloadAction<number>) => {
             state.isLoadingSellers = true;
-            state.watchedSellersCurrentPage = 1;
-            state.watchedSellersTotalPages = 1;
+            state.loadedSellersCurrentPage = 1;
+            state.loadedSellersTotalPages = 1;
         },
         completeGetListSeller: (state: UserState, action: PayloadAction<UserResponseWithPaging>) => {
             state.isLoadingSellers = false;
-            state.watchedSellers = action.payload.sellers ?? [];
-            state.watchedSellersCurrentPage = action.payload.currentPage ?? 1;
-            state.watchedSellersTotalPages = action.payload.totalPages ?? 1;
+            state.loadedSellers = action.payload.users ?? [];
+            state.loadedSellersCurrentPage = action.payload.currentPage ?? 1;
+            state.loadedSellersTotalPages = action.payload.totalPages ?? 1;
+        },
+
+        requestListUpgrade: (state: UserState, action: PayloadAction<number>) => {
+            state.isLoadingListRequestUpgrade = true;
+            state.loadedListReqUpgradeCurrentPage = 1;
+            state.loadedListReqUpgradeTotalPages = 1;
+        },
+        completeGetListUpgrade: (state: UserState, action: PayloadAction<UserResponseWithPaging>) => {
+            state.isLoadingListRequestUpgrade = false;
+            state.loadedListReqUpgrade = action.payload.users ?? [];
+            state.loadedListReqUpgradeCurrentPage = action.payload.currentPage ?? 1;
+            state.loadedListReqUpgradeTotalPages = action.payload.totalPages ?? 1;
         },
 
         upgrade: (state: UserState, action: PayloadAction<string>) => {
@@ -131,6 +154,9 @@ export const {
 
     requestListSeller,
     completeGetListSeller,
+
+    requestListUpgrade,
+    completeGetListUpgrade,
 
     upgrade,
     completeUpgrade,

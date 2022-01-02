@@ -5,12 +5,14 @@ import { ProductResponseWithPaging, UserResponseWithPaging, userService } from "
 import {
     completeDowngrade,
     completeGetListSeller,
+    completeGetListUpgrade,
     completeGetUser,
     completeGetWatchList,
     completeUpdateUser,
     completeUpgrade,
     requestAddToWatchList,
     requestListSeller,
+    requestListUpgrade,
     requestUpdateUser,
     requestUser,
     requestWatchList,
@@ -107,6 +109,27 @@ function* watchRequestListSellers() {
     }
 }
 
+function* watchRequestListUpgrade() {
+    while (true) {
+        try {
+            const action: PayloadAction<number> = yield take(requestListUpgrade);
+
+            const response: UserResponseWithPaging | undefined = yield call(
+                userService.getListRequestUpgrade,
+                action.payload,
+            );
+
+            if (response) {
+                yield put(completeGetListUpgrade(response));
+            } else {
+                alert("Có lỗi xảy ra khi lấy danh sách yếu cầu nâng cấp tài khoản. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 function* watchUpgradeUser() {
     while (true) {
         try {
@@ -150,6 +173,7 @@ export function* userSaga() {
         watchRequestAddToWatchList(),
         watchRequestWatchList(),
         watchRequestListSellers(),
+        watchRequestListUpgrade(),
         watchUpgradeUser(),
         watchDowngradeUser(),
     ]);
