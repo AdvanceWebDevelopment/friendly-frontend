@@ -8,15 +8,51 @@ import classes from "./profile-page.module.css";
 
 export const ProfilePage = () => {
     const items = [
-        { name: "Thông Tin Cá Nhân", value: "user-info" },
-        { name: "Điểm Và Đánh Giá", value: "user-points" },
-        { name: "Sản Phẩm Yêu Thích", value: "favorite-products" },
-        { name: "Đang Đấu Giá", value: "bidding-products" },
-        { name: "Lịch Sử Thắng Giá", value: "winning-history" },
-        { name: "Sản Phẩm Đăng Bán", value: "selling-products" },
-        { name: "Sản Phẩm Hết Hạn", value: "expired-products" },
-        { name: "Danh Sách Người Dùng", value: "users-list" },
-        { name: "Yêu Cầu Nâng Cấp", value: "upgrade-requests" },
+        {
+            name: "Thông Tin Cá Nhân",
+            value: "user-info",
+            role: UserRole.BIDDER,
+        },
+        {
+            name: "Điểm Và Đánh Giá",
+            value: "user-points",
+            role: UserRole.BIDDER,
+        },
+        {
+            name: "Sản Phẩm Yêu Thích",
+            value: "favorite-products",
+            role: UserRole.BIDDER,
+        },
+        {
+            name: "Đang Đấu Giá",
+            value: "bidding-products",
+            role: UserRole.BIDDER,
+        },
+        {
+            name: "Lịch Sử Thắng Giá",
+            value: "winning-history",
+            role: UserRole.BIDDER,
+        },
+        {
+            name: "Sản Phẩm Đăng Bán",
+            value: "selling-products",
+            role: UserRole.SELLER,
+        },
+        {
+            name: "Sản Phẩm Hết Hạn",
+            value: "expired-products",
+            role: UserRole.SELLER,
+        },
+        {
+            name: "Danh Sách Người Dùng",
+            value: "users-list",
+            role: UserRole.ADMIN,
+        },
+        {
+            name: "Yêu Cầu Nâng Cấp",
+            value: "upgrade-requests",
+            role: UserRole.ADMIN,
+        },
     ];
 
     const location = useLocation();
@@ -31,9 +67,11 @@ export const ProfilePage = () => {
                         <div className={`${classes["item-list"]}`}>
                             <ListGroup as="ul">
                                 {items.map((item, index) => {
-                                    if (user.role === UserRole.BIDDER && index > 4) {
+                                    if (item.role === UserRole.SELLER && user.role !== item.role) {
                                         return;
-                                    } else if (user.role === UserRole.SELLER && index > 6) {
+                                    }
+
+                                    if (item.role === UserRole.ADMIN && user.role !== item.role) {
                                         return;
                                     }
 
