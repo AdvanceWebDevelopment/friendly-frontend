@@ -2,22 +2,28 @@ import { Icon } from "@iconify/react";
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup, ListGroup, ListGroupItem, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { requestAddCategory, requestGetCategories } from "../../../app/reducers/category-slice";
+import { requestAddCategory, requestDeleteCategory, requestGetCategories } from "../../../app/reducers/category-slice";
+import { ConfirmModal } from "../../../components/common/confirm-modal/confirm-modal";
 import { colors } from "../../../constants";
-import { Category } from "../../../models";
+import { Category, SubCategory } from "../../../models";
 import classes from "./category-management.module.css";
 import { AddCategoryModal } from "./modals/add-category-modal";
 
 export const CategoryManagement = () => {
-    const { categories, isLoadingCategories } = useAppSelector((state) => state.categoryState);
+    const { categories, isLoadingCategories, isAddingCategory } = useAppSelector((state) => state.categoryState);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(requestGetCategories());
-    }, []);
+        if (!isAddingCategory) {
+            dispatch(requestGetCategories());
+        }
+    }, [isAddingCategory]);
 
     const [showAddCategoryModal, setShowCategoryModal] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [category, setCategory] = useState<Category>();
+    const [tobeDeleteCategory, setTobeDeleteCategory] = useState<Category>();
+    const [tobeDeleteSubCategory, setTobeDeleteSubCategory] = useState<SubCategory>();
 
     const onAddCategory = () => {
         setShowCategoryModal(true);
@@ -43,6 +49,29 @@ export const CategoryManagement = () => {
     const closeCategoryModal = () => {
         setShowCategoryModal(false);
         setCategory(undefined);
+    };
+
+    const onCancelDelete = () => {
+        closeDeleteConfirmModal();
+    };
+
+    const onDeleteCategory = (category: Category) => {
+        setTobeDeleteCategory(category);
+        setShowConfirmModal(true);
+    };
+
+    const onConfirmDelete = () => {
+        if (tobeDeleteCategory) {
+            dispatch(requestDeleteCategory(tobeDeleteCategory));
+        }
+
+        closeDeleteConfirmModal();
+    };
+
+    const closeDeleteConfirmModal = () => {
+        setShowConfirmModal(false);
+        setTobeDeleteCategory(undefined);
+        setTobeDeleteSubCategory(undefined);
     };
 
     return (
@@ -79,7 +108,12 @@ export const CategoryManagement = () => {
                                                 <Icon icon="bx:bxs-edit" style={{ color: colors.primary }} />
                                             </div>
 
-                                            <div className={`${classes["clickable"]} mx-1`}>
+                                            <div
+                                                className={`${classes["clickable"]} mx-1`}
+                                                onClick={() => {
+                                                    onDeleteCategory(category);
+                                                }}
+                                            >
                                                 <Icon icon="fluent:delete-24-regular" style={{ color: colors.red }} />
                                             </div>
                                         </div>
@@ -127,6 +161,13 @@ export const CategoryManagement = () => {
                 onCancel={onCancelCategoryModal}
                 headingTitle="Quản Lý Danh Mục"
                 category={category}
+            />
+            <ConfirmModal
+                show={showConfirmModal}
+                headingTitle="Xác Nhận"
+                bodyContent="Bạn Chắc Chứ?"
+                onCancel={onCancelDelete}
+                onComfirm={onConfirmDelete}
             />
         </>
     );

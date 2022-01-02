@@ -4,10 +4,12 @@ import { Category } from "../../models";
 import { categoryService, ProductResponseWithPaging, productService, SearchProductRequest } from "../../services";
 import {
     completeAddCategory,
+    completeDeleteCategory,
     completeGetCategories,
     completeGetProductsByCategoryId,
     completeSearchProduct,
     requestAddCategory,
+    requestDeleteCategory,
     requestGetCategories,
     requestProductsByCategoryId,
     requestSearchProduct,
@@ -82,11 +84,30 @@ function* watchRequestAddCategory() {
     }
 }
 
+function* watchRequestDeleteCategory() {
+    while (true) {
+        try {
+            const action: PayloadAction<Category> = yield take(requestDeleteCategory.type);
+
+            const response: Category | undefined = yield call(categoryService.deleteCategory, action.payload);
+
+            if (response) {
+                yield put(completeDeleteCategory(response));
+            } else {
+                alert("Xảy ra lỗi. Xin thử lại sau.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* categorySaga() {
     yield all([
         watchRequestProductByCategory(),
         watchRequestSearchProduct(),
         watchGetCategories(),
         watchRequestAddCategory(),
+        watchRequestDeleteCategory(),
     ]);
 }
