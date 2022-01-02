@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import produce from "immer";
-import { Product, User, UserRole } from "../../models";
+import { Product, User } from "../../models";
+import { ProductResponseWithPaging } from "../../services";
 import { RootState } from "../store";
 
 interface UserState {
@@ -8,7 +8,10 @@ interface UserState {
     user: User;
 
     isAddingToWatchedList: boolean;
+    isLoadingWatchList: boolean;
     watchedProducts: Product[];
+    watchedProductsCurrentPage: number;
+    watchedProductsTotalPages: number;
 }
 
 export const userSlice = createSlice({
@@ -24,6 +27,9 @@ export const userSlice = createSlice({
         isLoadingUser: false,
         isAddingToWatchedList: false,
         watchedProducts: [],
+        isLoadingWatchList: false,
+        watchedProductsTotalPages: 1,
+        watchedProductsCurrentPage: 1,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -51,16 +57,32 @@ export const userSlice = createSlice({
             state.isAddingToWatchedList = false;
             state.watchedProducts.push(action.payload);
         },
+        requestWatchList: (state: UserState, action: PayloadAction<number>) => {
+            state.isLoadingWatchList = true;
+            state.watchedProductsCurrentPage = 1;
+            state.watchedProductsTotalPages = 1;
+        },
+        completeGetWatchList: (state: UserState, action: PayloadAction<ProductResponseWithPaging>) => {
+            state.isLoadingWatchList = false;
+            state.watchedProducts = action.payload.products ?? [];
+            state.watchedProductsCurrentPage = action.payload.currentPage ?? 1;
+            state.watchedProductsTotalPages = action.payload.totalPages ?? 1;
+        },
     },
 });
 
 export const {
     requestUser,
     completeGetUser,
+
     requestUpdateUser,
     completeUpdateUser,
+
     requestAddToWatchList,
     completeAddToWatchList,
+
+    requestWatchList,
+    completeGetWatchList,
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

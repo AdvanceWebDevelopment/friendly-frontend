@@ -1,9 +1,5 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
-import InputField from "../../common/input-field/InputField";
-import BackButton from "../../common/btn-back/BackButton";
-import NextButton from "../../common/btn-next/NextButton";
-import classes from "../../forgot-password/otp/OtpForm.module.css";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import {
     ActivateRequest,
@@ -11,8 +7,11 @@ import {
     selectActivatePending,
     selectRegisterEmail,
     selectRegisterError,
-    selectRegisterPending,
 } from "../../../app/reducers/register-slice";
+import BackButton from "../../common/btn-back/BackButton";
+import NextButton from "../../common/btn-next/NextButton";
+import InputField from "../../common/input-field/InputField";
+import classes from "../../forgot-password/otp/OtpForm.module.css";
 
 export interface OtpFormProps {
     goToNextStep: () => void;
@@ -59,9 +58,7 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
         setOtp(otp);
     };
 
-    const dummyFunc = () => {
-        console.log(" ");
-    };
+    const dummyFunc = () => {};
 
     return (
         <form className={classes.form} onSubmit={onSubmitHandler}>

@@ -20,9 +20,9 @@ export interface UpdateProductDescriptionRequest {
 }
 
 export interface ProductResponseWithPaging {
-    products: Product[];
-    currentPage: number;
-    totalPages: number;
+    products?: Product[];
+    currentPage?: number;
+    totalPages?: number;
 }
 
 export const productService = {
@@ -125,26 +125,5 @@ export const productService = {
         const totalPages: number = response?.data?.totalPages;
 
         return { products, totalPages, currentPage: requestParams.page + 1 };
-    },
-    async addToWatchList(product: Product): Promise<boolean> {
-        try {
-            const response = await axios.post(
-                `${API_HOST}/${apiRoute.USER}/${apiRoute.WATCH_LIST}/${apiRoute.PRODUCT}/${product.id}`,
-                {},
-                {
-                    headers: authUtils.getAuthHeader(),
-                },
-            );
-
-            const accessToken = response.data?.responseHeader?.accessToken;
-            if (accessToken) {
-                authUtils.updateAccessToken(accessToken);
-            }
-
-            return true;
-        } catch (error: any) {
-            console.error(error?.response?.data);
-            return false;
-        }
     },
 };

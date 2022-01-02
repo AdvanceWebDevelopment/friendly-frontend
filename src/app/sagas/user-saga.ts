@@ -1,13 +1,15 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
 import { Product, User, UserRole } from "../../models";
-import { productService, userService } from "../../services";
+import { ProductResponseWithPaging, userService } from "../../services";
 import {
     completeGetUser,
+    completeGetWatchList,
     completeUpdateUser,
     requestAddToWatchList,
     requestUpdateUser,
     requestUser,
+    requestWatchList,
 } from "../reducers/user-slice";
 
 function* watchRequestUser() {
@@ -48,7 +50,7 @@ function* watchRequestAddToWatchList() {
         try {
             const action: PayloadAction<Product> = yield take(requestAddToWatchList);
 
-            const response: boolean = yield call(productService.addToWatchList, action.payload);
+            const response: boolean = yield call(userService.addToWatchList, action.payload);
 
             if (response) {
                 alert("Thêm vào danh sách theo dõi thành công");
@@ -61,6 +63,27 @@ function* watchRequestAddToWatchList() {
     }
 }
 
+function* watchRequestWatchList() {
+    while (true) {
+        try {
+            const action: PayloadAction<number> = yield take(requestWatchList);
+
+            const response: ProductResponseWithPaging | undefined = yield call(
+                userService.getFavoriteProducts,
+                action.payload,
+            );
+
+            if (response) {
+                yield put(completeGetWatchList(response));
+            } else {
+                alert("Có lỗi xảy ra khi lấy danh sách yêu thích. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
-    yield all([watchRequestUser(), watchUpdateUser(), watchRequestAddToWatchList()]);
+    yield all([watchRequestUser(), watchUpdateUser(), watchRequestAddToWatchList(), watchRequestWatchList()]);
 }

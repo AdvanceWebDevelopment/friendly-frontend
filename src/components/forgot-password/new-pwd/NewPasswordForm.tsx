@@ -64,9 +64,7 @@ export default function NewPasswordForm({ goToNextStep }: NewPasswordFormProps) 
         setConfirmPassword(confirmPassword);
     };
 
-    const dummyFunc = () => {
-        console.log();
-    };
+    const dummyFunc = () => {};
 
     return (
         <form className={classes.form} onSubmit={onSubmitHandler}>

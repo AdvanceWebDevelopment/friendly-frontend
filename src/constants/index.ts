@@ -3,3 +3,4 @@ export { colors } from "./colors";
 export { authConstants } from "./auth-constants";
 export { KEY } from "./captcha";
 export { timeConstants } from "./time";
+export { pagingConstant } from "./paging-constant";

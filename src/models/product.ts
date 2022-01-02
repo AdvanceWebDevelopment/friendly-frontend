@@ -27,7 +27,7 @@ export class Product {
         const product: Product = {
             id: data.id,
             name: data.name,
-            category: Category.fromData(data.subCategory.category),
+            category: Category.fromData(data.subCategory?.category),
             subCategory: SubCategory.fromData(data.subCategory),
             images: data?.images.map((image: any) => image.url),
             description: data.descriptions?.map((item: any) => {

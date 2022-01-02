@@ -1,5 +1,6 @@
 import axios from "axios";
-import { apiRoute, API_HOST } from "../constants";
+import { ProductResponseWithPaging } from ".";
+import { apiRoute, API_HOST, pagingConstant } from "../constants";
 import { Product, User } from "../models";
 import { authUtils } from "../utils";
 
@@ -44,13 +45,58 @@ export const userService = {
                 },
             });
 
-            const products: Product[] = response.data?.responseBody?.content?.map((product: Product) =>
+            const products: Product[] = response.data?.responseBody?.content?.map((product: any) =>
                 Product.fromData(product),
             );
 
             return products;
         } catch (error: any) {
             console.log(error?.response?.data);
+            return undefined;
+        }
+    },
+    async addToWatchList(product: Product): Promise<boolean> {
+        try {
+            const response = await axios.post(
+                `${API_HOST}/${apiRoute.USER}/${apiRoute.WATCH_LIST}/${apiRoute.PRODUCT}/${product.id}`,
+                {},
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            const accessToken = response.data?.responseHeader?.accessToken;
+            if (accessToken) {
+                authUtils.updateAccessToken(accessToken);
+            }
+
+            return true;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return false;
+        }
+    },
+    async getFavoriteProducts(page: number = 0): Promise<ProductResponseWithPaging | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.USER}/${apiRoute.WATCH_LIST}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page,
+                    size: pagingConstant.PAGE_SIZE,
+                },
+            });
+
+            const products: Product[] = response.data?.responseBody?.content?.map((item: any) =>
+                Product.fromData(item.product),
+            );
+
+            return {
+                products: products,
+                currentPage: page + 1,
+                totalPages: response.data?.responseBody?.totalPages ?? 1,
+            };
+        } catch (error: any) {
+            console.error(error?.response?.data);
             return undefined;
         }
     },

@@ -57,9 +57,9 @@ const categorySlice = createSlice({
         },
         completeSearchProduct: (state, action: PayloadAction<ProductResponseWithPaging>) => {
             state.isLoading = false;
-            state.categoryProducts = action.payload.products;
-            state.currentPage = action.payload.currentPage;
-            state.totalPages = action.payload.totalPages === 0 ? 1 : action.payload.totalPages;
+            state.categoryProducts = action.payload.products ?? [];
+            state.currentPage = action.payload.currentPage ?? 1;
+            state.totalPages = action.payload.totalPages === 0 ? 1 : action.payload.totalPages!;
         },
     },
 });
