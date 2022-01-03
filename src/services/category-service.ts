@@ -148,4 +148,24 @@ export const categoryService = {
             return undefined;
         }
     },
+    async deleteSubCategory(subCategory: SubCategory): Promise<SubCategory | undefined> {
+        try {
+            const response = await axios.delete(
+                `${API_HOST}/${apiRoute.ADMIN}/${apiRoute.SUB_CATEGORY}/${subCategory.id}`,
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            const accessToken = response.data?.responseHeader?.accessToken;
+            if (accessToken) {
+                authUtils.updateAccessToken(accessToken);
+            }
+
+            return subCategory;
+        } catch (error: any) {
+            console.error(error.response?.data);
+            return undefined;
+        }
+    },
 };

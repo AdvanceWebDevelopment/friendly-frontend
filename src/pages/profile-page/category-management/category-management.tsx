@@ -6,6 +6,7 @@ import {
     requestAddCategory,
     requestAddSubCategory,
     requestDeleteCategory,
+    requestDeleteSubCategory,
     requestGetCategories,
     requestUpdateCategory,
     requestUpdateSubCategory,
@@ -78,6 +79,9 @@ export const CategoryManagement = () => {
         if (tobeDeleteCategory) {
             dispatch(requestDeleteCategory(tobeDeleteCategory));
         }
+        if (tobeDeleteSubCategory) {
+            dispatch(requestDeleteSubCategory(tobeDeleteSubCategory));
+        }
 
         closeDeleteConfirmModal();
     };
@@ -96,6 +100,11 @@ export const CategoryManagement = () => {
         setCategory(category);
         setSubCategory(subCategory);
         setShowSubcategoryModal(true);
+    };
+
+    const onDeleteSubCategory = (subCategory: SubCategory) => {
+        setTobeDeleteSubCategory(subCategory);
+        setShowConfirmModal(true);
     };
 
     const onSubmitAddSubCategoryModal = (category?: Category, subCategory?: SubCategory) => {
@@ -198,7 +207,12 @@ export const CategoryManagement = () => {
                                                                 />
                                                             </div>
 
-                                                            <div className={`${classes["clickable"]} mx-1`}>
+                                                            <div
+                                                                className={`${classes["clickable"]} mx-1`}
+                                                                onClick={() => {
+                                                                    onDeleteSubCategory(subCategory);
+                                                                }}
+                                                            >
                                                                 <Icon
                                                                     icon="fluent:delete-24-regular"
                                                                     style={{ color: colors.red }}

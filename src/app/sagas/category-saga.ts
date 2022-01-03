@@ -12,6 +12,7 @@ import {
     completeAddCategory,
     completeAddSubCategory,
     completeDeleteCategory,
+    completeDeleteSubCategory,
     completeGetCategories,
     completeGetProductsByCategoryId,
     completeSearchProduct,
@@ -20,6 +21,7 @@ import {
     requestAddCategory,
     requestAddSubCategory,
     requestDeleteCategory,
+    requestDeleteSubCategory,
     requestGetCategories,
     requestProductsByCategoryId,
     requestSearchProduct,
@@ -168,6 +170,24 @@ function* watchRequestUpdateSubCategory() {
     }
 }
 
+function* watchRequestDeleteSubCategory() {
+    while (true) {
+        try {
+            const action: PayloadAction<SubCategory> = yield take(requestDeleteSubCategory.type);
+
+            const response: SubCategory | undefined = yield call(categoryService.deleteSubCategory, action.payload);
+
+            if (response) {
+                yield put(completeDeleteSubCategory(response));
+            } else {
+                alert("Xảy ra lỗi. Xin thử lại sau.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* categorySaga() {
     yield all([
         watchRequestProductByCategory(),
@@ -178,5 +198,6 @@ export function* categorySaga() {
         watchRequestUpdateCategory(),
         watchRequestAddSubCategory(),
         watchRequestUpdateSubCategory(),
+        watchRequestDeleteSubCategory(),
     ]);
 }

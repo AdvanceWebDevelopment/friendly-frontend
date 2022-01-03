@@ -19,6 +19,7 @@ interface CategoryState {
 
     isAddingSubCategory: boolean;
     isUpdatingSubCategory: boolean;
+    isDeletingSubCategory: boolean;
 }
 
 const categorySlice = createSlice({
@@ -39,6 +40,7 @@ const categorySlice = createSlice({
 
         isAddingSubCategory: false,
         isUpdatingSubCategory: false,
+        isDeletingSubCategory: false,
     } as CategoryState,
     reducers: {
         setSelectedCategoryId: (state, action: PayloadAction<number | undefined>) => {
@@ -111,6 +113,18 @@ const categorySlice = createSlice({
         completeUpdateSubCategory: (state, action: PayloadAction<SubCategory>) => {
             state.isUpdatingSubCategory = false;
         },
+        requestDeleteSubCategory: (state, action: PayloadAction<SubCategory>) => {
+            state.isDeletingSubCategory = true;
+        },
+        completeDeleteSubCategory: (state, action: PayloadAction<SubCategory>) => {
+            state.isDeletingSubCategory = false;
+
+            state.categories.forEach((category) => {
+                category.subCategories = category.subCategories?.filter(
+                    (subCategory) => subCategory.id !== action.payload.id,
+                );
+            });
+        },
     },
 });
 
@@ -140,6 +154,9 @@ export const {
 
     requestUpdateSubCategory,
     completeUpdateSubCategory,
+
+    requestDeleteSubCategory,
+    completeDeleteSubCategory,
 } = categorySlice.actions;
 
 export const selectCategories = (state: RootState) => state.categoryState.categories;
