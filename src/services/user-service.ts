@@ -108,19 +108,19 @@ export const userService = {
         }
     },
 
-    async changePassword(request: ChangePasswordRequest): Promise<ChangePasswordResponse> {
+    async changePassword(request: ChangePasswordRequest): Promise<string | undefined> {
         try {
-            const response = (await axios.post(`${API_HOST}/auth/change-password`, request)) as any;
-            return response.data;
+            const response = (await axios.put(`${API_HOST}/${apiRoute.USER}/change-password`, request, {
+                headers: authUtils.getAuthHeader(),
+            })) as any;
+            console.log(response.data?.message);
+            return response.data?.message;
         } catch (error: any) {
-            console.error(error?.response?.data);
-            return {
-                status: CHANGE_STATUS.FAILED,
-                timeStamp: "",
-                message: "Error changing password",
-            };
+            console.error(JSON.stringify(error));
+            return undefined;
         }
     },
+
     async upgrade(userId: string): Promise<string | undefined> {
         try {
             const response = await axios.put(

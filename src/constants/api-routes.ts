@@ -9,7 +9,7 @@ export const apiRoute = {
     LOGIN: "login",
     FORGOT: "forgot-pwd",
     REGISTER: "register",
-    RESET: "reset-pwd",
+    CHANGE: "change-pwd",
     POST_PRODUCT: "post-product",
     SELLER: "seller",
     USER: "user",

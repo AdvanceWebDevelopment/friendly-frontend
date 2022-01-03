@@ -12,12 +12,8 @@ export default function Finish({ userLastName, message }: FinishProps) {
     const [counter, setCounter] = React.useState(5);
     const navigate = useNavigate();
 
-    React.useEffect(() => {
-        counter > 0 ? setTimeout(() => setCounter(counter - 1), 1000) : backToHome();
-    }, [counter]);
-
     const backToHome = () => {
-        navigate(`/${apiRoute.HOME}`);
+        navigate(`${apiRoute.HOME}`);
     };
 
     return (

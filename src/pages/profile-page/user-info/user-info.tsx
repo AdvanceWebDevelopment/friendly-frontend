@@ -2,12 +2,13 @@ import { Icon } from "@iconify/react";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, FormControl, Image, InputGroup, Row, Spinner } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { colors } from "../../../constants";
+import { apiRoute, colors } from "../../../constants";
 import { User } from "../../../models";
 import DatePicker from "react-datepicker";
 import classes from "./user-info.module.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { requestUpdateUser, requestUser } from "../../../app/reducers/user-slice";
+import { useNavigate } from "react-router";
 
 export const UserInfo = () => {
     const { user, isLoadingUser } = useAppSelector((state) => state.userState);
@@ -28,6 +29,8 @@ export const UserInfo = () => {
     const emailRef = useRef<HTMLInputElement>(null);
 
     const [isSavable, setIsSavable] = useState(false);
+
+    const navigate = useNavigate();
 
     const onUpdateUserInfo = () => {
         setIsSavable(false);
@@ -148,7 +151,11 @@ export const UserInfo = () => {
                                 Lưu Thay Đổi
                             </Button>
 
-                            <Button style={{ backgroundColor: colors.primary }} className={`mx-1 ${classes["text"]}`}>
+                            <Button
+                                style={{ backgroundColor: colors.primary }}
+                                className={`mx-1 ${classes["text"]}`}
+                                onClick={() => navigate(`/${apiRoute.CHANGE}`)}
+                            >
                                 Đổi Mật Khẩu
                             </Button>
                         </div>

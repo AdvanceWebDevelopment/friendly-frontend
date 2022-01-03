@@ -26,10 +26,12 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const isPending = useAppSelector(selectChangePasswordPending);
 
     React.useEffect(() => {
+        console.log(isPending);
         if (!isPending) {
             if (errorMessage) {
                 alert(errorMessage);
             } else {
+                console.log("Go to finish");
                 goToNextStep();
             }
         }
@@ -38,11 +40,11 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const onSubmitHandler = (e: React.SyntheticEvent) => {
         e.preventDefault();
         setIsSubmitClicked(true);
-        if (newPassword !== password && newPassword === confirmPassword) {
+        if (newPassword === password || newPassword !== confirmPassword) {
             alert("Not valid");
         } else {
             const request: ChangePasswordRequest = {
-                password: password,
+                oldPassword: password,
                 newPassword: newPassword,
                 confirmPassword: confirmPassword,
             };
