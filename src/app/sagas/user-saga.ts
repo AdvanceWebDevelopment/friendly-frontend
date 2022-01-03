@@ -17,6 +17,7 @@ import {
     requestUser,
     requestWatchList,
     upgrade,
+    downgrade,
 } from "../reducers/user-slice";
 
 function* watchRequestUser() {
@@ -97,7 +98,6 @@ function* watchRequestListSellers() {
             const action: PayloadAction<number> = yield take(requestListSeller);
 
             const response: UserResponseWithPaging | undefined = yield call(userService.getListSellers, action.payload);
-
             if (response) {
                 yield put(completeGetListSeller(response));
             } else {
@@ -151,8 +151,7 @@ function* watchUpgradeUser() {
 function* watchDowngradeUser() {
     while (true) {
         try {
-            const action: PayloadAction<string> = yield take(upgrade);
-
+            const action: PayloadAction<string> = yield take(downgrade);
             const response: string | undefined = yield call(userService.downgrade, action.payload);
 
             if (response) {
