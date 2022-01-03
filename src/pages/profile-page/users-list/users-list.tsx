@@ -2,7 +2,13 @@ import { Icon } from "@iconify/react";
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup, Spinner, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { requestAdminUpdateUser, requestCreateUser, requestGetUserList } from "../../../app/reducers/user-slice";
+import {
+    requestAdminUpdateUser,
+    requestCreateUser,
+    requestDeleteUser,
+    requestGetUserList,
+} from "../../../app/reducers/user-slice";
+import { ConfirmModal } from "../../../components/common/confirm-modal/confirm-modal";
 import { Paginator } from "../../../components/common/paginator/paginator";
 import { colors, pagingConstant } from "../../../constants";
 import { User } from "../../../models";
@@ -25,6 +31,8 @@ export const UsersList = () => {
 
     const [showModal, setShowModal] = useState(false);
     const [selectedUser, setSelectedUser] = useState<User>();
+    const [tobeDeleteUser, setTobeDeleteUser] = useState<User>();
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const onCreateUser = () => {
         setShowModal(true);
@@ -52,6 +60,24 @@ export const UsersList = () => {
     const closeCreateUserModal = () => {
         setShowModal(false);
         setSelectedUser(undefined);
+    };
+
+    const onDeleteUser = (user: User) => {
+        setShowConfirmModal(true);
+        setTobeDeleteUser(user);
+    };
+
+    const onConfirmDelete = () => {
+        if (tobeDeleteUser) {
+            dispatch(requestDeleteUser(tobeDeleteUser));
+        }
+
+        onCancelDelete();
+    };
+
+    const onCancelDelete = () => {
+        setShowConfirmModal(false);
+        setTobeDeleteUser(undefined);
     };
 
     return (
@@ -97,6 +123,7 @@ export const UsersList = () => {
                                         />
                                         <Icon
                                             icon="fluent:delete-24-regular"
+                                            onClick={() => onDeleteUser(user)}
                                             style={{ color: colors.red, fontSize: 24 }}
                                         />
                                     </td>
@@ -123,6 +150,14 @@ export const UsersList = () => {
                 onCancel={onCancelCreateUser}
                 onConfirm={onSubmit}
                 user={selectedUser}
+            />
+
+            <ConfirmModal
+                show={showConfirmModal}
+                headingTitle="Xác Nhận"
+                bodyContent="Bạn Chắc Chứ?"
+                onCancel={onCancelDelete}
+                onComfirm={onConfirmDelete}
             />
         </div>
     );

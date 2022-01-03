@@ -51,6 +51,7 @@ interface UserState {
 
     isCreatingUser: boolean;
     isUpdatingUser: boolean;
+    isDeletingUser: boolean;
 }
 
 export const userSlice = createSlice({
@@ -98,6 +99,7 @@ export const userSlice = createSlice({
 
         isCreatingUser: false,
         isUpdatingUser: false,
+        isDeletingUser: false,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -220,6 +222,13 @@ export const userSlice = createSlice({
         completeAdminUpdateUser: (state: UserState, action: PayloadAction<User>) => {
             state.isUpdatingUser = false;
         },
+        requestDeleteUser: (state: UserState, action: PayloadAction<User>) => {
+            state.isDeletingUser = true;
+        },
+        completeDeleteUser: (state: UserState, action: PayloadAction<User>) => {
+            state.isDeletingUser = false;
+            state.users = state.users.filter((user) => user.id !== action.payload.id);
+        },
     },
 });
 
@@ -265,6 +274,9 @@ export const {
 
     requestAdminUpdateUser,
     completeAdminUpdateUser,
+
+    requestDeleteUser,
+    completeDeleteUser,
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

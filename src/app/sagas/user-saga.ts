@@ -32,6 +32,8 @@ import {
     completeCreateUser,
     requestAdminUpdateUser,
     completeAdminUpdateUser,
+    requestDeleteUser,
+    completeDeleteUser,
 } from "../reducers/user-slice";
 
 function* watchRequestUser() {
@@ -281,7 +283,25 @@ function* watchRequestAdminUpdateUser() {
             if (response) {
                 yield put(completeAdminUpdateUser(response));
             } else {
-                alert("Có lỗi xảy ra khi tạo người dùng. Xin thử lại sau");
+                alert("Có lỗi xảy ra khi cập nhật người dùng. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+function* watchRequestDeleteUser() {
+    while (true) {
+        try {
+            const action: PayloadAction<User> = yield take(requestDeleteUser.type);
+
+            const response: User | undefined = yield call(userService.deleteUser, action.payload);
+
+            if (response) {
+                yield put(completeDeleteUser(response));
+            } else {
+                alert("Có lỗi xảy ra khi xóa người dùng. Xin thử lại sau");
             }
         } catch (error) {
             console.error(error);
@@ -305,5 +325,6 @@ export function* userSaga() {
         watchRequestGetUserList(),
         watchRequestCreateUser(),
         watchRequestAdminUpdateUser(),
+        watchRequestDeleteUser(),
     ]);
 }

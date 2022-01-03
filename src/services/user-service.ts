@@ -327,4 +327,21 @@ export const userService = {
             return undefined;
         }
     },
+    async deleteUser(user: User): Promise<User | undefined> {
+        try {
+            const response = await axios.delete(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.USER}/${user.id}`, {
+                headers: authUtils.getAuthHeader(),
+            });
+
+            const accessToken = response.data?.responseHeader?.accessToken;
+            if (accessToken) {
+                authUtils.updateAccessToken(accessToken);
+            }
+
+            return user;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
 };
