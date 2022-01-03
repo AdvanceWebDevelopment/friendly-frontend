@@ -173,7 +173,7 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                     </div>
 
                     <div className="d-flex justify-content-between align-items-center my-1">
-                        <Bidder totalBidCount={product?.biddingList?.length ?? 0} />
+                        <Bidder totalBidCount={product?.currentBids ?? 0} bidder={product?.highestBidder} />
 
                         <div className="text-end">
                             <Heading content="Giá hiện tại" color="#6fc47f" />
