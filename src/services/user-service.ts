@@ -123,9 +123,13 @@ export const userService = {
     },
     async upgrade(userId: string): Promise<string | undefined> {
         try {
-            const response = await axios.patch(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.BIDDER}/${userId}`, {
-                Headers: authUtils.getAuthHeader(),
-            });
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.ADMIN}/${apiRoute.BIDDER}/${userId}`,
+                {},
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
             if (response.data?.responseHeader?.accessToken) {
                 authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
             }
@@ -139,9 +143,13 @@ export const userService = {
     async downgrade(userId: string): Promise<string | undefined> {
         try {
             console.log(userId);
-            const response = await axios.patch(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.SELLER}/${userId}`, {
-                Headers: authUtils.getAuthHeader(),
-            });
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.ADMIN}/${apiRoute.SELLER}/${userId}`,
+                {},
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
             // console.log(response);
             if (response.data?.responseHeader?.accessToken) {
                 authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
