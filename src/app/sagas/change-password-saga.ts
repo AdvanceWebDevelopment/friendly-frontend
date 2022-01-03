@@ -1,12 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
 import { userService } from "../../services";
-import {
-    changePasswordActions,
-    ChangePasswordRequest,
-    ChangePasswordResponse,
-    CHANGE_STATUS,
-} from "../reducers/change-password-slice";
+import { changePasswordActions, ChangePasswordRequest } from "../reducers/change-password-slice";
 
 function* changePasswordWatcher() {
     while (true) {
@@ -18,14 +13,14 @@ function* changePasswordWatcher() {
 
 function* changePassword(request: ChangePasswordRequest) {
     try {
-        const response: ChangePasswordResponse = yield call(userService.changePassword, request);
-        if (response?.status === CHANGE_STATUS.OK) {
-            yield put(changePasswordActions.changePasswordSuccess);
+        const response: string = yield call(userService.changePassword, request);
+        if (response) {
+            yield put(changePasswordActions.changePasswordSuccess());
         } else {
-            yield put(changePasswordActions.changePasswordFailure(response?.message));
+            yield put(changePasswordActions.changePasswordFailure("Đổi mật khẩu thất bại"));
         }
     } catch (err) {
-        yield put(changePasswordActions.changePasswordFailure("Something wrong"));
+        yield put(changePasswordActions.changePasswordFailure("Lỗi hệ thống, xin thử lại sau"));
     }
 }
 

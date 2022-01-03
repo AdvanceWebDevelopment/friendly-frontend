@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Spinner } from "react-bootstrap";
-const Finish = React.lazy(() => import("../../components/forgot-password/finish/Finish"));
-const InfoForm = React.lazy(() => import("../../components/forgot-password/info/InfoForm"));
+const Finish = React.lazy(() => import("../../components/change-password/finish/Finish"));
+const InfoForm = React.lazy(() => import("../../components/change-password/info/InfoForm"));
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import {
     flowStepsActions,
@@ -9,16 +9,18 @@ import {
     selectCurrentStep,
     selectSteps,
 } from "../../app/reducers/account-flow-steps-slice";
-import classes from "./reset-password-page.module.css";
+import { selectUserName } from "../../app/reducers/user-slice";
+import classes from "./change-password-page.module.css";
 
 // export interface ResetPasswordPage {
 
 // }
 
-export const ResetPasswordPage = () => {
+export const ChangePasswordPage = () => {
     const dispatch = useAppDispatch();
     const steps = useAppSelector(selectSteps);
     const currentStep = useAppSelector(selectCurrentStep);
+    const userName = useAppSelector(selectUserName);
 
     React.useEffect(() => {
         const flowSteps: FlowStepsState = {
@@ -30,10 +32,6 @@ export const ResetPasswordPage = () => {
 
     const goToNextStep = () => {
         dispatch(flowStepsActions.goNext());
-    };
-
-    const goToPrevStep = () => {
-        dispatch(flowStepsActions.goBack());
     };
 
     return (
@@ -51,9 +49,9 @@ export const ResetPasswordPage = () => {
                     <InfoForm goToNextStep={goToNextStep} />
                 </React.Suspense>
             )}
-            {currentStep === steps[3] && (
+            {currentStep === steps[1] && (
                 <React.Suspense fallback={<Spinner animation="border" variant="primary" className="d-block mx-auto" />}>
-                    <Finish message="reset mật khẩu" userLastName="Andy" />
+                    <Finish message="reset mật khẩu" userLastName={userName ?? ""} />
                 </React.Suspense>
             )}
         </div>

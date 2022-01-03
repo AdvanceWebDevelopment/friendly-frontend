@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { authConstants } from "../../constants";
 import { RootState } from "../store";
 export interface LoginRequest {
     email: string;
@@ -9,6 +10,12 @@ export interface LoginResponse {
     accessToken: string;
     tokenType: string;
     refreshToken: string;
+}
+
+export interface ErrorResponse {
+    timeStamp: string;
+    status: number;
+    message: string;
 }
 
 export interface AuthState {
@@ -34,10 +41,23 @@ const authenticateSlice = createSlice({
         login(state, action: PayloadAction<LoginRequest>) {},
         loginSuccess(state, action: PayloadAction<LoginResponse>) {
             state.authenticate = action.payload;
+            console.log(action.payload);
             state.isAuthenticated = true;
         },
         loginFailure(state, action: PayloadAction<string>) {
             state.error = action.payload;
+            state.isAuthenticated = false;
+        },
+        logout(state) {
+            localStorage.removeItem(authConstants.ACCESS_TOKEN);
+            localStorage.removeItem(authConstants.REFRESH_TOKEN);
+            state.isAuthenticated = false;
+            state.authenticate = {
+                accessToken: "",
+                refreshToken: "",
+                tokenType: "",
+            };
+            state.error = "";
         },
     },
 });

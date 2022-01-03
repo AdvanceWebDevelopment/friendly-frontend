@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { authActions, LoginRequest, selectAuthError, selectIsAuthenticated } from "../../app/reducers/auth-slice";
 import InputField from "../../components/common/input-field/InputField";
 import ToggleInputField from "../../components/common/input-field/toggle/ToggleInputField";
-import { apiRoute } from "../../constants";
+import { apiRoute, authConstants } from "../../constants";
 import classes from "./login-page.module.css";
 
 export const LoginPage = () => {
@@ -19,6 +19,7 @@ export const LoginPage = () => {
     const [isLoginClicked, setIsLoginClicked] = React.useState(false);
 
     React.useEffect(() => {
+        console.log(isAuthenticated);
         if (isAuthenticated) {
             navigate(apiRoute.HOME);
         }

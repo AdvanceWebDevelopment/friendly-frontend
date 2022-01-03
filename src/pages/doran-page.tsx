@@ -19,7 +19,7 @@ export const DoranPage = () => {
                     location.pathname.includes(apiRoute.LOGIN) ||
                     location.pathname.includes(apiRoute.REGISTER) ||
                     location.pathname.includes(apiRoute.FORGOT) ||
-                    location.pathname.includes(apiRoute.RESET)
+                    location.pathname.includes(apiRoute.CHANGE)
                 }
             />
             <Outlet />

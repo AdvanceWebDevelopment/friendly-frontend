@@ -10,25 +10,27 @@ export enum CHANGE_STATUS {
 Object.freeze(CHANGE_STATUS);
 
 export interface ChangePasswordRequest {
-    password: string;
+    oldPassword: string;
     newPassword: string;
     confirmPassword: string;
 }
 
 export interface ChangePasswordResponse {
-    timeStamp: string;
-    status: CHANGE_STATUS;
+    responseHeader: {
+        accessToken: string;
+        tokenType: string;
+    };
     message: string;
 }
 
 export interface ChangePasswordState {
     isChangePending: boolean;
-    ChangeError: string;
+    changeError: string;
 }
 
 const initialState: ChangePasswordState = {
     isChangePending: true,
-    ChangeError: "",
+    changeError: "",
 };
 
 const changePasswordSlice = createSlice({
@@ -40,10 +42,11 @@ const changePasswordSlice = createSlice({
         },
         changePasswordSuccess(state) {
             state.isChangePending = false;
+            state.changeError = "";
         },
         changePasswordFailure(state, action: PayloadAction<string>) {
             state.isChangePending = false;
-            state.ChangeError = action.payload;
+            state.changeError = action.payload;
         },
     },
 });
@@ -56,4 +59,4 @@ export const changePasswordActions = changePasswordSlice.actions;
 
 // Selectors
 export const selectChangePasswordPending = (state: RootState) => state.changePasswordState.isChangePending;
-export const selectChangePasswordError = (state: RootState) => state.changePasswordState.ChangeError;
+export const selectChangePasswordError = (state: RootState) => state.changePasswordState.changeError;

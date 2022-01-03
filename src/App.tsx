@@ -28,6 +28,7 @@ import {
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
 import { ListSellers } from "./pages/profile-page/list-sellers/list-sellers";
+import { ChangePasswordPage } from "./pages/reset-password-page/change-password-page";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -49,6 +50,7 @@ function App() {
                     <Route path={apiRoute.LOGIN} element={<LoginPage />} />
                     <Route path={apiRoute.REGISTER} element={<RegisterPage />} />
                     <Route path={apiRoute.FORGOT} element={<ForgotPasswordPage />} />
+                    <Route path={apiRoute.CHANGE} element={<ChangePasswordPage />} />
                     <Route path={apiRoute.PROFILE} element={<ProfilePage />}>
                         <Route path="user-info" element={<UserInfo />} />
                         <Route path="user-points" element={<UserPoints />} />
