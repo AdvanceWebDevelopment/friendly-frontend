@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ProductResponseWithPaging } from ".";
-import { ChangePasswordRequest, ChangePasswordResponse, CHANGE_STATUS } from "../app/reducers/change-password-slice";
+import { ChangePasswordRequest } from "../app/reducers/change-password-slice";
 import { apiRoute, API_HOST, pagingConstant } from "../constants";
 import { Product, User } from "../models";
 import { authUtils } from "../utils";
@@ -199,6 +199,30 @@ export const userService = {
             };
         } catch (error: any) {
             console.error(error?.response?.data);
+        }
+    },
+    async getUserList(page: number = 0): Promise<UserResponseWithPaging | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.USERS}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page: page,
+                    size: pagingConstant.PAGE_SIZE,
+                },
+            });
+
+            const users: User[] = response.data?.responseBody?.content?.map((user: any) => {
+                return User.fromData(user);
+            });
+
+            return {
+                users: users,
+                currentPage: page + 1,
+                totalPages: response.data?.responseBody?.totalPages ?? 1,
+            };
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
         }
     },
 };

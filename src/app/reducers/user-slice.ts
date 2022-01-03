@@ -26,6 +26,11 @@ interface UserState {
 
     isUpgrading: boolean;
     isDowngrading: boolean;
+
+    isLoadingUserList: boolean;
+    users: User[];
+    loadedUserListCurrentPage: number;
+    loadedUserListTotalPages: number;
 }
 
 export const userSlice = createSlice({
@@ -43,8 +48,8 @@ export const userSlice = createSlice({
 
         isLoadingWatchList: false,
         watchedProducts: [],
-        watchedProductsTotalPages: 1,
         watchedProductsCurrentPage: 1,
+        watchedProductsTotalPages: 1,
 
         isLoadingSellers: false,
         loadedSellers: [],
@@ -58,6 +63,11 @@ export const userSlice = createSlice({
 
         isUpgrading: false,
         isDowngrading: false,
+
+        isLoadingUserList: false,
+        loadedUserListCurrentPage: 1,
+        loadedUserListTotalPages: 1,
+        users: [],
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -136,6 +146,15 @@ export const userSlice = createSlice({
             state.isDowngrading = false;
             state.user.role = UserRole.BIDDER;
         },
+        requestGetUserList: (state: UserState, action: PayloadAction<number>) => {
+            state.isLoadingUserList = true;
+        },
+        completeGetUserList: (state: UserState, action: PayloadAction<UserResponseWithPaging>) => {
+            state.isLoadingUserList = false;
+            state.loadedUserListCurrentPage = action.payload.currentPage ?? 1;
+            state.loadedUserListTotalPages = action.payload.totalPages ?? 1;
+            state.users = action.payload.users ?? [];
+        },
     },
 });
 
@@ -163,6 +182,9 @@ export const {
 
     downgrade,
     completeDowngrade,
+
+    requestGetUserList,
+    completeGetUserList,
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

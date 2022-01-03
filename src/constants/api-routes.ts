@@ -13,6 +13,7 @@ export const apiRoute = {
     POST_PRODUCT: "post-product",
     SELLER: "seller",
     USER: "user",
+    USERS: "users",
     WATCH_LIST: "watch-list",
     BIDDER: "bidder",
 };

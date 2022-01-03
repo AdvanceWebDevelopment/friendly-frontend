@@ -18,6 +18,8 @@ import {
     requestWatchList,
     upgrade,
     downgrade,
+    requestGetUserList,
+    completeGetUserList,
 } from "../reducers/user-slice";
 
 function* watchRequestUser() {
@@ -165,6 +167,23 @@ function* watchDowngradeUser() {
     }
 }
 
+function* watchRequestGetUserList() {
+    while (true) {
+        try {
+            const action: PayloadAction<number> = yield take(requestGetUserList);
+
+            const response: UserResponseWithPaging | undefined = yield call(userService.getUserList, action.payload);
+            if (response) {
+                yield put(completeGetUserList(response));
+            } else {
+                alert("Có lỗi xảy ra khi lấy danh sách người dùng. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
     yield all([
         watchRequestUser(),
@@ -175,5 +194,6 @@ export function* userSaga() {
         watchRequestListUpgrade(),
         watchUpgradeUser(),
         watchDowngradeUser(),
+        watchRequestGetUserList(),
     ]);
 }
