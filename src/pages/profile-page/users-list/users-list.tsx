@@ -1,17 +1,17 @@
 import { Icon } from "@iconify/react";
-import React, { useEffect } from "react";
-import { Spinner, Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, ButtonGroup, Spinner, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { requestGetUserList } from "../../../app/reducers/user-slice";
+import { requestCreateUser, requestGetUserList } from "../../../app/reducers/user-slice";
 import { Paginator } from "../../../components/common/paginator/paginator";
 import { colors, pagingConstant } from "../../../constants";
 import { User } from "../../../models";
+import { CreateUserModal } from "./components/create-user-modal";
 import classes from "./users-list.module.css";
 
 export const UsersList = () => {
-    const { isLoadingUserList, users, loadedUserListCurrentPage, loadedUserListTotalPages } = useAppSelector(
-        (state) => state.userState,
-    );
+    const { isLoadingUserList, users, loadedUserListCurrentPage, loadedUserListTotalPages, isCreatingUser } =
+        useAppSelector((state) => state.userState);
 
     const dispatch = useAppDispatch();
 
@@ -23,8 +23,36 @@ export const UsersList = () => {
         dispatch(requestGetUserList(page));
     };
 
+    const [showModal, setShowModal] = useState(false);
+
+    const onCreateUser = () => {
+        setShowModal(true);
+    };
+
+    const onSubmit = (user: User) => {
+        dispatch(requestCreateUser(user));
+
+        closeCreateUserModal();
+    };
+
+    const onCancelCreateUser = () => {
+        closeCreateUserModal();
+    };
+
+    const closeCreateUserModal = () => {
+        setShowModal(false);
+    };
+
     return (
         <div className={`${classes["text"]}`}>
+            <div className="d-flex justify-content-end align-items-center mb-3">
+                <ButtonGroup>
+                    <Button style={{ backgroundColor: colors.primary }} onClick={onCreateUser}>
+                        Tạo 1 Tài Khoản
+                    </Button>
+                </ButtonGroup>
+            </div>
+
             {isLoadingUserList && <Spinner animation="border" variant="primary" className="d-block mx-auto" />}
             {!isLoadingUserList && (
                 <Table striped bordered hover size="sm">
@@ -73,6 +101,13 @@ export const UsersList = () => {
                     onPrevClicked={onPaginationClick}
                 />
             </div>
+
+            <CreateUserModal
+                headingTitle="Quản Lý Người Dùng"
+                show={showModal}
+                onCancel={onCancelCreateUser}
+                onConfirm={onSubmit}
+            />
         </div>
     );
 };

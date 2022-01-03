@@ -15,8 +15,8 @@ import { ConfirmModal } from "../../../components/common/confirm-modal/confirm-m
 import { colors } from "../../../constants";
 import { Category, SubCategory } from "../../../models";
 import classes from "./category-management.module.css";
-import { AddCategoryModal } from "./modals/add-category-modal";
-import { AddSubCategoryModal } from "./modals/add-subcategory-modal";
+import { AddCategoryModal } from "./components/add-category-modal";
+import { AddSubCategoryModal } from "./components/add-subcategory-modal";
 
 export const CategoryManagement = () => {
     const { categories, isLoadingCategories, isAddingCategory, isAddingSubCategory, isUpdatingSubCategory } =

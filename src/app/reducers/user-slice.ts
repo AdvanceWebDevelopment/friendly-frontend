@@ -31,6 +31,8 @@ interface UserState {
     users: User[];
     loadedUserListCurrentPage: number;
     loadedUserListTotalPages: number;
+
+    isCreatingUser: boolean;
 }
 
 export const userSlice = createSlice({
@@ -68,6 +70,8 @@ export const userSlice = createSlice({
         loadedUserListCurrentPage: 1,
         loadedUserListTotalPages: 1,
         users: [],
+
+        isCreatingUser: false,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -155,6 +159,12 @@ export const userSlice = createSlice({
             state.loadedUserListTotalPages = action.payload.totalPages ?? 1;
             state.users = action.payload.users ?? [];
         },
+        requestCreateUser: (state: UserState, action: PayloadAction<User>) => {
+            state.isCreatingUser = true;
+        },
+        completeCreateUser: (state: UserState, action: PayloadAction<User>) => {
+            state.isCreatingUser = false;
+        },
     },
 });
 
@@ -185,6 +195,9 @@ export const {
 
     requestGetUserList,
     completeGetUserList,
+
+    requestCreateUser,
+    completeCreateUser,
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

@@ -190,7 +190,7 @@ export const userService = {
                     size: pagingConstant.PAGE_SIZE,
                 },
             });
-            console.log(response.data?.responseBody);
+
             const users: User[] = response.data?.responseBody?.content?.map((seller: any) => User.fromData(seller));
             return {
                 users: users,
@@ -220,6 +220,29 @@ export const userService = {
                 currentPage: page + 1,
                 totalPages: response.data?.responseBody?.totalPages ?? 1,
             };
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
+    async createUser(user: User): Promise<User | undefined> {
+        try {
+            const request = {
+                email: user.email,
+                password: user.password,
+                name: user.name,
+            };
+
+            const response = await axios.post(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.USER}`, request, {
+                headers: authUtils.getAuthHeader(),
+            });
+
+            const accessToken = response.data?.responseHeader?.accessToken;
+            if (accessToken) {
+                authUtils.updateAccessToken(accessToken);
+            }
+
+            return user;
         } catch (error: any) {
             console.error(error?.response?.data);
             return undefined;
