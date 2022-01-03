@@ -1,7 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product, User, UserRole } from "../../models";
-import { ProductResponseWithPaging, UserResponseWithPaging } from "../../services";
+import { ProductResponseWithPaging, ReviewRequest, UserResponseWithPaging } from "../../services";
 import { RootState } from "../store";
+
+export interface WinnerPayload {
+    productId: number;
+    bidderId: number;
+}
+
+export interface ReviewPayload {
+    productInfo: WinnerPayload;
+    reviewInfo: ReviewRequest;
+}
 
 interface UserState {
     isLoadingUser: boolean;
@@ -13,6 +23,13 @@ interface UserState {
     watchedProducts: Product[];
     watchedProductsCurrentPage: number;
     watchedProductsTotalPages: number;
+
+    isLoadingWonProducts: boolean;
+    wonProducts: Product[];
+
+    isCancelDeal: boolean;
+
+    isReview: boolean;
 
     isLoadingSellers: boolean;
     loadedSellers: User[];
@@ -52,6 +69,13 @@ export const userSlice = createSlice({
         watchedProducts: [],
         watchedProductsCurrentPage: 1,
         watchedProductsTotalPages: 1,
+
+        isLoadingWonProducts: false,
+        wonProducts: [],
+
+        isCancelDeal: false,
+
+        isReview: false,
 
         isLoadingSellers: false,
         loadedSellers: [],
@@ -109,6 +133,29 @@ export const userSlice = createSlice({
             state.watchedProducts = action.payload.products ?? [];
             state.watchedProductsCurrentPage = action.payload.currentPage ?? 1;
             state.watchedProductsTotalPages = action.payload.totalPages ?? 1;
+        },
+        requestWonList: (state: UserState) => {
+            state.isLoadingWonProducts = true;
+        },
+
+        completeGetWonList: (state: UserState, action: PayloadAction<Product[]>) => {
+            state.wonProducts = action.payload;
+            state.isLoadingWonProducts = false;
+        },
+
+        cancelDeal: (state: UserState, payload: PayloadAction<WinnerPayload>) => {
+            state.isCancelDeal = true;
+        },
+        completeCancelDeal: (state: UserState) => {
+            state.isCancelDeal = false;
+        },
+
+        sendReview: (state: UserState, action: PayloadAction<ReviewPayload>) => {
+            state.isReview = true;
+        },
+
+        completeSendReview: (state: UserState) => {
+            state.isReview = false;
         },
 
         requestListSeller: (state: UserState, action: PayloadAction<number>) => {
@@ -180,6 +227,15 @@ export const {
 
     requestWatchList,
     completeGetWatchList,
+
+    requestWonList,
+    completeGetWonList,
+
+    cancelDeal,
+    completeCancelDeal,
+
+    sendReview,
+    completeSendReview,
 
     requestListSeller,
     completeGetListSeller,

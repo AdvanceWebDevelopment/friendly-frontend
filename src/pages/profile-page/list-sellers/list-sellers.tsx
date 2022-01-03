@@ -26,7 +26,6 @@ export const ListSellers = () => {
     };
 
     const downgradeUser = () => {
-        console.log(currentUserId);
         dispatch(downgrade(currentUserId.toString()));
         setIsModalShown(false);
     };

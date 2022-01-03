@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../app/hook";
+import { selectIsAuthenticated } from "../../../app/reducers/auth-slice";
 import { selectUserAvatar, selectUserName } from "../../../app/reducers/user-slice";
 import { authConstants } from "../../../constants";
 import { apiRoute } from "../../../constants/api-routes";
@@ -15,9 +16,18 @@ import classes from "./Header.module.css";
 
 export default function Header() {
     const navigate = useNavigate();
-    const refreshTokens = localStorage.getItem(authConstants.REFRESH_TOKEN);
+    const [isLogout, setIsLogout] = React.useState(false);
+    const isLogin = useAppSelector(selectIsAuthenticated);
     const userName = useAppSelector(selectUserName);
     const userAvatar = useAppSelector(selectUserAvatar);
+
+    React.useEffect(() => {
+        if (isLogin) {
+            setIsLogout(false);
+        } else {
+            setIsLogout(true);
+        }
+    }, [isLogin]);
 
     return (
         <header className={classes.header}>
@@ -30,10 +40,8 @@ export default function Header() {
                 </div>
                 <CategoryButton />
                 <SearchBar />
-                {refreshTokens && (
-                    <ProfileButton name={userName ? userName : ""} avatar={userAvatar ? userAvatar : ""} />
-                )}
-                {!refreshTokens && (
+                {!isLogout && <ProfileButton name={userName ? userName : ""} avatar={userAvatar ? userAvatar : ""} />}
+                {isLogout && (
                     <div className={classes.redirect}>
                         <LoginButton />
                         <RegisterButton />
