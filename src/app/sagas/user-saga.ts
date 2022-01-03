@@ -18,6 +18,14 @@ import {
     requestWatchList,
     upgrade,
     downgrade,
+    requestWonList,
+    completeGetWonList,
+    cancelDeal,
+    WinnerPayload,
+    completeCancelDeal,
+    ReviewPayload,
+    sendReview,
+    completeSendReview,
 } from "../reducers/user-slice";
 
 function* watchRequestUser() {
@@ -88,6 +96,63 @@ function* watchRequestWatchList() {
             }
         } catch (error) {
             console.error(error);
+        }
+    }
+}
+
+function* watchRequestWonList() {
+    while (true) {
+        try {
+            yield take(requestWonList.type);
+            const response: Product[] | undefined = yield call(userService.getUserWonProducts);
+            if (response) {
+                yield put(completeGetWonList(response));
+            } else {
+                alert("Có lỗi xảy ra khi lấy danh sách sản phẩm đã có người đấu giá thắng. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+function* watchCancelDeal() {
+    while (true) {
+        try {
+            const action: PayloadAction<WinnerPayload> = yield take(cancelDeal);
+            const response: string | undefined = yield call(
+                userService.cancelDeal,
+                action.payload.productId,
+                action.payload.bidderId,
+            );
+            if (response) {
+                yield put(completeCancelDeal);
+            } else {
+                alert("Có lỗi xảy ra khi hủy giao dịch");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+function* watchSendReview() {
+    while (true) {
+        try {
+            const action: PayloadAction<ReviewPayload> = yield take(sendReview);
+            const response: string | undefined = yield call(
+                userService.sendReview,
+                action.payload.productInfo.productId,
+                action.payload.productInfo.bidderId,
+                action.payload.reviewInfo,
+            );
+            if (response) {
+                yield put(completeSendReview);
+            } else {
+                alert("Có lỗi khi gửi nhận xét");
+            }
+        } catch (error) {
+            console.log(error);
         }
     }
 }
@@ -171,6 +236,9 @@ export function* userSaga() {
         watchUpdateUser(),
         watchRequestAddToWatchList(),
         watchRequestWatchList(),
+        watchRequestWonList(),
+        watchCancelDeal(),
+        watchSendReview(),
         watchRequestListSellers(),
         watchRequestListUpgrade(),
         watchUpgradeUser(),

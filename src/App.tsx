@@ -25,6 +25,7 @@ import {
     PostProductPage,
     ProductSearchPage,
     CategoryManagement,
+    WonProducts,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
 import { ListSellers } from "./pages/profile-page/list-sellers/list-sellers";
@@ -58,6 +59,7 @@ function App() {
                         <Route path="bidding-products" element={<BiddingProducts />} />
                         <Route path="winning-history" element={<WinningHistory />} />
                         <Route path="selling-products" element={<SellingProducts />} />
+                        <Route path="won-products" element={<WonProducts />} />
                         <Route path="expired-products" element={<ExpiredProducts />} />
                         <Route path="category-management" element={<CategoryManagement />} />
                         <Route path="users-list" element={<UsersList />} />

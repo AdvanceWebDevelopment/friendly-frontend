@@ -19,3 +19,4 @@ export { WinningHistory } from "./profile-page/winning-history/winning-history";
 export { CategoryManagement } from "./profile-page/category-management/category-management";
 export { PostProductPage } from "./post-product-page/post-product-page";
 export { ProductSearchPage } from "./product-search-page/product-search-page";
+export { WonProducts } from "./profile-page/won-products/won-products";

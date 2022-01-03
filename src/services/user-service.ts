@@ -11,6 +11,11 @@ export interface UserResponseWithPaging {
     totalPages?: number;
 }
 
+export interface ReviewRequest {
+    comment: string;
+    like: boolean;
+}
+
 export const userService = {
     async getUser(): Promise<User> {
         const response = await axios.get(`${API_HOST}/${apiRoute.USER}`, {
@@ -62,6 +67,59 @@ export const userService = {
             return undefined;
         }
     },
+
+    async getUserWonProducts(): Promise<Product[] | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCTS}/${apiRoute.WIN}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page: 0,
+                    size: 99,
+                },
+            });
+            const products: Product[] = response.data?.responseBody?.content?.map((product: any) => {
+                Product.fromData(product);
+            });
+
+            return products;
+        } catch (error: any) {
+            console.log(error?.response?.data);
+            return undefined;
+        }
+    },
+
+    async cancelDeal(productId: number, bidderId: number): Promise<string | undefined> {
+        try {
+            const response = await axios.patch(
+                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.WINNER}/${bidderId}/${apiRoute.PRODUCT}/${productId}`,
+                {},
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+            return response.data?.message;
+        } catch (error: any) {
+            console.error(JSON.stringify(error));
+            return undefined;
+        }
+    },
+
+    async sendReview(productId: number, bidderId: number, request: ReviewRequest): Promise<string | undefined> {
+        try {
+            const response = await axios.post(
+                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.WINNER}/${bidderId}/${apiRoute.PRODUCT}/${productId}`,
+                request,
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+            return response.data?.message;
+        } catch (error: any) {
+            console.error(JSON.stringify(error));
+            return undefined;
+        }
+    },
+
     async addToWatchList(product: Product): Promise<boolean> {
         try {
             const response = await axios.post(

@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Spinner, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../app/hook";
+import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import { apiRoute, API_HOST } from "../../../constants";
+import { requestUser } from "../../../app/reducers/user-slice";
 import { Product } from "../../../models";
 import { formatPrice } from "../../../utils";
 import "./selling-products.module.css";
 
 export const SellingProducts = () => {
     const { user, isLoadingUser } = useAppSelector((state) => state.userState);
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(requestUser);
+    }, []);
     const navigate = useNavigate();
 
     const onItemClicked = (product: Product) => {

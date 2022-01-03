@@ -39,6 +39,11 @@ export const ProfilePage = () => {
             role: UserRole.SELLER,
         },
         {
+            name: "Sản Phẩm Có Chủ",
+            value: "won-products",
+            role: UserRole.SELLER,
+        },
+        {
             name: "Sản Phẩm Hết Hạn",
             value: "expired-products",
             role: UserRole.SELLER,
