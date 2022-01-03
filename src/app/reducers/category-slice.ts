@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product } from "../../models";
-import { Category } from "../../models/category";
-import { ProductResponseWithPaging, SearchProductRequest } from "../../services";
-import { categoryService } from "../../services/category-service";
+import { Product, SubCategory, Category } from "../../models";
+import { AddSubCategoryRequest, ProductResponseWithPaging, SearchProductRequest } from "../../services";
 import { RootState } from "../store";
 
 interface CategoryState {
@@ -18,6 +16,8 @@ interface CategoryState {
     isAddingCategory: boolean;
     isDeletingCategory: boolean;
     isUpdatingCategory: boolean;
+
+    isAddingSubCategory: boolean;
 }
 
 const categorySlice = createSlice({
@@ -35,6 +35,8 @@ const categorySlice = createSlice({
         isAddingCategory: false,
         isDeletingCategory: false,
         isUpdatingCategory: false,
+
+        isAddingSubCategory: false,
     } as CategoryState,
     reducers: {
         setSelectedCategoryId: (state, action: PayloadAction<number | undefined>) => {
@@ -95,6 +97,12 @@ const categorySlice = createSlice({
                 }
             });
         },
+        requestAddSubCategory: (state, action: PayloadAction<AddSubCategoryRequest>) => {
+            state.isAddingSubCategory = true;
+        },
+        completeAddSubCategory: (state, action: PayloadAction<SubCategory>) => {
+            state.isAddingSubCategory = false;
+        },
     },
 });
 
@@ -118,6 +126,9 @@ export const {
 
     requestUpdateCategory,
     completeUpdateCategory,
+
+    requestAddSubCategory,
+    completeAddSubCategory,
 } = categorySlice.actions;
 
 export const selectCategories = (state: RootState) => state.categoryState.categories;

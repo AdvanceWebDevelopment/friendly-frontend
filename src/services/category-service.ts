@@ -1,8 +1,13 @@
 import axios from "axios";
 import { apiRoute, API_HOST } from "../constants/api-routes";
-import { Product } from "../models";
+import { Product, SubCategory } from "../models";
 import { Category } from "../models/category";
 import { authUtils } from "../utils";
+
+export interface AddSubCategoryRequest {
+    category: Category;
+    subCategory: SubCategory;
+}
 
 export const categoryService = {
     async getCategories() {
@@ -83,6 +88,36 @@ export const categoryService = {
             }
 
             return category;
+        } catch (error: any) {
+            console.error(error.response?.data);
+            return undefined;
+        }
+    },
+    async addSubCategory({ category, subCategory }: AddSubCategoryRequest): Promise<SubCategory | undefined> {
+        try {
+            const request = {
+                name: category.name,
+                subCategories: [
+                    {
+                        name: subCategory.name,
+                    },
+                ],
+            };
+
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.ADMIN}/${apiRoute.CATEGORY}/${category.id}`,
+                request,
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            const accessToken = response.data?.responseHeader?.accessToken;
+            if (accessToken) {
+                authUtils.updateAccessToken(accessToken);
+            }
+
+            return subCategory;
         } catch (error: any) {
             console.error(error.response?.data);
             return undefined;

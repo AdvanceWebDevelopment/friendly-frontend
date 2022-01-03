@@ -35,6 +35,11 @@ export const AddCategoryModal = ({ headingTitle, show, onComfirm, onCancel, cate
                 <Button
                     onClick={() => {
                         if (onComfirm) {
+                            if (categoryName && categoryName.length === 0) {
+                                alert("Không được bỏ trống tên danh mục");
+                                return;
+                            }
+
                             onComfirm({ ...category, name: categoryName });
                         }
                     }}

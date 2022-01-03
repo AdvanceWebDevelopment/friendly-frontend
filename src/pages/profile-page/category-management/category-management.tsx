@@ -4,6 +4,7 @@ import { Button, ButtonGroup, ListGroup, ListGroupItem, Spinner } from "react-bo
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import {
     requestAddCategory,
+    requestAddSubCategory,
     requestDeleteCategory,
     requestGetCategories,
     requestUpdateCategory,
@@ -13,21 +14,27 @@ import { colors } from "../../../constants";
 import { Category, SubCategory } from "../../../models";
 import classes from "./category-management.module.css";
 import { AddCategoryModal } from "./modals/add-category-modal";
+import { AddSubCategoryModal } from "./modals/add-subcategory-modal";
 
 export const CategoryManagement = () => {
-    const { categories, isLoadingCategories, isAddingCategory } = useAppSelector((state) => state.categoryState);
+    const { categories, isLoadingCategories, isAddingCategory, isAddingSubCategory } = useAppSelector(
+        (state) => state.categoryState,
+    );
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (!isAddingCategory) {
             dispatch(requestGetCategories());
         }
-    }, [isAddingCategory]);
+    }, [isAddingCategory, isAddingSubCategory]);
 
     const [showAddCategoryModal, setShowCategoryModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [category, setCategory] = useState<Category>();
     const [tobeDeleteCategory, setTobeDeleteCategory] = useState<Category>();
+
+    const [showSubcategoryModal, setShowSubcategoryModal] = useState(false);
+    const [subCategory, setSubCategory] = useState<SubCategory>();
     const [tobeDeleteSubCategory, setTobeDeleteSubCategory] = useState<SubCategory>();
 
     const onAddCategory = () => {
@@ -81,6 +88,41 @@ export const CategoryManagement = () => {
         setTobeDeleteSubCategory(undefined);
     };
 
+    const onAddSubCategory = () => {
+        setShowSubcategoryModal(true);
+    };
+
+    const onUpdateSubCategory = (category: Category, subCategory: SubCategory) => {
+        setCategory(category);
+        setSubCategory(subCategory);
+        setShowSubcategoryModal(true);
+    };
+
+    const onSubmitAddSubCategoryModal = (category?: Category, subCategory?: SubCategory) => {
+        if (category && subCategory) {
+            if (!subCategory.id) {
+                dispatch(
+                    requestAddSubCategory({
+                        category: category,
+                        subCategory: subCategory,
+                    }),
+                );
+            }
+        }
+
+        closeSubCategoryModal();
+    };
+
+    const onCancelSubCategory = () => {
+        closeSubCategoryModal();
+    };
+
+    const closeSubCategoryModal = () => {
+        setShowSubcategoryModal(false);
+        setSubCategory(undefined);
+        setCategory(undefined);
+    };
+
     return (
         <>
             <div className="d-flex justify-content-end align-items-center">
@@ -89,7 +131,7 @@ export const CategoryManagement = () => {
                         Thêm Danh Mục Chính
                     </Button>
 
-                    <Button className="mx-1" style={{ backgroundColor: colors.primary }}>
+                    <Button className="mx-1" style={{ backgroundColor: colors.primary }} onClick={onAddSubCategory}>
                         Thêm Danh Mục Phụ
                     </Button>
                 </ButtonGroup>
@@ -137,7 +179,12 @@ export const CategoryManagement = () => {
                                                         <div>{subCategory.name}</div>
 
                                                         <div className="d-flex">
-                                                            <div className={`${classes["clickable"]} mx-1`}>
+                                                            <div
+                                                                className={`${classes["clickable"]} mx-1`}
+                                                                onClick={() => {
+                                                                    onUpdateSubCategory(category, subCategory);
+                                                                }}
+                                                            >
                                                                 <Icon
                                                                     icon="bx:bxs-edit"
                                                                     style={{ color: colors.primary }}
@@ -168,6 +215,14 @@ export const CategoryManagement = () => {
                 onCancel={onCancelCategoryModal}
                 headingTitle="Quản Lý Danh Mục"
                 category={category}
+            />
+            <AddSubCategoryModal
+                show={showSubcategoryModal}
+                headingTitle="Quản Lý Danh Mục"
+                onComfirm={onSubmitAddSubCategoryModal}
+                onCancel={onCancelSubCategory}
+                category={category}
+                subCategory={subCategory}
             />
             <ConfirmModal
                 show={showConfirmModal}

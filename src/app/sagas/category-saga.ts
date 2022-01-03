@@ -1,15 +1,23 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take, takeLatest } from "redux-saga/effects";
-import { Category } from "../../models";
-import { categoryService, ProductResponseWithPaging, productService, SearchProductRequest } from "../../services";
+import { Category, SubCategory } from "../../models";
+import {
+    AddSubCategoryRequest,
+    categoryService,
+    ProductResponseWithPaging,
+    productService,
+    SearchProductRequest,
+} from "../../services";
 import {
     completeAddCategory,
+    completeAddSubCategory,
     completeDeleteCategory,
     completeGetCategories,
     completeGetProductsByCategoryId,
     completeSearchProduct,
     completeUpdateCategory,
     requestAddCategory,
+    requestAddSubCategory,
     requestDeleteCategory,
     requestGetCategories,
     requestProductsByCategoryId,
@@ -122,6 +130,24 @@ function* watchRequestUpdateCategory() {
     }
 }
 
+function* watchRequestAddSubCategory() {
+    while (true) {
+        try {
+            const action: PayloadAction<AddSubCategoryRequest> = yield take(requestAddSubCategory.type);
+
+            const response: SubCategory | undefined = yield call(categoryService.addSubCategory, action.payload);
+
+            if (response) {
+                yield put(completeAddSubCategory(response));
+            } else {
+                alert("Xảy ra lỗi. Xin thử lại sau.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* categorySaga() {
     yield all([
         watchRequestProductByCategory(),
@@ -130,5 +156,6 @@ export function* categorySaga() {
         watchRequestAddCategory(),
         watchRequestDeleteCategory(),
         watchRequestUpdateCategory(),
+        watchRequestAddSubCategory(),
     ]);
 }
