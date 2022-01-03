@@ -182,6 +182,7 @@ export const userService = {
                     size: pagingConstant.PAGE_SIZE,
                 },
             });
+            console.log(response.data?.responseBody);
             const users: User[] = response.data?.responseBody?.content?.map((seller: any) => User.fromData(seller));
             return {
                 users: users,
