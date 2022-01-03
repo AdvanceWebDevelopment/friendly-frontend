@@ -26,6 +26,11 @@ import {
     ReviewPayload,
     sendReview,
     completeSendReview,
+    requestGetUserList,
+    completeGetUserList,
+    requestCreateUser,
+    completeCreateUser,
+
 } from "../reducers/user-slice";
 
 function* watchRequestUser() {
@@ -230,6 +235,41 @@ function* watchDowngradeUser() {
     }
 }
 
+function* watchRequestGetUserList() {
+    while (true) {
+        try {
+            const action: PayloadAction<number> = yield take(requestGetUserList.type);
+
+            const response: UserResponseWithPaging | undefined = yield call(userService.getUserList, action.payload);
+            if (response) {
+                yield put(completeGetUserList(response));
+            } else {
+                alert("Có lỗi xảy ra khi lấy danh sách người dùng. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+function* watchRequestCreateUser() {
+    while (true) {
+        try {
+            const action: PayloadAction<User> = yield take(requestCreateUser.type);
+
+            const response: User | undefined = yield call(userService.createUser, action.payload);
+
+            if (response) {
+                yield put(completeCreateUser(response));
+            } else {
+                alert("Có lỗi xảy ra khi tạo người dùng. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
     yield all([
         watchRequestUser(),
@@ -243,5 +283,7 @@ export function* userSaga() {
         watchRequestListUpgrade(),
         watchUpgradeUser(),
         watchDowngradeUser(),
+        watchRequestGetUserList(),
+        watchRequestCreateUser(),
     ]);
 }
