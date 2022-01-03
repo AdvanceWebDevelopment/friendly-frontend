@@ -123,4 +123,29 @@ export const categoryService = {
             return undefined;
         }
     },
+    async updateSubCategory({ category, subCategory }: AddSubCategoryRequest): Promise<SubCategory | undefined> {
+        try {
+            const request = {
+                name: subCategory.name,
+            };
+
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.ADMIN}/${apiRoute.CATEGORY}/${category.id}/${apiRoute.SUB_CATEGORY}/${subCategory.id}`,
+                request,
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            const accessToken = response.data?.responseHeader?.accessToken;
+            if (accessToken) {
+                authUtils.updateAccessToken(accessToken);
+            }
+
+            return subCategory;
+        } catch (error: any) {
+            console.error(error.response?.data);
+            return undefined;
+        }
+    },
 };

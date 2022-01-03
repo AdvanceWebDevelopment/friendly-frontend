@@ -16,6 +16,7 @@ import {
     completeGetProductsByCategoryId,
     completeSearchProduct,
     completeUpdateCategory,
+    completeUpdateSubCategory,
     requestAddCategory,
     requestAddSubCategory,
     requestDeleteCategory,
@@ -23,6 +24,7 @@ import {
     requestProductsByCategoryId,
     requestSearchProduct,
     requestUpdateCategory,
+    requestUpdateSubCategory,
 } from "../reducers/category-slice";
 
 function* watchGetCategories() {
@@ -148,6 +150,24 @@ function* watchRequestAddSubCategory() {
     }
 }
 
+function* watchRequestUpdateSubCategory() {
+    while (true) {
+        try {
+            const action: PayloadAction<AddSubCategoryRequest> = yield take(requestUpdateSubCategory.type);
+
+            const response: SubCategory | undefined = yield call(categoryService.updateSubCategory, action.payload);
+
+            if (response) {
+                yield put(completeUpdateSubCategory(response));
+            } else {
+                alert("Xảy ra lỗi. Xin thử lại sau.");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* categorySaga() {
     yield all([
         watchRequestProductByCategory(),
@@ -157,5 +177,6 @@ export function* categorySaga() {
         watchRequestDeleteCategory(),
         watchRequestUpdateCategory(),
         watchRequestAddSubCategory(),
+        watchRequestUpdateSubCategory(),
     ]);
 }

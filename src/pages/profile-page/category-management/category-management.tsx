@@ -8,6 +8,7 @@ import {
     requestDeleteCategory,
     requestGetCategories,
     requestUpdateCategory,
+    requestUpdateSubCategory,
 } from "../../../app/reducers/category-slice";
 import { ConfirmModal } from "../../../components/common/confirm-modal/confirm-modal";
 import { colors } from "../../../constants";
@@ -17,16 +18,15 @@ import { AddCategoryModal } from "./modals/add-category-modal";
 import { AddSubCategoryModal } from "./modals/add-subcategory-modal";
 
 export const CategoryManagement = () => {
-    const { categories, isLoadingCategories, isAddingCategory, isAddingSubCategory } = useAppSelector(
-        (state) => state.categoryState,
-    );
+    const { categories, isLoadingCategories, isAddingCategory, isAddingSubCategory, isUpdatingSubCategory } =
+        useAppSelector((state) => state.categoryState);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (!isAddingCategory) {
             dispatch(requestGetCategories());
         }
-    }, [isAddingCategory, isAddingSubCategory]);
+    }, [isAddingCategory, isAddingSubCategory, isUpdatingSubCategory]);
 
     const [showAddCategoryModal, setShowCategoryModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -103,6 +103,13 @@ export const CategoryManagement = () => {
             if (!subCategory.id) {
                 dispatch(
                     requestAddSubCategory({
+                        category: category,
+                        subCategory: subCategory,
+                    }),
+                );
+            } else {
+                dispatch(
+                    requestUpdateSubCategory({
                         category: category,
                         subCategory: subCategory,
                     }),
