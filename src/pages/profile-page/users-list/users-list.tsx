@@ -2,7 +2,7 @@ import { Icon } from "@iconify/react";
 import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup, Spinner, Table } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { requestCreateUser, requestGetUserList } from "../../../app/reducers/user-slice";
+import { requestAdminUpdateUser, requestCreateUser, requestGetUserList } from "../../../app/reducers/user-slice";
 import { Paginator } from "../../../components/common/paginator/paginator";
 import { colors, pagingConstant } from "../../../constants";
 import { User } from "../../../models";
@@ -24,13 +24,23 @@ export const UsersList = () => {
     };
 
     const [showModal, setShowModal] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<User>();
 
     const onCreateUser = () => {
         setShowModal(true);
     };
 
+    const onUpdateUser = (user: User) => {
+        setShowModal(true);
+        setSelectedUser(user);
+    };
+
     const onSubmit = (user: User) => {
-        dispatch(requestCreateUser(user));
+        if (!user.id) {
+            dispatch(requestCreateUser(user));
+        } else {
+            dispatch(requestAdminUpdateUser(user));
+        }
 
         closeCreateUserModal();
     };
@@ -41,6 +51,7 @@ export const UsersList = () => {
 
     const closeCreateUserModal = () => {
         setShowModal(false);
+        setSelectedUser(undefined);
     };
 
     return (
@@ -79,7 +90,11 @@ export const UsersList = () => {
                                     <td>{user.email}</td>
                                     <td>{User.roleNameOf(user.role)}</td>
                                     <td className="d-flex justify-content-around">
-                                        <Icon icon="bx:bxs-edit" style={{ color: colors.primary, fontSize: 24 }} />
+                                        <Icon
+                                            icon="bx:bxs-edit"
+                                            style={{ color: colors.primary, fontSize: 24 }}
+                                            onClick={() => onUpdateUser(user)}
+                                        />
                                         <Icon
                                             icon="fluent:delete-24-regular"
                                             style={{ color: colors.red, fontSize: 24 }}
@@ -107,6 +122,7 @@ export const UsersList = () => {
                 show={showModal}
                 onCancel={onCancelCreateUser}
                 onConfirm={onSubmit}
+                user={selectedUser}
             />
         </div>
     );

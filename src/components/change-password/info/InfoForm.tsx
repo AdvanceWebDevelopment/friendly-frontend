@@ -26,12 +26,10 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const isPending = useAppSelector(selectChangePasswordPending);
 
     React.useEffect(() => {
-        console.log(isPending);
         if (!isPending) {
             if (errorMessage) {
                 alert(errorMessage);
             } else {
-                console.log("Go to finish");
                 goToNextStep();
             }
         }

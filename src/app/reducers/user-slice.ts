@@ -50,6 +50,7 @@ interface UserState {
     loadedUserListTotalPages: number;
 
     isCreatingUser: boolean;
+    isUpdatingUser: boolean;
 }
 
 export const userSlice = createSlice({
@@ -96,6 +97,7 @@ export const userSlice = createSlice({
         users: [],
 
         isCreatingUser: false,
+        isUpdatingUser: false,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -212,6 +214,12 @@ export const userSlice = createSlice({
         completeCreateUser: (state: UserState, action: PayloadAction<User>) => {
             state.isCreatingUser = false;
         },
+        requestAdminUpdateUser: (state: UserState, action: PayloadAction<User>) => {
+            state.isUpdatingUser = true;
+        },
+        completeAdminUpdateUser: (state: UserState, action: PayloadAction<User>) => {
+            state.isUpdatingUser = false;
+        },
     },
 });
 
@@ -254,6 +262,9 @@ export const {
 
     requestCreateUser,
     completeCreateUser,
+
+    requestAdminUpdateUser,
+    completeAdminUpdateUser,
 } = userSlice.actions;
 
 export const userReducer = userSlice.reducer;

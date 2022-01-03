@@ -29,7 +29,6 @@ export const UpgradeRequests = () => {
     };
 
     const downgradeUser = () => {
-        console.log(currentUserId);
         dispatch(upgrade(currentUserId.toString()));
         setIsModalShown(false);
     };

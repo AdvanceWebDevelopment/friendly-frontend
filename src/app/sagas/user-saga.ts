@@ -30,7 +30,8 @@ import {
     completeGetUserList,
     requestCreateUser,
     completeCreateUser,
-
+    requestAdminUpdateUser,
+    completeAdminUpdateUser,
 } from "../reducers/user-slice";
 
 function* watchRequestUser() {
@@ -270,6 +271,24 @@ function* watchRequestCreateUser() {
     }
 }
 
+function* watchRequestAdminUpdateUser() {
+    while (true) {
+        try {
+            const action: PayloadAction<User> = yield take(requestAdminUpdateUser.type);
+
+            const response: User | undefined = yield call(userService.adminUpdateUser, action.payload);
+
+            if (response) {
+                yield put(completeAdminUpdateUser(response));
+            } else {
+                alert("Có lỗi xảy ra khi tạo người dùng. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
     yield all([
         watchRequestUser(),
@@ -285,5 +304,6 @@ export function* userSaga() {
         watchDowngradeUser(),
         watchRequestGetUserList(),
         watchRequestCreateUser(),
+        watchRequestAdminUpdateUser(),
     ]);
 }

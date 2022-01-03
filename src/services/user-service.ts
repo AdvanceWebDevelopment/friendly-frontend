@@ -63,7 +63,7 @@ export const userService = {
 
             return products;
         } catch (error: any) {
-            console.log(error?.response?.data);
+            console.error(error?.response?.data);
             return undefined;
         }
     },
@@ -171,7 +171,6 @@ export const userService = {
             const response = (await axios.put(`${API_HOST}/${apiRoute.USER}/change-password`, request, {
                 headers: authUtils.getAuthHeader(),
             })) as any;
-            console.log(response.data?.message);
             return response.data?.message;
         } catch (error: any) {
             console.error(JSON.stringify(error));
@@ -200,7 +199,6 @@ export const userService = {
 
     async downgrade(userId: string): Promise<string | undefined> {
         try {
-            console.log(userId);
             const response = await axios.put(
                 `${API_HOST}/${apiRoute.ADMIN}/${apiRoute.SELLER}/${userId}`,
                 {},
@@ -208,7 +206,6 @@ export const userService = {
                     headers: authUtils.getAuthHeader(),
                 },
             );
-            // console.log(response);
             if (response.data?.responseHeader?.accessToken) {
                 authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
             }
@@ -292,6 +289,30 @@ export const userService = {
             };
 
             const response = await axios.post(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.USER}`, request, {
+                headers: authUtils.getAuthHeader(),
+            });
+
+            const accessToken = response.data?.responseHeader?.accessToken;
+            if (accessToken) {
+                authUtils.updateAccessToken(accessToken);
+            }
+
+            return user;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
+    async adminUpdateUser(user: User): Promise<User | undefined> {
+        try {
+            const request = {
+                email: user.email,
+                password: user.password,
+                name: user.name,
+                dateOfBirth: user.dob,
+            };
+
+            const response = await axios.patch(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.USER}/${user.id}`, request, {
                 headers: authUtils.getAuthHeader(),
             });
 

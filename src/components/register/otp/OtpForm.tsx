@@ -49,7 +49,6 @@ export default function OtpForm({ goToNextStep, goToPrevStep }: OtpFormProps) {
                 otp,
                 email,
             };
-            console.log(otpRequest);
             dispatch(registerActions.sendOtp(otpRequest));
         }
     };
