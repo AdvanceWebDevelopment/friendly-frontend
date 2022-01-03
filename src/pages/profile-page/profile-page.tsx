@@ -58,6 +58,11 @@ export const ProfilePage = () => {
             value: "upgrade-requests",
             role: UserRole.ADMIN,
         },
+        {
+            name: "Danh Sách Người Bán",
+            value: "list-sellers",
+            role: UserRole.ADMIN,
+        },
     ];
 
     const location = useLocation();

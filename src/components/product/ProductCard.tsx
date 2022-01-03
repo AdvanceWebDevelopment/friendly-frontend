@@ -37,11 +37,6 @@ dayjs.updateLocale("en", {
     },
 });
 
-/**
- * Product card props include:
- * Product img, name, end date, total bid count,  post date, current bid price, bidder, buy price
- */
-
 export interface ProductCardProps {
     product?: Product;
 }

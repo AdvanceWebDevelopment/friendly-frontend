@@ -27,6 +27,7 @@ import {
     CategoryManagement,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
+import { ListSellers } from "./pages/profile-page/list-sellers/list-sellers";
 
 function App() {
     const dispatch = useAppDispatch();
@@ -59,6 +60,7 @@ function App() {
                         <Route path="category-management" element={<CategoryManagement />} />
                         <Route path="users-list" element={<UsersList />} />
                         <Route path="upgrade-requests" element={<UpgradeRequests />} />
+                        <Route path="list-sellers" element={<ListSellers />} />
                     </Route>
                     <Route path={apiRoute.POST_PRODUCT} element={<PostProductPage />} />
                 </Route>
