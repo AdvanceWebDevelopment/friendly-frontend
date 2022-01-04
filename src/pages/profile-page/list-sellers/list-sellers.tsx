@@ -59,26 +59,22 @@ export const ListSellers = () => {
                         <tbody>
                             {loadedSellers?.map((seller, index) => {
                                 return (
-                                    <>
-                                        <tr key={index} className="align-items-end">
-                                            <td>
-                                                {pagingConstant.PAGE_SIZE * (loadedSellersCurrentPage - 1) + index + 1}
-                                            </td>
-                                            <td>{seller.name}</td>
-                                            <td>{seller.email}</td>
-                                            <td>{seller.dob?.toLocaleDateString("en-AU")}</td>
-                                            <td>{seller.points}</td>
-                                            <td>
-                                                <Button
-                                                    type="button"
-                                                    variant="danger"
-                                                    onClick={(e) => onDowngradeClick(seller.id ?? 0)}
-                                                >
-                                                    Giáng Cấp
-                                                </Button>
-                                            </td>
-                                        </tr>
-                                    </>
+                                    <tr key={index} className="align-items-end">
+                                        <td>{pagingConstant.PAGE_SIZE * (loadedSellersCurrentPage - 1) + index + 1}</td>
+                                        <td>{seller.name}</td>
+                                        <td>{seller.email}</td>
+                                        <td>{seller.dob?.toLocaleDateString("en-AU")}</td>
+                                        <td>{seller.points}</td>
+                                        <td>
+                                            <Button
+                                                type="button"
+                                                variant="danger"
+                                                onClick={(e) => onDowngradeClick(seller.id ?? 0)}
+                                            >
+                                                Giáng Cấp
+                                            </Button>
+                                        </td>
+                                    </tr>
                                 );
                             })}
                         </tbody>

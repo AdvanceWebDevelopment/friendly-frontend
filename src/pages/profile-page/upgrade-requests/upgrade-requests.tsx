@@ -31,6 +31,7 @@ export const UpgradeRequests = () => {
     const downgradeUser = () => {
         dispatch(upgrade(currentUserId.toString()));
         setIsModalShown(false);
+        window.location.reload();
     };
 
     const onDowngradeClick = (userId: number) => {
@@ -64,28 +65,26 @@ export const UpgradeRequests = () => {
                         <tbody>
                             {loadedListReqUpgrade?.map((requests, index) => {
                                 return (
-                                    <>
-                                        <tr key={index} className="align-items-end">
-                                            <td>
-                                                {pagingConstant.PAGE_SIZE * (loadedListReqUpgradeCurrentPage - 1) +
-                                                    index +
-                                                    1}
-                                            </td>
-                                            <td>{requests.name}</td>
-                                            <td>{requests.email}</td>
-                                            <td>{requests.dob?.toLocaleDateString("en-AU")}</td>
-                                            <td>{requests.points}</td>
-                                            <td>
-                                                <Button
-                                                    type="button"
-                                                    variant="success"
-                                                    onClick={(e) => onDowngradeClick(requests.id ?? 0)}
-                                                >
-                                                    Thăng cấp
-                                                </Button>
-                                            </td>
-                                        </tr>
-                                    </>
+                                    <tr key={requests.id} className="align-items-end">
+                                        <td>
+                                            {pagingConstant.PAGE_SIZE * (loadedListReqUpgradeCurrentPage - 1) +
+                                                index +
+                                                1}
+                                        </td>
+                                        <td>{requests.bidder?.name}</td>
+                                        <td>{requests.bidder?.email}</td>
+                                        <td>{requests.bidder?.dob?.toLocaleDateString("en-AU")}</td>
+                                        <td>{requests.bidder?.points}</td>
+                                        <td>
+                                            <Button
+                                                type="button"
+                                                variant="success"
+                                                onClick={(e) => onDowngradeClick(requests.bidder?.id ?? 0)}
+                                            >
+                                                Thăng cấp
+                                            </Button>
+                                        </td>
+                                    </tr>
                                 );
                             })}
                         </tbody>
@@ -104,7 +103,7 @@ export const UpgradeRequests = () => {
             <ConfirmModal2
                 show={isModalShown}
                 headingTitle="Xác Nhận"
-                bodyContent="Bạn có chắc là muốn giáng chức người dùng này?"
+                bodyContent="Bạn có chắc là muốn thăng chức người dùng này?"
                 onConfirm={downgradeUser}
                 onCancel={onCloseModal}
             />

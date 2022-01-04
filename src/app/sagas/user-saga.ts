@@ -1,7 +1,12 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
 import { Product, User, UserRole } from "../../models";
-import { ProductResponseWithPaging, UserResponseWithPaging, userService } from "../../services";
+import {
+    ProductResponseWithPaging,
+    UpgradeResponseWithPaging,
+    UserResponseWithPaging,
+    userService,
+} from "../../services";
 import {
     completeDowngrade,
     completeGetListSeller,
@@ -187,7 +192,7 @@ function* watchRequestListUpgrade() {
         try {
             const action: PayloadAction<number> = yield take(requestListUpgrade);
 
-            const response: UserResponseWithPaging | undefined = yield call(
+            const response: UpgradeResponseWithPaging | undefined = yield call(
                 userService.getListRequestUpgrade,
                 action.payload,
             );

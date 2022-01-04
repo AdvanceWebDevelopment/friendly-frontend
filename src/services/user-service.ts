@@ -11,6 +11,17 @@ export interface UserResponseWithPaging {
     totalPages?: number;
 }
 
+export interface UpgradeRequests {
+    id: number;
+    bidder: User;
+}
+
+export interface UpgradeResponseWithPaging {
+    request: UpgradeRequests[];
+    currentPage?: number;
+    totalPages?: number;
+}
+
 export interface ReviewRequest {
     comment: string;
     like: boolean;
@@ -236,7 +247,7 @@ export const userService = {
         }
     },
 
-    async getListRequestUpgrade(page: number): Promise<UserResponseWithPaging | undefined> {
+    async getListRequestUpgrade(page: number): Promise<UpgradeResponseWithPaging | undefined> {
         try {
             const response = await axios.get(`${API_HOST}/${apiRoute.ADMIN}/${apiRoute.BIDDER}`, {
                 headers: authUtils.getAuthHeader(),
@@ -245,10 +256,9 @@ export const userService = {
                     size: pagingConstant.PAGE_SIZE,
                 },
             });
-
-            const users: User[] = response.data?.responseBody?.content?.map((seller: any) => User.fromData(seller));
+            console.log(response.data?.responseBody?.content);
             return {
-                users: users,
+                request: response.data?.responseBody?.content,
                 currentPage: page + 1,
                 totalPages: response.data?.responseBody?.totalPages ?? 1,
             };
