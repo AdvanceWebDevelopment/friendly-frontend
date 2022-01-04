@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product, User, UserRole } from "../../models";
-import { ProductResponseWithPaging, ReviewRequest, UserResponseWithPaging } from "../../services";
+import {
+    ProductResponseWithPaging,
+    ReviewRequest,
+    UpgradeRequests,
+    UpgradeResponseWithPaging,
+    UserResponseWithPaging,
+} from "../../services";
 import { RootState } from "../store";
 
 export interface WinnerPayload {
@@ -37,7 +43,7 @@ interface UserState {
     loadedSellersTotalPages: number;
 
     isLoadingListRequestUpgrade: boolean;
-    loadedListReqUpgrade: User[];
+    loadedListReqUpgrade: UpgradeRequests[];
     loadedListReqUpgradeCurrentPage: number;
     loadedListReqUpgradeTotalPages: number;
 
@@ -179,9 +185,9 @@ export const userSlice = createSlice({
             state.loadedListReqUpgradeCurrentPage = 1;
             state.loadedListReqUpgradeTotalPages = 1;
         },
-        completeGetListUpgrade: (state: UserState, action: PayloadAction<UserResponseWithPaging>) => {
+        completeGetListUpgrade: (state: UserState, action: PayloadAction<UpgradeResponseWithPaging>) => {
             state.isLoadingListRequestUpgrade = false;
-            state.loadedListReqUpgrade = action.payload.users ?? [];
+            state.loadedListReqUpgrade = action.payload.request ?? [];
             state.loadedListReqUpgradeCurrentPage = action.payload.currentPage ?? 1;
             state.loadedListReqUpgradeTotalPages = action.payload.totalPages ?? 1;
         },
