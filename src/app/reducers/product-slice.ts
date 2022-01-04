@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product } from "../../models";
-import { UpdateProductDescriptionRequest } from "../../services";
+import { Bid, Product } from "../../models";
+import { BidProductRequest, UpdateProductDescriptionRequest } from "../../services";
 
 interface ProductState {
     isLoadingMostBidded: boolean;
@@ -30,6 +30,24 @@ interface ProductState {
 
     isDeletingProduct?: boolean;
     deletedProduct?: Product;
+
+    isBiddingProduct: boolean;
+}
+
+const update = (product: Product, updatedProduct?: Product) => {
+    product.highestBidder = updatedProduct?.highestBidder;
+    product.currentPrice = updatedProduct?.currentPrice;
+    product.currentBids = updatedProduct?.currentBids;
+};
+
+export function updateBidderInProducts(products: Product[], bid: Bid) {
+    const updatedProduct = bid.product;
+
+    products.forEach((product) => {
+        if (product.id === updatedProduct?.id) {
+            update(product, updatedProduct ?? {});
+        }
+    });
 }
 
 const productSlice = createSlice({
@@ -62,6 +80,8 @@ const productSlice = createSlice({
 
         isDeletingProduct: undefined,
         deletedProduct: undefined,
+
+        isBiddingProduct: false,
     } as ProductState,
     reducers: {
         requestTopFiveMostBidded: (state) => {
@@ -130,6 +150,31 @@ const productSlice = createSlice({
         setIsDeletingProduct: (state, action: PayloadAction<boolean | undefined>) => {
             state.isDeletingProduct = action.payload;
         },
+        requestBidProduct: (state, action: PayloadAction<BidProductRequest>) => {
+            state.isBiddingProduct = true;
+        },
+        completeBidProduct: (state, action: PayloadAction<Bid>) => {
+            state.isBiddingProduct = false;
+
+            updateBidderInProducts(state.hottestProducts, action.payload);
+            updateBidderInProducts(state.endSoonProducts, action.payload);
+            updateBidderInProducts(state.mostBiddedProducts, action.payload);
+            updateBidderInProducts(state.relatedProducts, action.payload);
+
+            if (state.productDetail.id === action.payload.product?.id) {
+                update(state.productDetail, action.payload.product);
+            }
+        },
+        updateHighestBidder: (state, action: PayloadAction<Bid>) => {
+            updateBidderInProducts(state.hottestProducts, action.payload);
+            updateBidderInProducts(state.endSoonProducts, action.payload);
+            updateBidderInProducts(state.mostBiddedProducts, action.payload);
+            updateBidderInProducts(state.relatedProducts, action.payload);
+
+            if (state.productDetail.id === action.payload.product?.id) {
+                update(state.productDetail, action.payload.product);
+            }
+        },
     },
 });
 
@@ -157,6 +202,10 @@ export const {
     requestDeleteProduct,
     completeDeleteProduct,
     setIsDeletingProduct,
+
+    requestBidProduct,
+    completeBidProduct,
+    updateHighestBidder,
 } = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

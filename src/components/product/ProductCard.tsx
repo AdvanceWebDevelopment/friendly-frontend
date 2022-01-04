@@ -1,7 +1,12 @@
 import { Icon } from "@iconify/react";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import updateLocale from "dayjs/plugin/updateLocale";
 import * as React from "react";
 import { Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { requestBidProduct } from "../../app/reducers/product-slice";
 import { apiRoute, timeConstants } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
@@ -11,10 +16,6 @@ import ProductModal from "./modal/product/ProductBidModal";
 import Heading from "./price-heading/Heading";
 import classes from "./ProductCard.module.css";
 import ProductOptions from "./ProductOptions";
-import updateLocale from "dayjs/plugin/updateLocale";
-import relativeTime from "dayjs/plugin/relativeTime";
-import dayjs from "dayjs";
-import { useAppSelector } from "../../app/hook";
 
 dayjs.extend(updateLocale);
 dayjs.extend(relativeTime);
@@ -42,6 +43,8 @@ export interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+    const dispatch = useAppDispatch();
+
     const [showBidModal, setShowBidModal] = React.useState(false);
     const [isNewProd, setIsNewProd] = React.useState(false);
 
@@ -53,6 +56,18 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     const closeBidModalHandler = () => {
         setShowBidModal(false);
+    };
+
+    const onSubmitBid = (price: number) => {
+        console.log("On Submit");
+        dispatch(
+            requestBidProduct({
+                product,
+                price,
+            }),
+        );
+
+        closeBidModalHandler();
     };
 
     React.useEffect(() => {
@@ -139,7 +154,12 @@ export default function ProductCard({ product }: ProductCardProps) {
                             </div>
                         </div>
                     </figure>
-                    <ProductModal show={showBidModal} handleClose={closeBidModalHandler} />
+                    <ProductModal
+                        show={showBidModal}
+                        handleClose={closeBidModalHandler}
+                        product={product}
+                        onConfirm={onSubmitBid}
+                    />
                 </div>
             )}
         </>

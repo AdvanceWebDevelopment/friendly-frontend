@@ -1,30 +1,35 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import SockJsClient from "react-stomp";
 import "./App.css";
 import { useAppDispatch } from "./app/hook";
+import { updateProductHighestBidder } from "./app/reducers/category-slice";
+import { updateHighestBidder } from "./app/reducers/product-slice";
 import { requestUser } from "./app/reducers/user-slice";
 import { ScrollTopButton } from "./components/scroll-top-button/scroll-top-button";
+import { webSocketConstants } from "./constants";
 import { apiRoute } from "./constants/api-routes";
+import { Bid } from "./models";
 import {
     BiddingProducts,
+    CategoryManagement,
     CategoryPage,
     ExpiredProducts,
     FavoriteProducts,
+    ForgotPasswordPage,
     HomePage,
+    LoginPage,
+    PostProductPage,
     ProductDetailPage,
+    ProductSearchPage,
     ProfilePage,
+    RegisterPage,
     SellingProducts,
     UpgradeRequests,
     UserInfo,
     UserPoints,
     UsersList,
     WinningHistory,
-    RegisterPage,
-    LoginPage,
-    ForgotPasswordPage,
-    PostProductPage,
-    ProductSearchPage,
-    CategoryManagement,
     WonProducts,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
@@ -37,8 +42,26 @@ function App() {
         dispatch(requestUser());
     }, []);
 
+    let onConnected = () => {
+        console.log("Connected!!");
+    };
+
+    let onMessageReceived = (payload: any) => {
+        const bid = Bid.fromData(payload.message);
+
+        dispatch(updateProductHighestBidder(bid));
+        dispatch(updateHighestBidder(bid));
+    };
+
     return (
         <BrowserRouter>
+            <SockJsClient
+                url={webSocketConstants.WEB_SOCKET_HOST}
+                topics={[webSocketConstants.BID_HISTORY_TOPIC]}
+                onConnect={() => onConnected()}
+                onMessage={(msg: any) => onMessageReceived(msg)}
+                autoReconnect
+            />
             <Routes>
                 <Route path={apiRoute.HOME} element={<DoranPage />}>
                     <Route path={apiRoute.HOME} element={<HomePage />} />
@@ -75,3 +98,37 @@ function App() {
 }
 
 export default App;
+
+// import React, { useState } from "react";
+// import SockJsClient from "react-stomp";
+
+// const SOCKET_URL = "https://doran-backend.eastus.azurecontainer.io/ws-message";
+
+// const App = () => {
+//     const [message, setMessage] = useState("You server message here.");
+
+//     let onConnected = () => {
+//         console.log("Connected!!");
+//     };
+
+//     let onMessageReceived = (msg: any) => {
+//         console.log(msg);
+//         //    setMessage(msg.message);
+//     };
+
+//     return (
+//         <div>
+//             <SockJsClient
+//                 url={SOCKET_URL}
+//                 topics={["/topic/history"]}
+//                 onConnect={onConnected}
+//                 //onDisconnect={console.log("Disconnected!")}
+//                 onMessage={(msg: any) => onMessageReceived(msg)}
+//                 debug={false}
+//             />
+//             <div>{message}</div>
+//         </div>
+//     );
+// };
+
+// export default App;

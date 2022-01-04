@@ -1,7 +1,7 @@
 import axios from "axios";
 import { imageService } from ".";
 import { apiRoute, API_HOST } from "../constants/api-routes";
-import { Product } from "../models";
+import { Bid, Product } from "../models";
 import { authUtils } from "../utils";
 
 export type SortOption = "DATE" | "PRICE";
@@ -23,6 +23,11 @@ export interface ProductResponseWithPaging {
     products?: Product[];
     currentPage?: number;
     totalPages?: number;
+}
+
+export interface BidProductRequest {
+    product?: Product;
+    price?: number;
 }
 
 export const productService = {
@@ -137,6 +142,30 @@ export const productService = {
             }
 
             return product;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
+    async bidProduct({ product, price }: BidProductRequest): Promise<Bid | undefined> {
+        try {
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}/${product?.id}`,
+                {
+                    price: price,
+                },
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            const bid = Bid.fromData(response.data?.object);
+
+            return bid;
         } catch (error: any) {
             console.error(error?.response?.data);
             return undefined;

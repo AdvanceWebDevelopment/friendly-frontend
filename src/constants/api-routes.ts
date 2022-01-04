@@ -20,6 +20,8 @@ export const apiRoute = {
     WIN: "win,",
 };
 
-export const API_HOST = "https://doran-backend.eastus.azurecontainer.io/api";
+export const HOST = "https://doran-backend.eastus.azurecontainer.io";
+
+export const API_HOST = HOST + "/api";
 
 export const IMAGE_HOST = "https://api.cloudinary.com/v1_1/nettruyenz/image/upload";

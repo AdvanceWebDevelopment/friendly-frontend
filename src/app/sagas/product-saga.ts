@@ -1,8 +1,10 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take, takeLatest } from "redux-saga/effects";
-import { Product } from "../../models";
-import { productService, UpdateProductDescriptionRequest } from "../../services";
+import { Bid, Product } from "../../models";
+import { BidProductRequest, productService, UpdateProductDescriptionRequest } from "../../services";
+import { updateProductHighestBidder } from "../reducers/category-slice";
 import {
+    completeBidProduct,
     completeDeleteProduct,
     completeGetProductDetail,
     completeGetTopFiveEndSoon,
@@ -10,6 +12,7 @@ import {
     completeGetTopFiveMostBidded,
     completeUpdateProductDescription,
     completeUploadProduct,
+    requestBidProduct,
     requestDeleteProduct,
     requestProductDetail,
     requestTopFiveEndSoon,
@@ -108,6 +111,25 @@ function* watchRequestDeleteProduct() {
     }
 }
 
+function* watchRequestBidProduct() {
+    while (true) {
+        try {
+            const action: PayloadAction<BidProductRequest> = yield take(requestBidProduct.type);
+
+            const bid: Bid | undefined = yield call(productService.bidProduct, action.payload);
+
+            if (!bid) {
+                alert("Đã có lỗi xảy ra trong quá trình ra giá. Vui lòng thử lại sau.");
+            } else {
+                yield put(completeBidProduct(bid));
+                yield put(updateProductHighestBidder(bid));
+            }
+        } catch (error: any) {
+            console.error(error);
+        }
+    }
+}
+
 export function* productSaga() {
     yield all([
         watchReqestTopFiveProducts(),
@@ -115,6 +137,7 @@ export function* productSaga() {
         watchRequestUploadProduct(),
         watchRequestUpdateProductDescription(),
         watchRequestDeleteProduct(),
+        watchRequestBidProduct(),
     ]);
 }
 

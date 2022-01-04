@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product, SubCategory, Category } from "../../models";
+import { Bid, Category, Product, SubCategory } from "../../models";
 import { AddSubCategoryRequest, ProductResponseWithPaging, SearchProductRequest } from "../../services";
 import { RootState } from "../store";
+import { updateBidderInProducts } from "./product-slice";
 
 interface CategoryState {
     isLoadingCategories: boolean;
@@ -125,6 +126,9 @@ const categorySlice = createSlice({
                 );
             });
         },
+        updateProductHighestBidder: (state, action: PayloadAction<Bid>) => {
+            updateBidderInProducts(state.categoryProducts, action.payload);
+        },
     },
 });
 
@@ -157,6 +161,8 @@ export const {
 
     requestDeleteSubCategory,
     completeDeleteSubCategory,
+
+    updateProductHighestBidder,
 } = categorySlice.actions;
 
 export const selectCategories = (state: RootState) => state.categoryState.categories;

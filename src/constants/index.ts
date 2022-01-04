@@ -4,3 +4,4 @@ export { authConstants } from "./auth-constants";
 export { KEY } from "./captcha";
 export { timeConstants } from "./time";
 export { pagingConstant } from "./paging-constant";
+export { webSocketConstants } from "./web-socket-constants";
