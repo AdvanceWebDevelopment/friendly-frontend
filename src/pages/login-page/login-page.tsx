@@ -19,7 +19,6 @@ export const LoginPage = () => {
     const [isLoginClicked, setIsLoginClicked] = React.useState(false);
 
     React.useEffect(() => {
-        console.log(isAuthenticated);
         if (isAuthenticated) {
             navigate(apiRoute.HOME);
         }

@@ -165,7 +165,7 @@ function* watchSendReview() {
                 alert("Có lỗi khi gửi nhận xét");
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 }

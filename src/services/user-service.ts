@@ -94,7 +94,7 @@ export const userService = {
 
             return products;
         } catch (error: any) {
-            console.log(error?.response?.data);
+            console.error(error?.response?.data);
             return undefined;
         }
     },
@@ -256,7 +256,6 @@ export const userService = {
                     size: pagingConstant.PAGE_SIZE,
                 },
             });
-            console.log(response.data?.responseBody?.content);
             return {
                 request: response.data?.responseBody?.content,
                 currentPage: page + 1,

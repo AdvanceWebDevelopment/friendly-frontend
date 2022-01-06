@@ -98,37 +98,3 @@ function App() {
 }
 
 export default App;
-
-// import React, { useState } from "react";
-// import SockJsClient from "react-stomp";
-
-// const SOCKET_URL = "https://doran-backend.eastus.azurecontainer.io/ws-message";
-
-// const App = () => {
-//     const [message, setMessage] = useState("You server message here.");
-
-//     let onConnected = () => {
-//         console.log("Connected!!");
-//     };
-
-//     let onMessageReceived = (msg: any) => {
-//         console.log(msg);
-//         //    setMessage(msg.message);
-//     };
-
-//     return (
-//         <div>
-//             <SockJsClient
-//                 url={SOCKET_URL}
-//                 topics={["/topic/history"]}
-//                 onConnect={onConnected}
-//                 //onDisconnect={console.log("Disconnected!")}
-//                 onMessage={(msg: any) => onMessageReceived(msg)}
-//                 debug={false}
-//             />
-//             <div>{message}</div>
-//         </div>
-//     );
-// };
-
-// export default App;
