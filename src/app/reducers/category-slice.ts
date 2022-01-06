@@ -165,6 +165,8 @@ export const {
     updateProductHighestBidder,
 } = categorySlice.actions;
 
+export const categoryActions = categorySlice.actions;
+
 export const selectCategories = (state: RootState) => state.categoryState.categories;
 
 export const categoryReducer = categorySlice.reducer;

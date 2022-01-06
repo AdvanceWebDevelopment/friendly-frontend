@@ -34,7 +34,7 @@ interface ProductState {
     isBiddingProduct: boolean;
 }
 
-const update = (product: Product, updatedProduct?: Product) => {
+const updateProductBidStatus = (product: Product, updatedProduct?: Product) => {
     product.highestBidder = updatedProduct?.highestBidder;
     product.currentPrice = updatedProduct?.currentPrice;
     product.currentBids = updatedProduct?.currentBids;
@@ -45,7 +45,7 @@ export function updateBidderInProducts(products: Product[], bid: Bid) {
 
     products.forEach((product) => {
         if (product.id === updatedProduct?.id) {
-            update(product, updatedProduct ?? {});
+            updateProductBidStatus(product, updatedProduct ?? {});
         }
     });
 }
@@ -162,7 +162,7 @@ const productSlice = createSlice({
             updateBidderInProducts(state.relatedProducts, action.payload);
 
             if (state.productDetail.id === action.payload.product?.id) {
-                update(state.productDetail, action.payload.product);
+                updateProductBidStatus(state.productDetail, action.payload.product);
             }
         },
         updateHighestBidder: (state, action: PayloadAction<Bid>) => {
@@ -172,7 +172,7 @@ const productSlice = createSlice({
             updateBidderInProducts(state.relatedProducts, action.payload);
 
             if (state.productDetail.id === action.payload.product?.id) {
-                update(state.productDetail, action.payload.product);
+                updateProductBidStatus(state.productDetail, action.payload.product);
             }
         },
     },
@@ -207,5 +207,7 @@ export const {
     completeBidProduct,
     updateHighestBidder,
 } = productSlice.actions;
+
+export const productActions = productSlice.actions;
 
 export const productReducer = productSlice.reducer;

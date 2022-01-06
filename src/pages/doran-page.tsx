@@ -15,7 +15,12 @@ export const DoranPage = () => {
             <Header />
             <Image
                 src={auctionBanner}
-                style={{ width: "100%", zIndex: -1, borderBottomRightRadius: "25%", borderBottomLeftRadius: "25%" }}
+                style={{
+                    width: "100%",
+                    zIndex: -1,
+                    borderBottomRightRadius: "25%",
+                    borderBottomLeftRadius: "25%",
+                }}
                 hidden={
                     location.pathname.includes(apiRoute.LOGIN) ||
                     location.pathname.includes(apiRoute.REGISTER) ||

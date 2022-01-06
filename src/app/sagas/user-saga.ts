@@ -7,51 +7,19 @@ import {
     UserResponseWithPaging,
     userService,
 } from "../../services";
-import {
-    completeDowngrade,
-    completeGetListSeller,
-    completeGetListUpgrade,
-    completeGetUser,
-    completeGetWatchList,
-    completeUpdateUser,
-    completeUpgrade,
-    requestAddToWatchList,
-    requestListSeller,
-    requestListUpgrade,
-    requestUpdateUser,
-    requestUser,
-    requestWatchList,
-    upgrade,
-    downgrade,
-    requestWonList,
-    completeGetWonList,
-    cancelDeal,
-    WinnerPayload,
-    completeCancelDeal,
-    ReviewPayload,
-    sendReview,
-    completeSendReview,
-    requestGetUserList,
-    completeGetUserList,
-    requestCreateUser,
-    completeCreateUser,
-    requestAdminUpdateUser,
-    completeAdminUpdateUser,
-    requestDeleteUser,
-    completeDeleteUser,
-} from "../reducers/user-slice";
+import { ReviewPayload, userActions, WinnerPayload } from "../reducers/user-slice";
 
 function* watchRequestUser() {
     while (true) {
         try {
-            yield take(requestUser.type);
+            yield take(userActions.requestUser.type);
             const user: User = yield call(userService.getUser);
 
             if (user && user.role !== UserRole.BIDDER) {
                 user.sellingProducts = yield call(userService.getUserSellingProducts);
             }
 
-            yield put(completeGetUser(user));
+            yield put(userActions.completeGetUser(user));
         } catch (error) {
             console.error(error);
         }
@@ -61,7 +29,7 @@ function* watchRequestUser() {
 function* watchUpdateUser() {
     while (true) {
         try {
-            const action: PayloadAction<User> = yield take(requestUpdateUser.type);
+            const action: PayloadAction<User> = yield take(userActions.requestUpdateUser.type);
 
             const successful: boolean = yield call(userService.updateUser, action.payload);
 
@@ -69,7 +37,7 @@ function* watchUpdateUser() {
                 alert("Có lỗi xảy ra. Xin hãy thử lại sau");
             }
 
-            yield put(completeUpdateUser(action.payload));
+            yield put(userActions.completeUpdateUser(action.payload));
         } catch (error) {}
     }
 }
@@ -77,7 +45,7 @@ function* watchUpdateUser() {
 function* watchRequestAddToWatchList() {
     while (true) {
         try {
-            const action: PayloadAction<Product> = yield take(requestAddToWatchList);
+            const action: PayloadAction<Product> = yield take(userActions.requestAddToWatchList);
 
             const response: boolean = yield call(userService.addToWatchList, action.payload);
 
@@ -95,7 +63,7 @@ function* watchRequestAddToWatchList() {
 function* watchRequestWatchList() {
     while (true) {
         try {
-            const action: PayloadAction<number> = yield take(requestWatchList);
+            const action: PayloadAction<number> = yield take(userActions.requestWatchList);
 
             const response: ProductResponseWithPaging | undefined = yield call(
                 userService.getFavoriteProducts,
@@ -103,7 +71,7 @@ function* watchRequestWatchList() {
             );
 
             if (response) {
-                yield put(completeGetWatchList(response));
+                yield put(userActions.completeGetWatchList(response));
             } else {
                 alert("Có lỗi xảy ra khi lấy danh sách yêu thích. Xin thử lại sau");
             }
@@ -116,10 +84,10 @@ function* watchRequestWatchList() {
 function* watchRequestWonList() {
     while (true) {
         try {
-            yield take(requestWonList.type);
+            yield take(userActions.requestWonList.type);
             const response: Product[] | undefined = yield call(userService.getUserWonProducts);
             if (response) {
-                yield put(completeGetWonList(response));
+                yield put(userActions.completeGetWonList(response));
             } else {
                 alert("Có lỗi xảy ra khi lấy danh sách sản phẩm đã có người đấu giá thắng. Xin thử lại sau");
             }
@@ -132,14 +100,14 @@ function* watchRequestWonList() {
 function* watchCancelDeal() {
     while (true) {
         try {
-            const action: PayloadAction<WinnerPayload> = yield take(cancelDeal);
+            const action: PayloadAction<WinnerPayload> = yield take(userActions.cancelDeal);
             const response: string | undefined = yield call(
                 userService.cancelDeal,
                 action.payload.productId,
                 action.payload.bidderId,
             );
             if (response) {
-                yield put(completeCancelDeal);
+                yield put(userActions.completeCancelDeal);
             } else {
                 alert("Có lỗi xảy ra khi hủy giao dịch");
             }
@@ -152,7 +120,7 @@ function* watchCancelDeal() {
 function* watchSendReview() {
     while (true) {
         try {
-            const action: PayloadAction<ReviewPayload> = yield take(sendReview);
+            const action: PayloadAction<ReviewPayload> = yield take(userActions.sendReview);
             const response: string | undefined = yield call(
                 userService.sendReview,
                 action.payload.productInfo.productId,
@@ -160,7 +128,7 @@ function* watchSendReview() {
                 action.payload.reviewInfo,
             );
             if (response) {
-                yield put(completeSendReview);
+                yield put(userActions.completeSendReview);
             } else {
                 alert("Có lỗi khi gửi nhận xét");
             }
@@ -173,11 +141,11 @@ function* watchSendReview() {
 function* watchRequestListSellers() {
     while (true) {
         try {
-            const action: PayloadAction<number> = yield take(requestListSeller);
+            const action: PayloadAction<number> = yield take(userActions.requestListSeller);
 
             const response: UserResponseWithPaging | undefined = yield call(userService.getListSellers, action.payload);
             if (response) {
-                yield put(completeGetListSeller(response));
+                yield put(userActions.completeGetListSeller(response));
             } else {
                 alert("Có lỗi xảy ra khi lấy danh sách người bán. Xin thử lại sau");
             }
@@ -190,7 +158,7 @@ function* watchRequestListSellers() {
 function* watchRequestListUpgrade() {
     while (true) {
         try {
-            const action: PayloadAction<number> = yield take(requestListUpgrade);
+            const action: PayloadAction<number> = yield take(userActions.requestListUpgrade);
 
             const response: UpgradeResponseWithPaging | undefined = yield call(
                 userService.getListRequestUpgrade,
@@ -198,7 +166,7 @@ function* watchRequestListUpgrade() {
             );
 
             if (response) {
-                yield put(completeGetListUpgrade(response));
+                yield put(userActions.completeGetListUpgrade(response));
             } else {
                 alert("Có lỗi xảy ra khi lấy danh sách yếu cầu nâng cấp tài khoản. Xin thử lại sau");
             }
@@ -211,12 +179,12 @@ function* watchRequestListUpgrade() {
 function* watchUpgradeUser() {
     while (true) {
         try {
-            const action: PayloadAction<string> = yield take(upgrade);
+            const action: PayloadAction<string> = yield take(userActions.upgrade);
 
             const response: string | undefined = yield call(userService.upgrade, action.payload);
 
             if (response) {
-                yield put(completeUpgrade());
+                yield put(userActions.completeUpgrade());
             } else {
                 alert("Có lỗi xảy ra khi nâng cấp người dùng");
             }
@@ -229,11 +197,11 @@ function* watchUpgradeUser() {
 function* watchDowngradeUser() {
     while (true) {
         try {
-            const action: PayloadAction<string> = yield take(downgrade);
+            const action: PayloadAction<string> = yield take(userActions.downgrade);
             const response: string | undefined = yield call(userService.downgrade, action.payload);
 
             if (response) {
-                yield put(completeDowngrade());
+                yield put(userActions.completeDowngrade());
             } else {
                 alert("Có lỗi xảy ra khi giảm cấp người dùng");
             }
@@ -246,11 +214,11 @@ function* watchDowngradeUser() {
 function* watchRequestGetUserList() {
     while (true) {
         try {
-            const action: PayloadAction<number> = yield take(requestGetUserList.type);
+            const action: PayloadAction<number> = yield take(userActions.requestGetUserList.type);
 
             const response: UserResponseWithPaging | undefined = yield call(userService.getUserList, action.payload);
             if (response) {
-                yield put(completeGetUserList(response));
+                yield put(userActions.completeGetUserList(response));
             } else {
                 alert("Có lỗi xảy ra khi lấy danh sách người dùng. Xin thử lại sau");
             }
@@ -263,12 +231,12 @@ function* watchRequestGetUserList() {
 function* watchRequestCreateUser() {
     while (true) {
         try {
-            const action: PayloadAction<User> = yield take(requestCreateUser.type);
+            const action: PayloadAction<User> = yield take(userActions.requestCreateUser.type);
 
             const response: User | undefined = yield call(userService.createUser, action.payload);
 
             if (response) {
-                yield put(completeCreateUser(response));
+                yield put(userActions.completeCreateUser(response));
             } else {
                 alert("Có lỗi xảy ra khi tạo người dùng. Xin thử lại sau");
             }
@@ -281,12 +249,12 @@ function* watchRequestCreateUser() {
 function* watchRequestAdminUpdateUser() {
     while (true) {
         try {
-            const action: PayloadAction<User> = yield take(requestAdminUpdateUser.type);
+            const action: PayloadAction<User> = yield take(userActions.requestAdminUpdateUser.type);
 
             const response: User | undefined = yield call(userService.adminUpdateUser, action.payload);
 
             if (response) {
-                yield put(completeAdminUpdateUser(response));
+                yield put(userActions.completeAdminUpdateUser(response));
             } else {
                 alert("Có lỗi xảy ra khi cập nhật người dùng. Xin thử lại sau");
             }
@@ -299,12 +267,12 @@ function* watchRequestAdminUpdateUser() {
 function* watchRequestDeleteUser() {
     while (true) {
         try {
-            const action: PayloadAction<User> = yield take(requestDeleteUser.type);
+            const action: PayloadAction<User> = yield take(userActions.requestDeleteUser.type);
 
             const response: User | undefined = yield call(userService.deleteUser, action.payload);
 
             if (response) {
-                yield put(completeDeleteUser(response));
+                yield put(userActions.completeDeleteUser(response));
             } else {
                 alert("Có lỗi xảy ra khi xóa người dùng. Xin thử lại sau");
             }

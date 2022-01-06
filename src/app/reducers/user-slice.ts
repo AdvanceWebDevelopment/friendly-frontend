@@ -285,6 +285,8 @@ export const {
     completeDeleteUser,
 } = userSlice.actions;
 
+export const userActions = userSlice.actions;
+
 export const userReducer = userSlice.reducer;
 
 export const selectUserName = (state: RootState) => state.userState.user.name;

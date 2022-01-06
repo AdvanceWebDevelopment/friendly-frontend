@@ -8,35 +8,16 @@ import {
     productService,
     SearchProductRequest,
 } from "../../services";
-import {
-    completeAddCategory,
-    completeAddSubCategory,
-    completeDeleteCategory,
-    completeDeleteSubCategory,
-    completeGetCategories,
-    completeGetProductsByCategoryId,
-    completeSearchProduct,
-    completeUpdateCategory,
-    completeUpdateSubCategory,
-    requestAddCategory,
-    requestAddSubCategory,
-    requestDeleteCategory,
-    requestDeleteSubCategory,
-    requestGetCategories,
-    requestProductsByCategoryId,
-    requestSearchProduct,
-    requestUpdateCategory,
-    requestUpdateSubCategory,
-} from "../reducers/category-slice";
+import { categoryActions } from "../reducers/category-slice";
 
 function* watchGetCategories() {
     while (true) {
         try {
-            yield take(requestGetCategories.type);
+            yield take(categoryActions.requestGetCategories.type);
 
             const categories: Category[] = yield call(categoryService.getCategories);
 
-            yield put(completeGetCategories(categories));
+            yield put(categoryActions.completeGetCategories(categories));
         } catch (error) {
             console.error(error);
         }
@@ -47,7 +28,7 @@ function* watchRequestProductByCategory() {
     while (true) {
         try {
             const action: PayloadAction<{ categoryId: number; currentPage: number }> = yield take(
-                requestProductsByCategoryId.type,
+                categoryActions.requestProductsByCategoryId.type,
             );
 
             const { categoryId, currentPage } = action.payload as any;
@@ -61,13 +42,13 @@ function* watchRequestProductByCategory() {
 function* watchRequestSearchProduct() {
     while (true) {
         try {
-            const action: PayloadAction<SearchProductRequest> = yield take(requestSearchProduct.type);
+            const action: PayloadAction<SearchProductRequest> = yield take(categoryActions.requestSearchProduct.type);
 
             const data: ProductResponseWithPaging = yield call(productService.search, {
                 ...action.payload,
             });
 
-            yield put(completeSearchProduct(data));
+            yield put(categoryActions.completeSearchProduct(data));
         } catch (error) {
             console.error(error);
         }
@@ -77,18 +58,18 @@ function* watchRequestSearchProduct() {
 function* getProductByCategoryId(categoryId: number, currentPage: number) {
     const { products, totalPages } = yield call(categoryService.getProductByCategoryId, categoryId, currentPage - 1);
 
-    yield put(completeGetProductsByCategoryId({ products, totalPages }));
+    yield put(categoryActions.completeGetProductsByCategoryId({ products, totalPages }));
 }
 
 function* watchRequestAddCategory() {
     while (true) {
         try {
-            const action: PayloadAction<Category> = yield take(requestAddCategory.type);
+            const action: PayloadAction<Category> = yield take(categoryActions.requestAddCategory.type);
 
             const response: Category | undefined = yield call(categoryService.addCategory, action.payload);
 
             if (response) {
-                yield put(completeAddCategory(response));
+                yield put(categoryActions.completeAddCategory(response));
             } else {
                 alert("Xảy ra lỗi. Xin thử lại sau.");
             }
@@ -101,12 +82,12 @@ function* watchRequestAddCategory() {
 function* watchRequestDeleteCategory() {
     while (true) {
         try {
-            const action: PayloadAction<Category> = yield take(requestDeleteCategory.type);
+            const action: PayloadAction<Category> = yield take(categoryActions.requestDeleteCategory.type);
 
             const response: Category | undefined = yield call(categoryService.deleteCategory, action.payload);
 
             if (response) {
-                yield put(completeDeleteCategory(response));
+                yield put(categoryActions.completeDeleteCategory(response));
             } else {
                 alert("Xảy ra lỗi. Xin thử lại sau.");
             }
@@ -119,12 +100,12 @@ function* watchRequestDeleteCategory() {
 function* watchRequestUpdateCategory() {
     while (true) {
         try {
-            const action: PayloadAction<Category> = yield take(requestUpdateCategory.type);
+            const action: PayloadAction<Category> = yield take(categoryActions.requestUpdateCategory.type);
 
             const response: Category | undefined = yield call(categoryService.updateCategory, action.payload);
 
             if (response) {
-                yield put(completeUpdateCategory(response));
+                yield put(categoryActions.completeUpdateCategory(response));
             } else {
                 alert("Xảy ra lỗi. Xin thử lại sau.");
             }
@@ -137,12 +118,12 @@ function* watchRequestUpdateCategory() {
 function* watchRequestAddSubCategory() {
     while (true) {
         try {
-            const action: PayloadAction<AddSubCategoryRequest> = yield take(requestAddSubCategory.type);
+            const action: PayloadAction<AddSubCategoryRequest> = yield take(categoryActions.requestAddSubCategory.type);
 
             const response: SubCategory | undefined = yield call(categoryService.addSubCategory, action.payload);
 
             if (response) {
-                yield put(completeAddSubCategory(response));
+                yield put(categoryActions.completeAddSubCategory(response));
             } else {
                 alert("Xảy ra lỗi. Xin thử lại sau.");
             }
@@ -155,12 +136,14 @@ function* watchRequestAddSubCategory() {
 function* watchRequestUpdateSubCategory() {
     while (true) {
         try {
-            const action: PayloadAction<AddSubCategoryRequest> = yield take(requestUpdateSubCategory.type);
+            const action: PayloadAction<AddSubCategoryRequest> = yield take(
+                categoryActions.requestUpdateSubCategory.type,
+            );
 
             const response: SubCategory | undefined = yield call(categoryService.updateSubCategory, action.payload);
 
             if (response) {
-                yield put(completeUpdateSubCategory(response));
+                yield put(categoryActions.completeUpdateSubCategory(response));
             } else {
                 alert("Xảy ra lỗi. Xin thử lại sau.");
             }
@@ -173,12 +156,12 @@ function* watchRequestUpdateSubCategory() {
 function* watchRequestDeleteSubCategory() {
     while (true) {
         try {
-            const action: PayloadAction<SubCategory> = yield take(requestDeleteSubCategory.type);
+            const action: PayloadAction<SubCategory> = yield take(categoryActions.requestDeleteSubCategory.type);
 
             const response: SubCategory | undefined = yield call(categoryService.deleteSubCategory, action.payload);
 
             if (response) {
-                yield put(completeDeleteSubCategory(response));
+                yield put(categoryActions.completeDeleteSubCategory(response));
             } else {
                 alert("Xảy ra lỗi. Xin thử lại sau.");
             }
