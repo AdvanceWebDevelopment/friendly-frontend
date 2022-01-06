@@ -59,7 +59,6 @@ export default function ProductCard({ product }: ProductCardProps) {
     };
 
     const onSubmitBid = (price: number) => {
-        console.log("On Submit");
         dispatch(
             requestBidProduct({
                 product,

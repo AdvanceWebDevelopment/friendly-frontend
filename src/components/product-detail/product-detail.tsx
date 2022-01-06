@@ -8,7 +8,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { requestUpdateProductDescription, setEditProduct } from "../../app/reducers/product-slice";
+import { requestBidProduct, requestUpdateProductDescription, setEditProduct } from "../../app/reducers/product-slice";
 import { apiRoute, colors } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
@@ -53,6 +53,17 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
         if (newDescription.trim().length > 0) {
             dispatch(requestUpdateProductDescription({ product, description: newDescription.trim() }));
         }
+    };
+
+    const onSubmitBid = (price: number) => {
+        dispatch(
+            requestBidProduct({
+                product,
+                price,
+            }),
+        );
+
+        closeBidModalHandler();
     };
 
     return (
@@ -195,7 +206,12 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                         <ProductOptions product={product} />
                     </div>
                 </Col>
-                <ProductModal show={showBidModal} handleClose={closeBidModalHandler} />
+                <ProductModal
+                    show={showBidModal}
+                    handleClose={closeBidModalHandler}
+                    product={product}
+                    onConfirm={onSubmitBid}
+                />
             </Row>
         </div>
     );
