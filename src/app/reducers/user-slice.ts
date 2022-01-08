@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product, User, UserRole } from "../../models";
+import { Evaluation } from "../../models/evaluation";
 import {
+    EvaluationResponseWithPaging,
     ProductResponseWithPaging,
     ReviewRequest,
     UpgradeRequests,
@@ -63,6 +65,11 @@ interface UserState {
     loadedMyWonProducts: Product[];
     loadedMyWonProductsCurrentPages: number;
     loadedMyWonProductsTotalPages: number;
+
+    isLoadingEvaluations: boolean;
+    loadedEvaluations: Evaluation[];
+    loadedEvaluationsCurrentPage: number;
+    loadedEvaluationsTotalPages: number;
 }
 
 export const userSlice = createSlice({
@@ -116,6 +123,11 @@ export const userSlice = createSlice({
         loadedMyWonProducts: [],
         loadedMyWonProductsCurrentPages: 1,
         loadedMyWonProductsTotalPages: 1,
+
+        isLoadingEvaluations: false,
+        loadedEvaluations: [],
+        loadedEvaluationsCurrentPage: 1,
+        loadedEvaluationsTotalPages: 1,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -256,6 +268,16 @@ export const userSlice = createSlice({
             state.loadedListReqUpgradeCurrentPage = action.payload.currentPage ?? 1;
             state.loadedMyWonProductsTotalPages = action.payload.totalPages ?? 1;
         },
+
+        requestEvaluations: (state: UserState, action: PayloadAction<number>) => {
+            state.isLoadingEvaluations = true;
+        },
+        completeGetEvaluations: (state: UserState, action: PayloadAction<EvaluationResponseWithPaging>) => {
+            state.isLoadingEvaluations = false;
+            state.loadedEvaluations = action.payload.evaluations ?? [];
+            state.loadedEvaluationsCurrentPage = action.payload.currentPage ?? 1;
+            state.loadedEvaluationsTotalPages = action.payload.totalPages ?? 1;
+        },
     },
 });
 
@@ -307,6 +329,9 @@ export const {
 
     requestMyWonProducts,
     completeGetMyWonProducts,
+
+    requestEvaluations,
+    completeGetEvaluations,
 } = userSlice.actions;
 
 export const userActions = userSlice.actions;

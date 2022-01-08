@@ -31,7 +31,7 @@ const initialState: AuthState = {
         refreshToken: "",
     },
     error: "",
-    isAuthenticated: false,
+    isAuthenticated: localStorage.getItem(authConstants.ACCESS_TOKEN) !== null,
 };
 
 const authenticateSlice = createSlice({

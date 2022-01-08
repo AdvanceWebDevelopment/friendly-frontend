@@ -3,6 +3,7 @@ import { ProductResponseWithPaging } from ".";
 import { ChangePasswordRequest } from "../app/reducers/change-password-slice";
 import { apiRoute, API_HOST, pagingConstant } from "../constants";
 import { Product, User } from "../models";
+import { Evaluation } from "../models/evaluation";
 import { authUtils } from "../utils";
 
 export interface UserResponseWithPaging {
@@ -18,6 +19,13 @@ export interface UpgradeRequests {
 
 export interface UpgradeResponseWithPaging {
     request: UpgradeRequests[];
+    currentPage?: number;
+    totalPages?: number;
+}
+
+export interface EvaluationResponseWithPaging {
+    // seller: User;
+    evaluations: Evaluation[];
     currentPage?: number;
     totalPages?: number;
 }
@@ -372,6 +380,33 @@ export const userService = {
                 products: products,
                 currentPage: page + 1,
                 totalPages: response.data?.responseBody?.totalPages ?? 1,
+            };
+        } catch (err: any) {
+            console.error(err?.response?.data);
+            return undefined;
+        }
+    },
+
+    async getEvaluation(page: number = 0): Promise<EvaluationResponseWithPaging | undefined> {
+        try {
+            const response = await axios.get(
+                `${API_HOST}/${apiRoute.BIDDER}/${apiRoute.BIDDER}/${apiRoute.EVALUATION}`,
+                {
+                    headers: authUtils.getAuthHeader(),
+                    params: {
+                        page: page,
+                        size: pagingConstant.PAGE_SIZE,
+                    },
+                },
+            );
+            const evaluations: Evaluation[] = response.data?.evaluation?.content?.map((item: any) => {
+                Evaluation.fromData(item);
+            });
+            return {
+                // seller: User.fromData(response.data?.user),
+                evaluations,
+                currentPage: page + 1,
+                totalPages: response.data?.evaluation?.totalPages ?? 1,
             };
         } catch (err: any) {
             console.error(err?.response?.data);
