@@ -282,6 +282,26 @@ function* watchRequestDeleteUser() {
     }
 }
 
+function* watchRequestMyWonProducts() {
+    while (true) {
+        try {
+            const action: PayloadAction<number> = yield take(userActions.requestMyWonProducts.type);
+            const response: ProductResponseWithPaging | undefined = yield call(
+                userService.getMyWonProducts,
+                action.payload,
+            );
+
+            if (response) {
+                yield put(userActions.completeGetMyWonProducts(response));
+            } else {
+                alert("Có lỗi xảy ra khi tải danh sách sản phẩm thắng cược. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
     yield all([
         watchRequestUser(),
@@ -299,5 +319,6 @@ export function* userSaga() {
         watchRequestCreateUser(),
         watchRequestAdminUpdateUser(),
         watchRequestDeleteUser(),
+        watchRequestMyWonProducts(),
     ]);
 }

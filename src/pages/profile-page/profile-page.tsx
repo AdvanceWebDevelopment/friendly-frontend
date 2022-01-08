@@ -68,6 +68,11 @@ export const ProfilePage = () => {
             value: "list-sellers",
             role: UserRole.ADMIN,
         },
+        {
+            name: "Danh Sách Sản Phẩm Của Tôi",
+            value: "my-won-products",
+            role: UserRole.BIDDER,
+        },
     ];
 
     const location = useLocation();

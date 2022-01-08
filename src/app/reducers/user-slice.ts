@@ -58,6 +58,11 @@ interface UserState {
     isCreatingUser: boolean;
     isUpdatingUser: boolean;
     isDeletingUser: boolean;
+
+    isLoadingMyWonProducts: boolean;
+    loadedMyWonProducts: Product[];
+    loadedMyWonProductsCurrentPages: number;
+    loadedMyWonProductsTotalPages: number;
 }
 
 export const userSlice = createSlice({
@@ -106,6 +111,11 @@ export const userSlice = createSlice({
         isCreatingUser: false,
         isUpdatingUser: false,
         isDeletingUser: false,
+
+        isLoadingMyWonProducts: false,
+        loadedMyWonProducts: [],
+        loadedMyWonProductsCurrentPages: 1,
+        loadedMyWonProductsTotalPages: 1,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -153,7 +163,7 @@ export const userSlice = createSlice({
             state.isLoadingWonProducts = false;
         },
 
-        cancelDeal: (state: UserState, payload: PayloadAction<WinnerPayload>) => {
+        cancelDeal: (state: UserState, action: PayloadAction<WinnerPayload>) => {
             state.isCancelDeal = true;
         },
         completeCancelDeal: (state: UserState) => {
@@ -235,6 +245,17 @@ export const userSlice = createSlice({
             state.isDeletingUser = false;
             state.users = state.users.filter((user) => user.id !== action.payload.id);
         },
+        requestMyWonProducts: (state: UserState, action: PayloadAction<number>) => {
+            state.isLoadingMyWonProducts = true;
+            state.loadedListReqUpgradeCurrentPage = 1;
+            state.loadedMyWonProductsTotalPages = 1;
+        },
+        completeGetMyWonProducts: (state: UserState, action: PayloadAction<ProductResponseWithPaging>) => {
+            state.isLoadingMyWonProducts = false;
+            state.loadedMyWonProducts = action.payload.products ?? [];
+            state.loadedListReqUpgradeCurrentPage = action.payload.currentPage ?? 1;
+            state.loadedMyWonProductsTotalPages = action.payload.totalPages ?? 1;
+        },
     },
 });
 
@@ -283,6 +304,9 @@ export const {
 
     requestDeleteUser,
     completeDeleteUser,
+
+    requestMyWonProducts,
+    completeGetMyWonProducts,
 } = userSlice.actions;
 
 export const userActions = userSlice.actions;
