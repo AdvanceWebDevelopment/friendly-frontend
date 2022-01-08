@@ -1,5 +1,6 @@
 import axios from "axios";
 import { imageService } from ".";
+import { pagingConstant } from "../constants";
 import { apiRoute, API_HOST } from "../constants/api-routes";
 import { Bid, Product } from "../models";
 import { authUtils } from "../utils";
@@ -28,6 +29,17 @@ export interface ProductResponseWithPaging {
 export interface BidProductRequest {
     product?: Product;
     price?: number;
+}
+
+export interface ProductBidHistoryRequest {
+    product?: Product;
+    page?: number;
+}
+
+export interface ProductBidHistoryResponseWithPaging {
+    bids?: Bid[];
+    currentPage?: number;
+    totalPages?: number;
 }
 
 export const productService = {
@@ -166,6 +178,35 @@ export const productService = {
             const bid = Bid.fromData(response.data?.object);
 
             return bid;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            alert(error?.response?.data?.error);
+            return undefined;
+        }
+    },
+    async getProductBidHistory({
+        product,
+        page = 0,
+    }: ProductBidHistoryRequest): Promise<ProductBidHistoryResponseWithPaging | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}/${product?.id}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page: page,
+                    size: pagingConstant.PAGE_SIZE,
+                },
+            });
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            const bids: Bid[] = response?.data?.responseBody?.content?.map((item: any) => Bid.fromData(item));
+            return {
+                bids: bids,
+                currentPage: page + 1,
+                totalPages: response.data?.responseBody?.totalPages ?? 1,
+            };
         } catch (error: any) {
             console.error(error?.response?.data);
             return undefined;

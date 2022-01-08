@@ -18,6 +18,7 @@ export class Bid {
             bidAt: new Date(data.bidAt),
             reject: data.reject,
             status: data.status,
+            bidPrice: data.price,
         };
     }
 }

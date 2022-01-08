@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import * as React from "react";
+import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { requestDeleteProduct, setEditProduct } from "../../app/reducers/product-slice";
@@ -7,12 +8,14 @@ import { requestAddToWatchList } from "../../app/reducers/user-slice";
 import { apiRoute } from "../../constants";
 import { Product, UserRole } from "../../models";
 import { ConfirmModal } from "../common/confirm-modal/confirm-modal";
-import HistoryBidModal from "./modal/history/HistoryBidModal";
+// import HistoryBidModal from "./modal/history/HistoryBidModal";
 import classes from "./ProductOptions.module.css";
 
 interface ProductOptionsProps {
     product: Product;
 }
+
+const HistoryBidModal = React.lazy(() => import("./modal/history/HistoryBidModal"));
 
 export default function ProductOptions({ product }: ProductOptionsProps) {
     const navigate = useNavigate();
@@ -148,7 +151,11 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
                     </ul>
                 )}
             </div>
-            <HistoryBidModal show={showHistoryModal} handleClose={closeHistoryModalHandler} />
+
+            <React.Suspense fallback={<Spinner animation="border" variant="primary" className="d-block mx-auto" />}>
+                <HistoryBidModal show={showHistoryModal} handleClose={closeHistoryModalHandler} product={product} />
+            </React.Suspense>
+
             <ConfirmModal
                 show={showDeleteConfirm}
                 headingTitle="Xác Nhận"

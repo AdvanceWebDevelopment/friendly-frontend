@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { pagingConstant } from "../../constants";
 import { Bid, Product } from "../../models";
-import { BidProductRequest, UpdateProductDescriptionRequest } from "../../services";
+import {
+    BidProductRequest,
+    ProductBidHistoryRequest,
+    ProductBidHistoryResponseWithPaging,
+    UpdateProductDescriptionRequest,
+} from "../../services";
 
 interface ProductState {
     isLoadingMostBidded: boolean;
@@ -32,6 +38,11 @@ interface ProductState {
     deletedProduct?: Product;
 
     isBiddingProduct: boolean;
+
+    isLoadingBidHistory: boolean;
+    bids: Bid[];
+    currentBidHistoryPage: number;
+    totalBidHistoryPages: number;
 }
 
 const updateProductBidStatus = (product: Product, updatedProduct?: Product) => {
@@ -82,6 +93,11 @@ const productSlice = createSlice({
         deletedProduct: undefined,
 
         isBiddingProduct: false,
+
+        isLoadingBidHistory: false,
+        bids: [],
+        currentBidHistoryPage: 1,
+        totalBidHistoryPages: 1,
     } as ProductState,
     reducers: {
         requestTopFiveMostBidded: (state) => {
@@ -173,6 +189,27 @@ const productSlice = createSlice({
 
             if (state.productDetail.id === action.payload.product?.id) {
                 updateProductBidStatus(state.productDetail, action.payload.product);
+            }
+        },
+        requestProductBidHistory: (state, action: PayloadAction<ProductBidHistoryRequest>) => {
+            state.isLoadingBidHistory = true;
+        },
+        completeProductBidHistory: (state, action: PayloadAction<ProductBidHistoryResponseWithPaging>) => {
+            state.isLoadingBidHistory = false;
+            state.bids = action.payload.bids ?? [];
+            state.currentBidHistoryPage = action.payload.currentPage ?? 1;
+            state.totalBidHistoryPages =
+                !action.payload.totalPages || action.payload.totalPages === 0 ? 1 : action.payload.totalPages;
+        },
+        insertNewBidToHistory: (state, action: PayloadAction<Bid>) => {
+            const bid = action.payload;
+
+            if (state.bids.length > 0 && bid.product?.id === state.bids[0].product?.id) {
+                state.bids = [action.payload, ...state.bids];
+
+                if (state.bids.length > pagingConstant.PAGE_SIZE) {
+                    state.bids.pop();
+                }
             }
         },
     },

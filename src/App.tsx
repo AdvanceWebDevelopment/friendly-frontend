@@ -4,7 +4,7 @@ import SockJsClient from "react-stomp";
 import "./App.css";
 import { useAppDispatch } from "./app/hook";
 import { updateProductHighestBidder } from "./app/reducers/category-slice";
-import { updateHighestBidder } from "./app/reducers/product-slice";
+import { productActions } from "./app/reducers/product-slice";
 import { requestUser } from "./app/reducers/user-slice";
 import { ScrollTopButton } from "./components/scroll-top-button/scroll-top-button";
 import { webSocketConstants } from "./constants";
@@ -51,7 +51,8 @@ function App() {
         const bid = Bid.fromData(payload.message);
 
         dispatch(updateProductHighestBidder(bid));
-        dispatch(updateHighestBidder(bid));
+        dispatch(productActions.updateHighestBidder(bid));
+        dispatch(productActions.insertNewBidToHistory(bid));
     };
 
     return (

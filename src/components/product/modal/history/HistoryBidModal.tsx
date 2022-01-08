@@ -1,63 +1,64 @@
 import * as React from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Spinner } from "react-bootstrap";
+import { useAppDispatch, useAppSelector } from "../../../../app/hook";
+import { productActions } from "../../../../app/reducers/product-slice";
+import { pagingConstant } from "../../../../constants";
+import { Bid, Product } from "../../../../models";
 import { formatNumber, hideBidderName } from "../../../../utils/helpers";
+import { Paginator } from "../../../common/paginator/paginator";
 import classes from "./HistoryBidModal.module.css";
 export interface HistoryBidModalProps {
     show: boolean;
     handleClose: () => void;
+    product?: Product;
 }
 
-interface DummyHistory {
-    id: number;
-    date: string;
-    time: string;
-    bidder: string;
-    price: string;
-}
+export default function HistoryBidModal({ show, handleClose, product }: HistoryBidModalProps) {
+    const { isLoadingBidHistory, currentBidHistoryPage, totalBidHistoryPages, bids } = useAppSelector(
+        (state) => state.productState,
+    );
 
-export default function HistoryBidModal({ show, handleClose }: HistoryBidModalProps) {
-    const DUMMY_HISTORY: DummyHistory[] = [
-        {
-            id: 1,
-            date: "01/11/2020",
-            time: "3:30",
-            bidder: "Michael Nguyen",
-            price: "6000000",
-        },
-        {
-            id: 2,
-            date: "01/11/2020",
-            time: "4:30",
-            bidder: "Daniel Truong",
-            price: "5000000",
-        },
-        {
-            id: 3,
-            date: "01/11/2020",
-            time: "5:30",
-            bidder: "Jason Dang",
-            price: "4000000",
-        },
-    ];
+    const dispatch = useAppDispatch();
 
-    const renderHistory = () => {
-        return DUMMY_HISTORY.map((each: DummyHistory) => {
+    React.useEffect(() => {
+        if (show) {
+            dispatch(
+                productActions.requestProductBidHistory({
+                    product: product,
+                    page: 0,
+                }),
+            );
+        }
+    }, [show]);
+
+    const onChangePage = (page: number) => {
+        dispatch(
+            productActions.requestProductBidHistory({
+                product,
+                page: page,
+            }),
+        );
+    };
+
+    const renderBidHistory = React.useCallback(() => {
+        return bids.map((each: Bid, index) => {
             return (
                 <tr key={each.id} className={classes.row}>
                     <td className={classes["date-time"]}>
-                        <div className={classes.date}>{each.date}</div>
-                        <div className={classes.time}>{each.time}</div>
+                        <div className={classes.date}>{each.bidAt?.toLocaleDateString("en-AU")}</div>
+                        <div className={classes.time}>{each.bidAt?.toLocaleTimeString()}</div>
                     </td>
                     <td>
-                        <div className={classes.bidder}>{hideBidderName(each.bidder)}</div>
+                        <div className={classes.bidder}>{hideBidderName(each.bidder?.name ?? "")}</div>
                     </td>
                     <td>
-                        <div className={classes.price}>{formatNumber(each.price) + " VND"}</div>
+                        <div className={classes.price}>{formatNumber(each.bidPrice?.toString() ?? "") + " VND"}</div>
                     </td>
                 </tr>
             );
         });
-    };
+    }, [bids]);
+
     return (
         <Modal
             show={show}
@@ -76,8 +77,21 @@ export default function HistoryBidModal({ show, handleClose }: HistoryBidModalPr
                         <th>Người Mua</th>
                         <th>Giá</th>
                     </tr>
-                    {renderHistory()}
+                    {isLoadingBidHistory && (
+                        <Spinner animation="border" variant="primary" className="d-block mx-auto my-5" />
+                    )}
+                    {!isLoadingBidHistory && renderBidHistory()}
                 </table>
+
+                <div className="mt-5">
+                    <Paginator
+                        currentPage={currentBidHistoryPage}
+                        totalPages={totalBidHistoryPages}
+                        onItemSelected={onChangePage}
+                        onNextClicked={onChangePage}
+                        onPrevClicked={onChangePage}
+                    />
+                </div>
             </Modal.Body>
         </Modal>
     );

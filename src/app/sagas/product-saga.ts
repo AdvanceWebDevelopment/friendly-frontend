@@ -1,7 +1,13 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take, takeLatest } from "redux-saga/effects";
 import { Bid, Product } from "../../models";
-import { BidProductRequest, productService, UpdateProductDescriptionRequest } from "../../services";
+import {
+    BidProductRequest,
+    ProductBidHistoryRequest,
+    ProductBidHistoryResponseWithPaging,
+    productService,
+    UpdateProductDescriptionRequest,
+} from "../../services";
 import { updateProductHighestBidder } from "../reducers/category-slice";
 import { productActions } from "../reducers/product-slice";
 
@@ -103,10 +109,33 @@ function* watchRequestBidProduct() {
             const bid: Bid | undefined = yield call(productService.bidProduct, action.payload);
 
             if (!bid) {
-                alert("Đã có lỗi xảy ra trong quá trình ra giá. Vui lòng thử lại sau.");
+                // alert("Đã có lỗi xảy ra trong quá trình ra giá. Vui lòng thử lại sau.");
             } else {
                 yield put(productActions.completeBidProduct(bid));
                 yield put(updateProductHighestBidder(bid));
+            }
+        } catch (error: any) {
+            console.error(error);
+        }
+    }
+}
+
+function* watchRequestGetProductBidHistory() {
+    while (true) {
+        try {
+            const action: PayloadAction<ProductBidHistoryRequest> = yield take(
+                productActions.requestProductBidHistory.type,
+            );
+
+            const response: ProductBidHistoryResponseWithPaging | undefined = yield call(
+                productService.getProductBidHistory,
+                action.payload,
+            );
+
+            if (!response) {
+                alert("Đã có lỗi xảy ra trong quá trình xem lịch sử. Vui lòng thử lại sau.");
+            } else {
+                yield put(productActions.completeProductBidHistory(response));
             }
         } catch (error: any) {
             console.error(error);
@@ -122,6 +151,7 @@ export function* productSaga() {
         watchRequestUpdateProductDescription(),
         watchRequestDeleteProduct(),
         watchRequestBidProduct(),
+        watchRequestGetProductBidHistory(),
     ]);
 }
 
