@@ -353,4 +353,29 @@ export const userService = {
             return undefined;
         }
     },
+
+    async getMyWonProducts(page: number = 0): Promise<ProductResponseWithPaging | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}/${apiRoute.WIN}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page: page,
+                    size: pagingConstant.PAGE_SIZE,
+                },
+            });
+
+            const products: Product[] = response.data?.responseBody?.content?.map((item: any) =>
+                Product.fromData(item.product),
+            );
+
+            return {
+                products: products,
+                currentPage: page + 1,
+                totalPages: response.data?.responseBody?.totalPages ?? 1,
+            };
+        } catch (err: any) {
+            console.error(err?.response?.data);
+            return undefined;
+        }
+    },
 };
