@@ -73,6 +73,11 @@ export const ProfilePage = () => {
             value: "my-won-products",
             role: UserRole.BIDDER,
         },
+        {
+            name: "Danh Sách Đánh Giá",
+            value: "list-evaluations",
+            role: UserRole.BIDDER,
+        },
     ];
 
     const location = useLocation();

@@ -2,6 +2,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
 import { Product, User, UserRole } from "../../models";
 import {
+    EvaluationResponseWithPaging,
     ProductResponseWithPaging,
     UpgradeResponseWithPaging,
     UserResponseWithPaging,
@@ -302,6 +303,26 @@ function* watchRequestMyWonProducts() {
     }
 }
 
+function* watchRequestEvaluations() {
+    while (true) {
+        try {
+            const action: PayloadAction<number> = yield take(userActions.requestEvaluations.type);
+            const response: EvaluationResponseWithPaging | undefined = yield call(
+                userService.getEvaluation,
+                action.payload,
+            );
+
+            if (response) {
+                yield put(userActions.completeGetEvaluations(response));
+            } else {
+                alert("Có lỗi xảy ra khi lấy danh sách đánh giá. Xin thử lại sau");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
     yield all([
         watchRequestUser(),
@@ -320,5 +341,6 @@ export function* userSaga() {
         watchRequestAdminUpdateUser(),
         watchRequestDeleteUser(),
         watchRequestMyWonProducts(),
+        watchRequestEvaluations(),
     ]);
 }

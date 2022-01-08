@@ -36,7 +36,7 @@ export class User {
             case UserRole.SELLER:
                 return "Người Bán";
             default:
-                return "Người Bán";
+                return "Người Cược";
         }
     }
 }
