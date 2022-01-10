@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Spinner, Table } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { WinnerPayload, requestWonList, cancelDeal } from "../../../app/reducers/user-slice";
+import { UserReviewPayload, requestWonList, cancelDeal } from "../../../app/reducers/user-slice";
 import { RootState } from "../../../app/store";
 import { ConfirmModal2 } from "../../../components/common/confirm-modal-2/confirm-modal-2";
 import { apiRoute } from "../../../constants";
@@ -39,9 +39,9 @@ export const WonProducts = () => {
 
     const onCancelDeal = () => {
         console.log("Cancel deal");
-        const payload: WinnerPayload = {
+        const payload: UserReviewPayload = {
             productId: currentProduct,
-            bidderId: currentBidder,
+            userId: currentBidder,
         };
         // dispatch(cancelDeal(payload));
     };

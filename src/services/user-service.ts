@@ -123,10 +123,25 @@ export const userService = {
         }
     },
 
-    async sendReview(productId: number, bidderId: number, request: ReviewRequest): Promise<string | undefined> {
+    async sendReviewToBidder(productId: number, userId: number, request: ReviewRequest): Promise<string | undefined> {
         try {
             const response = await axios.post(
-                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.WINNER}/${bidderId}/${apiRoute.PRODUCT}/${productId}`,
+                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.WINNER}/${userId}/${apiRoute.PRODUCT}/${productId}`,
+                request,
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+            return response.data?.message;
+        } catch (error: any) {
+            console.error(JSON.stringify(error));
+            return undefined;
+        }
+    },
+    async sendReviewToSeller(productId: number, userId: number, request: ReviewRequest): Promise<string | undefined> {
+        try {
+            const response = await axios.post(
+                `${API_HOST}/${apiRoute.BIDDER}/${apiRoute.SELLER}/${userId}/${apiRoute.PRODUCT}/${productId}`,
                 request,
                 {
                     headers: authUtils.getAuthHeader(),

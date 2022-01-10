@@ -8,7 +8,7 @@ import {
     UserResponseWithPaging,
     userService,
 } from "../../services";
-import { ReviewPayload, userActions, WinnerPayload } from "../reducers/user-slice";
+import { ReviewPayload, userActions, UserReviewPayload } from "../reducers/user-slice";
 
 function* watchRequestUser() {
     while (true) {
@@ -101,11 +101,11 @@ function* watchRequestWonList() {
 function* watchCancelDeal() {
     while (true) {
         try {
-            const action: PayloadAction<WinnerPayload> = yield take(userActions.cancelDeal);
+            const action: PayloadAction<UserReviewPayload> = yield take(userActions.cancelDeal);
             const response: string | undefined = yield call(
                 userService.cancelDeal,
                 action.payload.productId,
-                action.payload.bidderId,
+                action.payload.userId,
             );
             if (response) {
                 yield put(userActions.completeCancelDeal);
@@ -118,18 +118,39 @@ function* watchCancelDeal() {
     }
 }
 
-function* watchSendReview() {
+function* watchSendReviewToBidder() {
     while (true) {
         try {
-            const action: PayloadAction<ReviewPayload> = yield take(userActions.sendReview);
+            const action: PayloadAction<ReviewPayload> = yield take(userActions.sendReviewToBidder);
             const response: string | undefined = yield call(
-                userService.sendReview,
+                userService.sendReviewToBidder,
                 action.payload.productInfo.productId,
-                action.payload.productInfo.bidderId,
+                action.payload.productInfo.userId,
                 action.payload.reviewInfo,
             );
             if (response) {
-                yield put(userActions.completeSendReview);
+                yield put(userActions.completeSendReviewToBidder);
+            } else {
+                alert("Có lỗi khi gửi nhận xét");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+function* watchSendReviewToSeller() {
+    while (true) {
+        try {
+            const action: PayloadAction<ReviewPayload> = yield take(userActions.sendReviewToSeller);
+            const response: string | undefined = yield call(
+                userService.sendReviewToSeller,
+                action.payload.productInfo.productId,
+                action.payload.productInfo.userId,
+                action.payload.reviewInfo,
+            );
+            if (response) {
+                yield put(userActions.completeSendReviewToSeller);
             } else {
                 alert("Có lỗi khi gửi nhận xét");
             }
@@ -331,7 +352,8 @@ export function* userSaga() {
         watchRequestWatchList(),
         watchRequestWonList(),
         watchCancelDeal(),
-        watchSendReview(),
+        watchSendReviewToBidder(),
+        watchSendReviewToSeller(),
         watchRequestListSellers(),
         watchRequestListUpgrade(),
         watchUpgradeUser(),

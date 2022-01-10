@@ -11,13 +11,13 @@ import {
 } from "../../services";
 import { RootState } from "../store";
 
-export interface WinnerPayload {
+export interface UserReviewPayload {
     productId: number;
-    bidderId: number;
+    userId: number;
 }
 
 export interface ReviewPayload {
-    productInfo: WinnerPayload;
+    productInfo: UserReviewPayload;
     reviewInfo: ReviewRequest;
 }
 
@@ -37,7 +37,9 @@ interface UserState {
 
     isCancelDeal: boolean;
 
-    isReview: boolean;
+    isReviewBidder: boolean;
+
+    isReviewSeller: boolean;
 
     isLoadingSellers: boolean;
     loadedSellers: User[];
@@ -95,7 +97,9 @@ export const userSlice = createSlice({
 
         isCancelDeal: false,
 
-        isReview: false,
+        isReviewBidder: false,
+
+        isReviewSeller: false,
 
         isLoadingSellers: false,
         loadedSellers: [],
@@ -175,19 +179,27 @@ export const userSlice = createSlice({
             state.isLoadingWonProducts = false;
         },
 
-        cancelDeal: (state: UserState, action: PayloadAction<WinnerPayload>) => {
+        cancelDeal: (state: UserState, action: PayloadAction<UserReviewPayload>) => {
             state.isCancelDeal = true;
         },
         completeCancelDeal: (state: UserState) => {
             state.isCancelDeal = false;
         },
 
-        sendReview: (state: UserState, action: PayloadAction<ReviewPayload>) => {
-            state.isReview = true;
+        sendReviewToBidder: (state: UserState, action: PayloadAction<ReviewPayload>) => {
+            state.isReviewBidder = true;
         },
 
-        completeSendReview: (state: UserState) => {
-            state.isReview = false;
+        completeSendReviewToBidder: (state: UserState) => {
+            state.isReviewBidder = false;
+        },
+
+        sendReviewToSeller: (state: UserState, action: PayloadAction<ReviewPayload>) => {
+            state.isReviewBidder = true;
+        },
+
+        completeSendReviewToSeller: (state: UserState) => {
+            state.isReviewBidder = false;
         },
 
         requestListSeller: (state: UserState, action: PayloadAction<number>) => {
@@ -300,8 +312,11 @@ export const {
     cancelDeal,
     completeCancelDeal,
 
-    sendReview,
-    completeSendReview,
+    sendReviewToBidder,
+    completeSendReviewToBidder,
+
+    sendReviewToSeller,
+    completeSendReviewToSeller,
 
     requestListSeller,
     completeGetListSeller,
