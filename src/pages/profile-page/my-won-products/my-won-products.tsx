@@ -45,7 +45,7 @@ export const MyWonProducts = () => {
                                     <tr key={index} onClick={() => onItemClicked(product)}>
                                         <td>{index + 1}</td>
                                         <td>{product.name}</td>
-                                        <td>{product.subCategory}</td>
+                                        <td>{product.category?.name}</td>
                                         <td>{formatPrice(product.currentPrice ?? 0)}</td>
                                         <td>{product.highestBidder?.name}</td>
                                     </tr>

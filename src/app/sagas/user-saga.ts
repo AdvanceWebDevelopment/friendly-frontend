@@ -313,10 +313,12 @@ function* watchRequestMyWonProducts() {
                 action.payload,
             );
 
+            console.log(response);
+
             if (response) {
                 yield put(userActions.completeGetMyWonProducts(response));
             } else {
-                alert("Có lỗi xảy ra khi tải danh sách sản phẩm thắng cược. Xin thử lại sau");
+                // alert("Có lỗi xảy ra khi tải danh sách sản phẩm thắng cược. Xin thử lại sau");
             }
         } catch (error) {
             console.error(error);

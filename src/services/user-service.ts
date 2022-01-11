@@ -388,8 +388,10 @@ export const userService = {
             });
 
             const products: Product[] = response.data?.responseBody?.content?.map((item: any) =>
-                Product.fromData(item.product),
+                Product.fromData(item),
             );
+
+            console.log(products);
 
             return {
                 products: products,
