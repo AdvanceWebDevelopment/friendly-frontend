@@ -53,7 +53,7 @@ export const UserInfo = () => {
             {!isLoadingUser && (
                 <Row>
                     <Col sm={4}>
-                        <Image src={user.avatar} width="100%" className={`rounded-circle ${classes["avatar"]}`} />
+                        <Image src={user.avatar} width="80%" className={`rounded-circle ${classes["avatar"]}`} />
                     </Col>
                     <Col className="d-flex flex-column justify-content-between my-2">
                         <div>

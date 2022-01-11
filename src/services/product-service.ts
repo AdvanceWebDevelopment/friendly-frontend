@@ -189,8 +189,7 @@ export const productService = {
         page = 0,
     }: ProductBidHistoryRequest): Promise<ProductBidHistoryResponseWithPaging | undefined> {
         try {
-            const response = await axios.get(`${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}/${product?.id}`, {
-                headers: authUtils.getAuthHeader(),
+            const response = await axios.get(`${API_HOST}/${apiRoute.PRODUCT}/${product?.id}/history`, {
                 params: {
                     page: page,
                     size: pagingConstant.PAGE_SIZE,
@@ -201,12 +200,36 @@ export const productService = {
                 authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
             }
 
-            const bids: Bid[] = response?.data?.responseBody?.content?.map((item: any) => Bid.fromData(item));
+            const bids: Bid[] = response?.data?.content?.map((item: any) => Bid.fromData(item));
             return {
                 bids: bids,
                 currentPage: page + 1,
                 totalPages: response.data?.responseBody?.totalPages ?? 1,
             };
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
+    async getBiddingProducts(): Promise<Product[] | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}`, {
+                params: {
+                    page: 0,
+                    size: 99,
+                },
+                headers: authUtils.getAuthHeader(),
+            });
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            const products: Product[] = response.data?.responseBody?.content?.map((item: any) =>
+                Product.fromData(item.product),
+            );
+
+            return products;
         } catch (error: any) {
             console.error(error?.response?.data);
             return undefined;

@@ -143,6 +143,24 @@ function* watchRequestGetProductBidHistory() {
     }
 }
 
+function* watchRequestGetBiddingProducts() {
+    while (true) {
+        try {
+            yield take(productActions.requestGetBiddingProducts.type);
+
+            const response: Product[] | undefined = yield call(productService.getBiddingProducts);
+
+            if (!response) {
+                alert("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+            } else {
+                yield put(productActions.completeGetBiddingProducts(response));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* productSaga() {
     yield all([
         watchReqestTopFiveProducts(),
@@ -152,6 +170,7 @@ export function* productSaga() {
         watchRequestDeleteProduct(),
         watchRequestBidProduct(),
         watchRequestGetProductBidHistory(),
+        watchRequestGetBiddingProducts(),
     ]);
 }
 
