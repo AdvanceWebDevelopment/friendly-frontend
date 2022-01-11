@@ -313,8 +313,6 @@ function* watchRequestMyWonProducts() {
                 action.payload,
             );
 
-            console.log(response);
-
             if (response) {
                 yield put(userActions.completeGetMyWonProducts(response));
             } else {
