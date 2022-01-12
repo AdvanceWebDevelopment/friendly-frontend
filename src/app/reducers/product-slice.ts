@@ -43,11 +43,6 @@ interface ProductState {
     bids: Bid[];
     currentBidHistoryPage: number;
     totalBidHistoryPages: number;
-
-    isLoadingBiddingProducts: boolean;
-    biddingProducts: Product[];
-    currentBiddingProductsPage: number;
-    totalBiddingProductsPages: number;
 }
 
 const updateProductBidStatus = (product: Product, updatedProduct?: Product) => {
@@ -103,11 +98,6 @@ const productSlice = createSlice({
         bids: [],
         currentBidHistoryPage: 1,
         totalBidHistoryPages: 1,
-
-        isLoadingBiddingProducts: false,
-        biddingProducts: [],
-        currentBiddingProductsPage: 1,
-        totalBiddingProductsPages: 1,
     } as ProductState,
     reducers: {
         requestTopFiveMostBidded: (state) => {
@@ -221,18 +211,6 @@ const productSlice = createSlice({
                     state.bids.pop();
                 }
             }
-        },
-        requestGetBiddingProducts: (state) => {
-            state.isLoadingBiddingProducts = true;
-        },
-        completeGetBiddingProducts: (state, action: PayloadAction<Product[]>) => {
-            state.isLoadingBiddingProducts = false;
-            state.biddingProducts = action.payload;
-
-            state.totalBiddingProductsPages = Math.ceil(state.biddingProducts.length / pagingConstant.PAGE_SIZE);
-        },
-        setCurrentBiddingProductsPage: (state, action: PayloadAction<number>) => {
-            state.currentBiddingProductsPage = action.payload;
         },
     },
 });

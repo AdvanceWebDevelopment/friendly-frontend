@@ -211,7 +211,7 @@ export const productService = {
             return undefined;
         }
     },
-    async getBiddingProducts(): Promise<Product[] | undefined> {
+    async getBiddingProducts(): Promise<Bid[] | undefined> {
         try {
             const response = await axios.get(`${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}`, {
                 params: {
@@ -225,9 +225,7 @@ export const productService = {
                 authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
             }
 
-            const products: Product[] = response.data?.responseBody?.content?.map((item: any) =>
-                Product.fromData(item.product),
-            );
+            const products: Bid[] = response.data?.responseBody?.content?.map((item: any) => Bid.fromData(item));
 
             return products;
         } catch (error: any) {

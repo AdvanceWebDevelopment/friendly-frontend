@@ -41,13 +41,13 @@ export default function Header() {
                 <CategoryButton />
                 <SearchBar />
                 {!isLogout && <ProfileButton name={userName ? userName : ""} avatar={userAvatar ? userAvatar : ""} />}
+                {!isLogout && <NotificationButton />}
                 {isLogout && (
                     <div className={classes.redirect}>
                         <LoginButton />
                         <RegisterButton />
                     </div>
                 )}
-                <NotificationButton />
             </div>
         </header>
     );

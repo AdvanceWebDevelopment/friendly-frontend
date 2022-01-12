@@ -5,7 +5,7 @@ import "./App.css";
 import { useAppDispatch } from "./app/hook";
 import { updateProductHighestBidder } from "./app/reducers/category-slice";
 import { productActions } from "./app/reducers/product-slice";
-import { requestUser } from "./app/reducers/user-slice";
+import { requestUser, userActions } from "./app/reducers/user-slice";
 import { ScrollTopButton } from "./components/scroll-top-button/scroll-top-button";
 import { webSocketConstants } from "./constants";
 import { apiRoute } from "./constants/api-routes";
@@ -32,7 +32,7 @@ import {
     WinningHistory,
     WonProducts,
     ListEvaluations,
-    ListSellers
+    ListSellers,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
 import { ChangePasswordPage } from "./pages/reset-password-page/change-password-page";
@@ -53,6 +53,7 @@ function App() {
         dispatch(updateProductHighestBidder(bid));
         dispatch(productActions.updateHighestBidder(bid));
         dispatch(productActions.insertNewBidToHistory(bid));
+        dispatch(userActions.pushNotifications(bid));
     };
 
     return (

@@ -1,9 +1,10 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take } from "redux-saga/effects";
-import { Product, User, UserRole } from "../../models";
+import { Bid, Product, User, UserRole } from "../../models";
 import {
     EvaluationResponseWithPaging,
     ProductResponseWithPaging,
+    productService,
     UpgradeResponseWithPaging,
     UserResponseWithPaging,
     userService,
@@ -344,6 +345,24 @@ function* watchRequestEvaluations() {
     }
 }
 
+function* watchRequestGetBiddingProducts() {
+    while (true) {
+        try {
+            yield take(userActions.requestGetBiddingProducts.type);
+
+            const response: Bid[] | undefined = yield call(productService.getBiddingProducts);
+
+            if (!response) {
+                alert("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+            } else {
+                yield put(userActions.completeGetBiddingProducts(response));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
     yield all([
         watchRequestUser(),
@@ -364,5 +383,6 @@ export function* userSaga() {
         watchRequestDeleteUser(),
         watchRequestWinningHistory(),
         watchRequestEvaluations(),
+        watchRequestGetBiddingProducts(),
     ]);
 }

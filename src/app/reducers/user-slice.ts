@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product, User, UserRole } from "../../models";
+import { pagingConstant } from "../../constants";
+import { Bid, Product, User, UserRole } from "../../models";
 import { Evaluation } from "../../models/evaluation";
 import {
     EvaluationResponseWithPaging,
@@ -72,6 +73,14 @@ interface UserState {
     loadedEvaluations: Evaluation[];
     loadedEvaluationsCurrentPage: number;
     loadedEvaluationsTotalPages: number;
+
+    isLoadingBiddingProducts: boolean;
+    biddingProducts: Bid[];
+    currentBiddingProductsPage: number;
+    totalBiddingProductsPages: number;
+
+    hasNotification: boolean;
+    newBids: Bid[];
 }
 
 export const userSlice = createSlice({
@@ -132,6 +141,14 @@ export const userSlice = createSlice({
         loadedEvaluations: [],
         loadedEvaluationsCurrentPage: 1,
         loadedEvaluationsTotalPages: 1,
+
+        isLoadingBiddingProducts: false,
+        biddingProducts: [],
+        currentBiddingProductsPage: 1,
+        totalBiddingProductsPages: 1,
+
+        hasNotification: false,
+        newBids: [],
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -289,6 +306,31 @@ export const userSlice = createSlice({
             state.loadedEvaluations = action.payload.evaluations ?? [];
             state.loadedEvaluationsCurrentPage = action.payload.currentPage ?? 1;
             state.loadedEvaluationsTotalPages = action.payload.totalPages ?? 1;
+        },
+        requestGetBiddingProducts: (state) => {
+            state.isLoadingBiddingProducts = true;
+        },
+        completeGetBiddingProducts: (state, action: PayloadAction<Bid[]>) => {
+            state.isLoadingBiddingProducts = false;
+            state.biddingProducts = action.payload;
+
+            state.totalBiddingProductsPages = Math.ceil(state.biddingProducts.length / pagingConstant.PAGE_SIZE);
+        },
+        setCurrentBiddingProductsPage: (state, action: PayloadAction<number>) => {
+            state.currentBiddingProductsPage = action.payload;
+        },
+        setHasNotification: (state: UserState, action: PayloadAction<boolean>) => {
+            state.hasNotification = action.payload;
+        },
+        pushNotifications: (state: UserState, action: PayloadAction<Bid>) => {
+            const bid = action.payload;
+            state.biddingProducts.some((item) => {
+                if (item.product?.id === bid.product?.id) {
+                    state.newBids.unshift(bid);
+                    state.hasNotification = true;
+                    return true;
+                }
+            });
         },
     },
 });
