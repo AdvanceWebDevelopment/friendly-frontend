@@ -377,7 +377,7 @@ export const userService = {
         }
     },
 
-    async getMyWonProducts(page: number = 0): Promise<ProductResponseWithPaging | undefined> {
+    async getWinningHistory(page: number = 0): Promise<ProductResponseWithPaging | undefined> {
         try {
             const response = await axios.get(`${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}/${apiRoute.WIN}`, {
                 headers: authUtils.getAuthHeader(),

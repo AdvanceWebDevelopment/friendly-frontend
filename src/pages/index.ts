@@ -20,6 +20,5 @@ export { CategoryManagement } from "./profile-page/category-management/category-
 export { PostProductPage } from "./post-product-page/post-product-page";
 export { ProductSearchPage } from "./product-search-page/product-search-page";
 export { WonProducts } from "./profile-page/won-products/won-products";
-import { MyWonProducts } from "./profile-page/my-won-products/my-won-products";
-import { ListEvaluations } from "./profile-page/list-evaluations/list-evaluations";
-import { ListSellers } from "./profile-page/list-sellers/list-sellers";
+export { ListEvaluations } from "./profile-page/list-evaluations/list-evaluations";
+export { ListSellers } from "./profile-page/list-sellers/list-sellers";

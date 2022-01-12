@@ -63,10 +63,10 @@ interface UserState {
     isUpdatingUser: boolean;
     isDeletingUser: boolean;
 
-    isLoadingMyWonProducts: boolean;
-    loadedMyWonProducts: Product[];
-    loadedMyWonProductsCurrentPages: number;
-    loadedMyWonProductsTotalPages: number;
+    isLoadingWinningHistory: boolean;
+    loadedWinningHistory: Product[];
+    loadedWinningHistoryCurrentPages: number;
+    loadedWinningHistoryTotalPages: number;
 
     isLoadingEvaluations: boolean;
     loadedEvaluations: Evaluation[];
@@ -123,10 +123,10 @@ export const userSlice = createSlice({
         isUpdatingUser: false,
         isDeletingUser: false,
 
-        isLoadingMyWonProducts: false,
-        loadedMyWonProducts: [],
-        loadedMyWonProductsCurrentPages: 1,
-        loadedMyWonProductsTotalPages: 1,
+        isLoadingWinningHistory: false,
+        loadedWinningHistory: [],
+        loadedWinningHistoryCurrentPages: 1,
+        loadedWinningHistoryTotalPages: 1,
 
         isLoadingEvaluations: false,
         loadedEvaluations: [],
@@ -269,16 +269,16 @@ export const userSlice = createSlice({
             state.isDeletingUser = false;
             state.users = state.users.filter((user) => user.id !== action.payload.id);
         },
-        requestMyWonProducts: (state: UserState, action: PayloadAction<number>) => {
-            state.isLoadingMyWonProducts = true;
-            state.loadedListReqUpgradeCurrentPage = 1;
-            state.loadedMyWonProductsTotalPages = 1;
+        requestWinningHistory: (state: UserState, action: PayloadAction<number>) => {
+            state.isLoadingWinningHistory = true;
+            state.loadedWinningHistoryCurrentPages = 1;
+            state.loadedWinningHistoryTotalPages = 1;
         },
-        completeGetMyWonProducts: (state: UserState, action: PayloadAction<ProductResponseWithPaging>) => {
-            state.isLoadingMyWonProducts = false;
-            state.loadedMyWonProducts = action.payload.products ?? [];
-            state.loadedListReqUpgradeCurrentPage = action.payload.currentPage ?? 1;
-            state.loadedMyWonProductsTotalPages = action.payload.totalPages ?? 1;
+        completeGetWinningHistory: (state: UserState, action: PayloadAction<ProductResponseWithPaging>) => {
+            state.isLoadingWinningHistory = false;
+            state.loadedWinningHistory = action.payload.products ?? [];
+            state.loadedWinningHistoryCurrentPages = action.payload.currentPage ?? 1;
+            state.loadedWinningHistoryTotalPages = action.payload.totalPages ?? 1;
         },
 
         requestEvaluations: (state: UserState, action: PayloadAction<number>) => {
@@ -342,8 +342,8 @@ export const {
     requestDeleteUser,
     completeDeleteUser,
 
-    requestMyWonProducts,
-    completeGetMyWonProducts,
+    requestWinningHistory,
+    completeGetWinningHistory,
 
     requestEvaluations,
     completeGetEvaluations,

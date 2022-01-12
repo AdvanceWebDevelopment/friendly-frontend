@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Spinner, Table } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { requestMyWonProducts } from "../../../app/reducers/user-slice";
+import { requestWinningHistory } from "../../../app/reducers/user-slice";
 import { RootState } from "../../../app/store";
 import { apiRoute } from "../../../constants";
 import { Product } from "../../../models";
@@ -10,11 +10,11 @@ import { formatPrice } from "../../../utils";
 
 export const WinningHistory = () => {
     const dispatch = useAppDispatch();
-    const products = useAppSelector((state: RootState) => state.userState.loadedMyWonProducts);
+    const products = useAppSelector((state: RootState) => state.userState.loadedWinningHistory);
     const isLoading = useAppSelector((state: RootState) => state.userState.isLoadingWonProducts);
 
     useEffect(() => {
-        dispatch(requestMyWonProducts(0));
+        dispatch(requestWinningHistory(0));
     }, []);
 
     const navigate = useNavigate();
