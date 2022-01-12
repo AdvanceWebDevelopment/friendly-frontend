@@ -69,11 +69,6 @@ export const ProfilePage = () => {
             role: UserRole.ADMIN,
         },
         {
-            name: "Danh Sách Sản Phẩm Của Tôi",
-            value: "my-won-products",
-            role: UserRole.BIDDER,
-        },
-        {
             name: "Danh Sách Đánh Giá",
             value: "list-evaluations",
             role: UserRole.BIDDER,

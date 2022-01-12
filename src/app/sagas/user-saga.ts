@@ -304,19 +304,19 @@ function* watchRequestDeleteUser() {
     }
 }
 
-function* watchRequestMyWonProducts() {
+function* watchRequestWinningHistory() {
     while (true) {
         try {
-            const action: PayloadAction<number> = yield take(userActions.requestMyWonProducts.type);
+            const action: PayloadAction<number> = yield take(userActions.requestWinningHistory.type);
             const response: ProductResponseWithPaging | undefined = yield call(
-                userService.getMyWonProducts,
+                userService.getWinningHistory,
                 action.payload,
             );
 
             if (response) {
-                yield put(userActions.completeGetMyWonProducts(response));
+                yield put(userActions.completeGetWinningHistory(response));
             } else {
-                // alert("Có lỗi xảy ra khi tải danh sách sản phẩm thắng cược. Xin thử lại sau");
+                alert("Có lỗi xảy ra khi tải danh sách sản phẩm thắng cược. Xin thử lại sau");
             }
         } catch (error) {
             console.error(error);
@@ -362,7 +362,7 @@ export function* userSaga() {
         watchRequestCreateUser(),
         watchRequestAdminUpdateUser(),
         watchRequestDeleteUser(),
-        watchRequestMyWonProducts(),
+        watchRequestWinningHistory(),
         watchRequestEvaluations(),
     ]);
 }

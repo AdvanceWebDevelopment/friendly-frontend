@@ -31,11 +31,10 @@ import {
     UsersList,
     WinningHistory,
     WonProducts,
+    ListEvaluations,
+    ListSellers
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
-import { ListEvaluations } from "./pages/profile-page/list-evaluations/list-evaluations";
-import { ListSellers } from "./pages/profile-page/list-sellers/list-sellers";
-import { MyWonProducts } from "./pages/profile-page/my-won-products/my-won-products";
 import { ChangePasswordPage } from "./pages/reset-password-page/change-password-page";
 
 function App() {
@@ -91,7 +90,6 @@ function App() {
                         <Route path="users-list" element={<UsersList />} />
                         <Route path="upgrade-requests" element={<UpgradeRequests />} />
                         <Route path="list-sellers" element={<ListSellers />} />
-                        <Route path="my-won-products" element={<MyWonProducts />} />
                         <Route path="list-evaluations" element={<ListEvaluations />} />
                     </Route>
                     <Route path={apiRoute.POST_PRODUCT} element={<PostProductPage />} />
