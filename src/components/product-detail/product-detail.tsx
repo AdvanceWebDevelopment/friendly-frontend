@@ -17,6 +17,7 @@ import BidButton from "../product/button/BidButton";
 import ProductModal from "../product/modal/product/ProductBidModal";
 import Heading from "../product/price-heading/Heading";
 import ProductOptions from "../product/ProductOptions";
+import { EvaluationModal } from "./evaluation-modal/evaluation-modal";
 import classes from "./product-detail.module.css";
 
 interface ProductDetailProps {
@@ -26,7 +27,7 @@ interface ProductDetailProps {
 export const ProductDetail = ({ product }: ProductDetailProps) => {
     const dispatch = useAppDispatch();
     const { isEditProduct, isUpdatingProductDescription } = useAppSelector((state) => state.productState);
-
+    const [IsEvaluationModalShown, setIsEvaluationModalShown] = React.useState(false);
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const onEditorStateChange = (editorState: EditorState) => {
         setEditorState(editorState);
@@ -64,6 +65,14 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
         );
 
         closeBidModalHandler();
+    };
+
+    const onCancelEvaluation = () => {
+        setIsEvaluationModalShown(false);
+    };
+
+    const onShowEvalution = () => {
+        setIsEvaluationModalShown(true);
     };
 
     return (
@@ -120,6 +129,12 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                         <span className={`${classes["post-date"]}`}>
                             đăng từ {product?.postDate?.toLocaleDateString("en-AU")}
                         </span>
+
+                        <span className={`${classes["middle-dot"]} mx-1`}>•</span>
+
+                        <button type="button" className={classes.evaluation} onClick={onShowEvalution}>
+                            Nhận xét
+                        </button>
                     </div>
 
                     <div className={`${classes["product-content-wrapper"]}`}>
@@ -213,6 +228,12 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                     onConfirm={onSubmitBid}
                 />
             </Row>
+            <EvaluationModal
+                show={IsEvaluationModalShown}
+                onCancel={onCancelEvaluation}
+                productId={product?.id}
+                userId={product?.seller?.id}
+            />
         </div>
     );
 };

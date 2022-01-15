@@ -154,7 +154,7 @@ export const userService = {
             );
             return response.data?.message;
         } catch (error: any) {
-            console.error(JSON.stringify(error));
+            console.log(JSON.stringify(error));
             return undefined;
         }
     },
