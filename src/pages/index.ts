@@ -8,7 +8,6 @@ export { ForgotPasswordPage } from "./forgot-password-page/forgot-password-page"
 export { RegisterPage } from "./register-page/register-page";
 export { ChangePasswordPage } from "./reset-password-page/change-password-page";
 export { BiddingProducts } from "./profile-page/bidding-products/bidding-products";
-export { ExpiredProducts } from "./profile-page/expired-products/expired-products";
 export { FavoriteProducts } from "./profile-page/favorite-products/favorite-products";
 export { SellingProducts } from "./profile-page/selling-products/selling-products";
 export { UpgradeRequests } from "./profile-page/upgrade-requests/upgrade-requests";

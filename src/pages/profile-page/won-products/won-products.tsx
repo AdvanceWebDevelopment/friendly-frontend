@@ -20,7 +20,7 @@ export const WonProducts = () => {
     const [isModalShown, setIsModalShown] = useState(false);
 
     useEffect(() => {
-        dispatch(requestWonList);
+        dispatch(requestWonList());
     }, []);
     const navigate = useNavigate();
 

@@ -14,7 +14,6 @@ import {
     BiddingProducts,
     CategoryManagement,
     CategoryPage,
-    ExpiredProducts,
     FavoriteProducts,
     ForgotPasswordPage,
     HomePage,
@@ -86,7 +85,6 @@ function App() {
                         <Route path="winning-history" element={<WinningHistory />} />
                         <Route path="selling-products" element={<SellingProducts />} />
                         <Route path="won-products" element={<WonProducts />} />
-                        <Route path="expired-products" element={<ExpiredProducts />} />
                         <Route path="category-management" element={<CategoryManagement />} />
                         <Route path="users-list" element={<UsersList />} />
                         <Route path="upgrade-requests" element={<UpgradeRequests />} />
