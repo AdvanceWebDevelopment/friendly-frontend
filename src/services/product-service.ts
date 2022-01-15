@@ -233,4 +233,25 @@ export const productService = {
             return undefined;
         }
     },
+    async buyProduct(product: Product): Promise<Product | undefined> {
+        try {
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}/${product?.id}/${apiRoute.BUY}`,
+                {},
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            return product;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            alert(error?.response?.data?.error);
+            return undefined;
+        }
+    },
 };

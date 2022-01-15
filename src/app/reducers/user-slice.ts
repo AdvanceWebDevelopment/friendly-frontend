@@ -81,6 +81,8 @@ interface UserState {
 
     hasNotification: boolean;
     newBids: Bid[];
+
+    isBuyingProduct: boolean;
 }
 
 export const userSlice = createSlice({
@@ -149,6 +151,8 @@ export const userSlice = createSlice({
 
         hasNotification: false,
         newBids: [],
+
+        isBuyingProduct: false,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -331,6 +335,12 @@ export const userSlice = createSlice({
                     return true;
                 }
             });
+        },
+        requestBuyProduct: (state: UserState, action: PayloadAction<Product>) => {
+            state.isBuyingProduct = true;
+        },
+        completeBuyProduct: (state: UserState, action: PayloadAction<Product>) => {
+            state.isBuyingProduct = false;
         },
     },
 });

@@ -4,7 +4,7 @@ import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { requestDeleteProduct, setEditProduct } from "../../app/reducers/product-slice";
-import { requestAddToWatchList } from "../../app/reducers/user-slice";
+import { requestAddToWatchList, userActions } from "../../app/reducers/user-slice";
 import { apiRoute } from "../../constants";
 import { Product, UserRole } from "../../models";
 import { ConfirmModal } from "../common/confirm-modal/confirm-modal";
@@ -29,6 +29,8 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
     const [showHistoryModal, setShowHistoryModal] = React.useState(false);
 
     const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
+
+    const [showBuyConfirmModel, setShowBuyConfirmModel] = React.useState(false);
 
     React.useEffect(() => {
         const checkIfClickedOutside = (e: MouseEvent) => {
@@ -100,6 +102,19 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
         dispatch(requestDeleteProduct(product));
     };
 
+    const onBuyProduct = () => {
+        setShowBuyConfirmModel(true);
+    };
+
+    const onCancelBuyProduct = () => {
+        setShowBuyConfirmModel(false);
+    };
+
+    const onConfirmBuyProduct = () => {
+        setShowBuyConfirmModel(false);
+        dispatch(userActions.requestBuyProduct(product));
+    };
+
     return (
         <>
             <div className={classes.options} ref={ref}>
@@ -108,7 +123,7 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
                 </button>
                 {isDropdownOpen && (
                     <ul className={classes.dropdown}>
-                        <li className={classes.row} onClick={dummyFunc}>
+                        <li className={classes.row} onClick={onBuyProduct}>
                             <Icon icon="bx:bx-dollar-circle" width={24} height={24} className={classes.icon} />
                             <div className={classes.headings}>Mua Ngay</div>
                         </li>
@@ -162,6 +177,14 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
                 bodyContent="Bạn có chắc là muốn xóa sản phẩm này?"
                 onComfirm={onConfirmDelete}
                 onCancel={onCancelDelete}
+            />
+
+            <ConfirmModal
+                show={showBuyConfirmModel}
+                headingTitle="Xác Nhận"
+                bodyContent="Bạn có muốn mua luôn phẩm này?"
+                onComfirm={onConfirmBuyProduct}
+                onCancel={onCancelBuyProduct}
             />
         </>
     );

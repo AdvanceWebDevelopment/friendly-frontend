@@ -12,7 +12,7 @@ export const SellingProducts = () => {
     const { user, isLoadingUser } = useAppSelector((state) => state.userState);
     const dispatch = useAppDispatch();
     useEffect(() => {
-        dispatch(requestUser);
+        dispatch(requestUser());
     }, []);
     const navigate = useNavigate();
 

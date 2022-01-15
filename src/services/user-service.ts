@@ -36,12 +36,17 @@ export interface ReviewRequest {
 }
 
 export const userService = {
-    async getUser(): Promise<User> {
-        const response = await axios.get(`${API_HOST}/${apiRoute.USER}`, {
-            headers: authUtils.getAuthHeader(),
-        });
+    async getUser(): Promise<User | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.USER}`, {
+                headers: authUtils.getAuthHeader(),
+            });
 
-        return User.fromData(response.data);
+            return User.fromData(response.data);
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
     },
     async updateUser(user: User): Promise<boolean> {
         try {

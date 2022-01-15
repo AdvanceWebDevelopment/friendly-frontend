@@ -15,13 +15,19 @@ function* watchRequestUser() {
     while (true) {
         try {
             yield take(userActions.requestUser.type);
-            const user: User = yield call(userService.getUser);
+            const user: User | undefined = yield call(userService.getUser);
 
-            if (user && user.role !== UserRole.BIDDER) {
+            if (!user) {
+                return;
+            }
+
+            if (user.role === UserRole.SELLER) {
                 user.sellingProducts = yield call(userService.getUserSellingProducts);
             }
 
             yield put(userActions.completeGetUser(user));
+
+            yield put(userActions.completeGetBiddingProducts);
         } catch (error) {
             console.error(error);
         }
@@ -363,6 +369,24 @@ function* watchRequestGetBiddingProducts() {
     }
 }
 
+function* watchBuyProducts() {
+    while (true) {
+        try {
+            const action: PayloadAction<Product> = yield take(userActions.requestBuyProduct.type);
+
+            const response: Product | undefined = yield call(productService.buyProduct, action.payload);
+
+            if (!response) {
+                alert("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+            } else {
+                yield put(userActions.completeBuyProduct(response));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
     yield all([
         watchRequestUser(),
@@ -384,5 +408,6 @@ export function* userSaga() {
         watchRequestWinningHistory(),
         watchRequestEvaluations(),
         watchRequestGetBiddingProducts(),
+        watchBuyProducts(),
     ]);
 }

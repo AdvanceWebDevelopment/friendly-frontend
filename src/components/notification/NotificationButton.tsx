@@ -36,6 +36,16 @@ export default function NotificationButton() {
         navigate(`/${apiRoute.PRODUCT}/${bid.product?.id}`);
     };
 
+    const bidOrBuy = (bid: Bid) => {
+        return bid.status ? "mua" : "ra giá";
+    };
+
+    const notificationMsgOf = (bid: Bid) => {
+        return `${hideBidderName(bid.bidder?.name ?? "")} đã ${bidOrBuy(bid)} ${
+            bid.product?.name
+        } với giá ${formatPrice(bid.bidPrice ?? 0)}`;
+    };
+
     return (
         <div ref={ref}>
             <button
@@ -57,10 +67,7 @@ export default function NotificationButton() {
                                         {bid.bidAt?.toLocaleDateString("en-AU")}{" "}
                                         {bid.bidAt?.toLocaleTimeString("en-AU")}
                                     </div>
-                                    <div>
-                                        {hideBidderName(bid.bidder?.name ?? "")} đã ra giá{" "}
-                                        {formatPrice(bid.bidPrice ?? 0)} cho {bid.product?.name}
-                                    </div>
+                                    <div>{notificationMsgOf(bid)}</div>
                                 </li>
                             );
                         })}

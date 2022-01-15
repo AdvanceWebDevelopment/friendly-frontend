@@ -212,6 +212,12 @@ const productSlice = createSlice({
                 }
             }
         },
+        requestBuyProduct: (state, action: PayloadAction<Product>) => {
+            state.isBiddingProduct = true;
+        },
+        completeBuyProduct: (state, action: PayloadAction<Product>) => {
+            state.isBiddingProduct = false;
+        },
     },
 });
 

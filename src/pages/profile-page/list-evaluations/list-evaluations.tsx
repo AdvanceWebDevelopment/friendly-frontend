@@ -12,7 +12,7 @@ export const ListEvaluations = () => {
 
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(requestEvaluations);
+        dispatch(requestEvaluations(0));
     }, []);
 
     return (
