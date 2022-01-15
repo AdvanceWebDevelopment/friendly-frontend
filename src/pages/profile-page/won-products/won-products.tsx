@@ -2,27 +2,38 @@ import React, { useEffect, useState } from "react";
 import { Button, Spinner, Table } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { UserReviewPayload, requestWonList, cancelDeal } from "../../../app/reducers/user-slice";
+import { requestWonList, UserReviewPayload } from "../../../app/reducers/user-slice";
 import { RootState } from "../../../app/store";
 import { ConfirmModal2 } from "../../../components/common/confirm-modal-2/confirm-modal-2";
 import { apiRoute } from "../../../constants";
 import { Product } from "../../../models";
 import { formatPrice } from "../../../utils";
 import "../selling-products/selling-products.module.css";
+import { EvaluationModal } from "./evaluation-modal/evaluation-modal";
 
 export const WonProducts = () => {
     const dispatch = useAppDispatch();
     const products = useAppSelector((state: RootState) => state.userState.wonProducts);
     const isLoading = useAppSelector((state: RootState) => state.userState.isLoadingWonProducts);
-
+    const navigate = useNavigate();
     const [currentProduct, setCurrentProduct] = useState(0);
     const [currentBidder, setCurrentBidder] = useState(0);
-    const [isModalShown, setIsModalShown] = useState(false);
+    const [isCancelTransactionModalShown, setIsCancelTransactionModalShown] = useState(false);
+    const [clickedProduct, setClickedProduct] = useState({} as Product);
+    const [IsEvaluationModalShown, setIsEvaluationModalShown] = useState(false);
+
+    const onCancelEvaluation = () => {
+        setIsEvaluationModalShown(false);
+    };
+
+    const onShowEvalution = (product: Product) => {
+        setClickedProduct(product);
+        setIsEvaluationModalShown(true);
+    };
 
     useEffect(() => {
         dispatch(requestWonList());
     }, []);
-    const navigate = useNavigate();
 
     const onItemClicked = (product: Product) => {
         navigate(`/${apiRoute.PRODUCT}/${product.id}`);
@@ -34,7 +45,7 @@ export const WonProducts = () => {
     };
 
     const onCloseModal = () => {
-        setIsModalShown(false);
+        setIsCancelTransactionModalShown(false);
     };
 
     const onCancelDeal = () => {
@@ -48,6 +59,7 @@ export const WonProducts = () => {
 
     return (
         <div>
+            {/* <Spinner animation="border" variant="primary" className="d-block mx-auto" /> */}
             {isLoading && <Spinner animation="border" variant="primary" className="d-block mx-auto" />}
             {!isLoading && (
                 <div>
@@ -60,16 +72,18 @@ export const WonProducts = () => {
                                 <th>Giá thắng</th>
                                 <th>Người thắng</th>
                                 <th>Hủy giao dịch</th>
+                                <th>Đánh giá</th>
+                                <th></th>
                             </tr>
                         </thead>
 
                         <tbody>
                             {products?.map((product, index) => {
                                 return (
-                                    <tr key={index} onClick={() => onItemClicked(product)}>
+                                    <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td>{product.name}</td>
-                                        <td>{product.subCategory}</td>
+                                        <td>{product.subCategory?.name}</td>
                                         <td>{formatPrice(product.currentPrice ?? 0)}</td>
                                         <td>{product.highestBidder?.name}</td>
                                         <td>
@@ -82,6 +96,16 @@ export const WonProducts = () => {
                                                 Hủy
                                             </Button>
                                         </td>
+                                        <td>
+                                            <Button variant="primary" onClick={() => onShowEvalution(product)}>
+                                                Đánh giá
+                                            </Button>
+                                        </td>
+                                        <td>
+                                            <Button variant="info" onClick={() => onItemClicked(product)}>
+                                                Chi tiết
+                                            </Button>
+                                        </td>
                                     </tr>
                                 );
                             })}
@@ -90,11 +114,17 @@ export const WonProducts = () => {
                 </div>
             )}
             <ConfirmModal2
-                show={isModalShown}
+                show={isCancelTransactionModalShown}
                 headingTitle="Xác nhận"
                 bodyContent="Bạn có chắc muốn hủy giao dịch?"
                 onConfirm={onCancelDeal}
                 onCancel={onCloseModal}
+            />
+            <EvaluationModal
+                show={IsEvaluationModalShown}
+                onCancel={onCancelEvaluation}
+                productId={clickedProduct?.id}
+                userId={clickedProduct?.seller?.id}
             />
         </div>
     );

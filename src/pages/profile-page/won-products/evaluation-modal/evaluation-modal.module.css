@@ -1,0 +1,9 @@
+.text-area {
+    width: 100%;
+    padding: 0.5em;
+}
+
+.like-container {
+    display: flex;
+    flex-direction: row;
+}

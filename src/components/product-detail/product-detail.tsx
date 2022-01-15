@@ -26,7 +26,6 @@ interface ProductDetailProps {
 export const ProductDetail = ({ product }: ProductDetailProps) => {
     const dispatch = useAppDispatch();
     const { isEditProduct, isUpdatingProductDescription } = useAppSelector((state) => state.productState);
-
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const onEditorStateChange = (editorState: EditorState) => {
         setEditorState(editorState);
@@ -120,6 +119,8 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
                         <span className={`${classes["post-date"]}`}>
                             đăng từ {product?.postDate?.toLocaleDateString("en-AU")}
                         </span>
+
+                        <span className={`${classes["middle-dot"]} mx-1`}>•</span>
                     </div>
 
                     <div className={`${classes["product-content-wrapper"]}`}>

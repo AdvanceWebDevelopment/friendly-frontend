@@ -92,19 +92,18 @@ export const userService = {
         }
     },
 
-    async getUserWonProducts(): Promise<Product[] | undefined> {
+    async getUserWonProducts(page: number = 0): Promise<Product[] | undefined> {
         try {
             const response = await axios.get(`${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCTS}/${apiRoute.WIN}`, {
                 headers: authUtils.getAuthHeader(),
                 params: {
-                    page: 0,
-                    size: 99,
+                    page,
+                    size: pagingConstant.PAGE_SIZE,
                 },
             });
-            const products: Product[] = response.data?.responseBody?.content?.map((product: any) => {
-                Product.fromData(product);
-            });
-
+            const products: Product[] = response.data?.responseBody?.content?.map((product: any) =>
+                Product.fromData(product),
+            );
             return products;
         } catch (error: any) {
             console.error(error?.response?.data);
@@ -154,7 +153,7 @@ export const userService = {
             );
             return response.data?.message;
         } catch (error: any) {
-            console.error(JSON.stringify(error));
+            console.log(JSON.stringify(error));
             return undefined;
         }
     },
@@ -303,9 +302,7 @@ export const userService = {
                 },
             });
 
-            const users: User[] = response.data?.responseBody?.content?.map((user: any) => {
-                return User.fromData(user);
-            });
+            const users: User[] = response.data?.responseBody?.content?.map((user: any) => User.fromData(user));
 
             return {
                 users: users,
