@@ -16,9 +16,7 @@ export const UserInfo = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (user.id === undefined) {
-            dispatch(requestUser());
-        }
+        dispatch(requestUser());
     }, []);
 
     const [isEditName, setIsEditName] = useState(false);
