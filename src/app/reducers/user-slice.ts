@@ -83,18 +83,14 @@ interface UserState {
     newBids: Bid[];
 
     isBuyingProduct: boolean;
+
+    isRequestingToBid: boolean;
 }
 
 export const userSlice = createSlice({
     name: "user",
     initialState: {
-        user: {
-            id: 0,
-            name: "",
-            avatar: "",
-            points: 0,
-            email: "",
-        },
+        user: {},
         isLoadingUser: false,
         isAddingToWatchedList: false,
 
@@ -153,6 +149,8 @@ export const userSlice = createSlice({
         newBids: [],
 
         isBuyingProduct: false,
+
+        isRequestingToBid: false,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -341,6 +339,12 @@ export const userSlice = createSlice({
         },
         completeBuyProduct: (state: UserState, action: PayloadAction<Product>) => {
             state.isBuyingProduct = false;
+        },
+        requestToBidProduct: (state: UserState, action: PayloadAction<Product>) => {
+            state.isRequestingToBid = true;
+        },
+        completeRequestToBidProduct: (state: UserState, action: PayloadAction<Product>) => {
+            state.isRequestingToBid = false;
         },
     },
 });

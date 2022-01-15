@@ -44,17 +44,13 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
         };
     }, [isDropdownOpen]);
 
-    const close = () => {
+    const closeDropdown = () => {
         setIsDropdownOpen(false);
-    };
-
-    const dummyFunc = () => {
-        close();
     };
 
     const showHistoryModalHandler = () => {
         setShowHistoryModal(true);
-        close();
+        closeDropdown();
     };
 
     const closeHistoryModalHandler = () => {
@@ -115,6 +111,13 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
         dispatch(userActions.requestBuyProduct(product));
     };
 
+    const requestToBidProduct = () => {
+        closeDropdown();
+        alert("Yêu cầu đang chờ được xử lý");
+
+        dispatch(userActions.requestToBidProduct(product));
+    };
+
     return (
         <>
             <div className={classes.options} ref={ref}>
@@ -130,7 +133,7 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
                         <li
                             className={classes.row}
                             onClick={() => {
-                                dummyFunc();
+                                closeDropdown();
                                 onWatchProduct();
                             }}
                         >
@@ -141,10 +144,14 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
                             <Icon icon="bi:table" width={20} height={20} className={classes.icon} />
                             <div className={classes.headings}>Lịch Sử Giá</div>
                         </li>
+                        <li className={classes.row} onClick={requestToBidProduct} hidden={user.email === undefined}>
+                            <Icon icon="akar-icons:hand" width={20} height={20} className={classes.icon} />
+                            <div className={classes.headings}>Xin Phép Ra Giá</div>
+                        </li>
                         <li
                             className={classes.row}
                             onClick={() => {
-                                dummyFunc();
+                                closeDropdown();
                                 onEditProduct();
                             }}
                             hidden={shouldHideEdit()}
@@ -155,7 +162,7 @@ export default function ProductOptions({ product }: ProductOptionsProps) {
                         <li
                             className={classes.row}
                             onClick={() => {
-                                dummyFunc();
+                                closeDropdown();
                                 onDeleteProduct();
                             }}
                             hidden={user.role !== UserRole.ADMIN}

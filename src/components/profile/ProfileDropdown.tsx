@@ -2,7 +2,7 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { authActions, selectIsAuthenticated } from "../../app/reducers/auth-slice";
-import { apiRoute, authConstants } from "../../constants";
+import { apiRoute } from "../../constants";
 import { UserRole } from "../../models";
 import classes from "./ProfileDropdown.module.css";
 
