@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useAppDispatch } from "../../../../app/hook";
 import { ReviewPayload, userActions } from "../../../../app/reducers/user-slice";
-import { Evaluation } from "../../../../models/evaluation";
-import { ReviewRequest } from "../../../../services";
 import classes from "./evaluation-modal.module.css";
 interface EvaluationModalProps {
     userId: number | undefined;

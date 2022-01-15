@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Spinner, Table } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "../../../app/hook";
+import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import { requestEvaluations } from "../../../app/reducers/user-slice";
 import { RootState } from "../../../app/store";
 import { pagingConstant } from "../../../constants";
@@ -10,7 +10,7 @@ export const EvaluationsAndPoints = () => {
     const { isLoadingEvaluations, loadedEvaluations, loadedEvaluationsCurrentPage, loadedEvaluationsTotalPages } =
         useAppSelector((state: RootState) => state.userState);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(requestEvaluations(0));
     }, []);
