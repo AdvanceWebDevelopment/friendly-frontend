@@ -12,12 +12,11 @@ export { FavoriteProducts } from "./profile-page/favorite-products/favorite-prod
 export { SellingProducts } from "./profile-page/selling-products/selling-products";
 export { UpgradeRequests } from "./profile-page/upgrade-requests/upgrade-requests";
 export { UserInfo } from "./profile-page/user-info/user-info";
-export { UserPoints } from "./profile-page/user-points/user-points";
 export { UsersList } from "./profile-page/users-list/users-list";
 export { WinningHistory } from "./profile-page/winning-history/winning-history";
 export { CategoryManagement } from "./profile-page/category-management/category-management";
 export { PostProductPage } from "./post-product-page/post-product-page";
 export { ProductSearchPage } from "./product-search-page/product-search-page";
 export { WonProducts } from "./profile-page/won-products/won-products";
-export { ListEvaluations } from "./profile-page/list-evaluations/list-evaluations";
+export { EvaluationsAndPoints } from "./profile-page/eva-points/eva-points";
 export { ListSellers } from "./profile-page/list-sellers/list-sellers";

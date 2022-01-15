@@ -15,13 +15,6 @@ interface DummyData {
 export default function ProfileDropdowm() {
     const { user } = useAppSelector((state) => state.userState);
     const dispatch = useAppDispatch();
-    const isAuthenticated = useAppSelector(selectIsAuthenticated);
-
-    React.useEffect(() => {
-        if (!isAuthenticated) {
-            navigate(`/`);
-        }
-    }, [isAuthenticated]);
 
     const [list, setList] = React.useState([
         {
@@ -55,6 +48,7 @@ export default function ProfileDropdowm() {
                             navigate(item.link);
                         } else {
                             dispatch(authActions.logout());
+                            navigate("/");
                         }
                     }}
                 >

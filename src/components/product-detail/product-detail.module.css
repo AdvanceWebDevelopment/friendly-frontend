@@ -84,15 +84,3 @@
     line-height: normal;
     min-height: 10rem;
 }
-
-.evaluation {
-    background-color: var(--sub-primary);
-    border: 1px solid var(--primary);
-    color: var(--primary);
-    border-radius: 5px;
-}
-
-.evaluation:hover {
-    background-color: var(--primary);
-    color: var(--sub-primary);
-}

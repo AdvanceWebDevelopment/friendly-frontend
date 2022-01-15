@@ -6,7 +6,7 @@ import { requestEvaluations } from "../../../app/reducers/user-slice";
 import { RootState } from "../../../app/store";
 import { pagingConstant } from "../../../constants";
 
-export const ListEvaluations = () => {
+export const EvaluationsAndPoints = () => {
     const { isLoadingEvaluations, loadedEvaluations, loadedEvaluationsCurrentPage, loadedEvaluationsTotalPages } =
         useAppSelector((state: RootState) => state.userState);
 

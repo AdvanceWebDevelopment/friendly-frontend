@@ -1,10 +1,10 @@
 import { Icon } from "@iconify/react";
 import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { useAppDispatch } from "../../../app/hook";
-import { ReviewPayload, userActions } from "../../../app/reducers/user-slice";
-import { Evaluation } from "../../../models/evaluation";
-import { ReviewRequest } from "../../../services";
+import { useAppDispatch } from "../../../../app/hook";
+import { ReviewPayload, userActions } from "../../../../app/reducers/user-slice";
+import { Evaluation } from "../../../../models/evaluation";
+import { ReviewRequest } from "../../../../services";
 import classes from "./evaluation-modal.module.css";
 interface EvaluationModalProps {
     userId: number | undefined;
@@ -47,7 +47,7 @@ export const EvaluationModal = ({ userId, productId, onCancel, show }: Evaluatio
 
     return (
         <Modal show={show} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton onHide={onCancel}>
                 <Modal.Title id="contained-modal-title-vcenter">Nhận xét</Modal.Title>
             </Modal.Header>
             <Modal.Body>

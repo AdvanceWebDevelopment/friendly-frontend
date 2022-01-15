@@ -26,11 +26,10 @@ import {
     SellingProducts,
     UpgradeRequests,
     UserInfo,
-    UserPoints,
     UsersList,
     WinningHistory,
     WonProducts,
-    ListEvaluations,
+    EvaluationsAndPoints,
     ListSellers,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
@@ -79,7 +78,6 @@ function App() {
                     <Route path={apiRoute.CHANGE} element={<ChangePasswordPage />} />
                     <Route path={apiRoute.PROFILE} element={<ProfilePage />}>
                         <Route path="user-info" element={<UserInfo />} />
-                        <Route path="user-points" element={<UserPoints />} />
                         <Route path="favorite-products" element={<FavoriteProducts />} />
                         <Route path="bidding-products" element={<BiddingProducts />} />
                         <Route path="winning-history" element={<WinningHistory />} />
@@ -89,7 +87,7 @@ function App() {
                         <Route path="users-list" element={<UsersList />} />
                         <Route path="upgrade-requests" element={<UpgradeRequests />} />
                         <Route path="list-sellers" element={<ListSellers />} />
-                        <Route path="list-evaluations" element={<ListEvaluations />} />
+                        <Route path="list-evaluations" element={<EvaluationsAndPoints />} />
                     </Route>
                     <Route path={apiRoute.POST_PRODUCT} element={<PostProductPage />} />
                 </Route>
