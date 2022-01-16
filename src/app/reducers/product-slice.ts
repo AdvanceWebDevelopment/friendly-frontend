@@ -239,6 +239,14 @@ const productSlice = createSlice({
             state.totalBidRequestPages =
                 !action.payload.totalPages || action.payload.totalPages === 0 ? 1 : action.payload.totalPages;
         },
+        requestApproveBidRequest: (state, action: PayloadAction<BidRequest>) => {},
+        completeApproveBidRequest: (state, action: PayloadAction<BidRequest>) => {
+            state.bidRequests = state.bidRequests.filter((br) => br.id !== action.payload.id);
+        },
+        requestRejectBidRequest: (state, action: PayloadAction<BidRequest>) => {},
+        completeRejectBidRequest: (state, action: PayloadAction<BidRequest>) => {
+            state.bidRequests = state.bidRequests.filter((br) => br.id !== action.payload.id);
+        },
     },
 });
 

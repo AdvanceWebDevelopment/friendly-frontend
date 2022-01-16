@@ -1,6 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, take, takeLatest } from "redux-saga/effects";
-import { Bid, Product } from "../../models";
+import { Bid, BidRequest, Product } from "../../models";
 import {
     BidProductRequest,
     BidRequestListRequest,
@@ -167,6 +167,38 @@ function* watchRequestGetBidRequestList() {
     }
 }
 
+function* watchRequestApproveBidRequest() {
+    while (true) {
+        try {
+            const action: PayloadAction<BidRequest> = yield take(productActions.requestApproveBidRequest.type);
+
+            const response: BidRequest | undefined = yield call(productService.approveBidRequest, action.payload);
+
+            if (response) {
+                yield put(productActions.completeApproveBidRequest(response));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+function* watchRequestRejectBidRequest() {
+    while (true) {
+        try {
+            const action: PayloadAction<BidRequest> = yield take(productActions.requestRejectBidRequest.type);
+
+            const response: BidRequest | undefined = yield call(productService.rejectBidRequest, action.payload);
+
+            if (response) {
+                yield put(productActions.completeRejectBidRequest(response));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* productSaga() {
     yield all([
         watchReqestTopFiveProducts(),
@@ -177,6 +209,8 @@ export function* productSaga() {
         watchRequestBidProduct(),
         watchRequestGetProductBidHistory(),
         watchRequestGetBidRequestList(),
+        watchRequestApproveBidRequest(),
+        watchRequestRejectBidRequest(),
     ]);
 }
 

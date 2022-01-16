@@ -64,7 +64,7 @@ export const ProductDetailPage = () => {
                 page: 0,
             }),
         );
-    }, [productDetail]);
+    }, [productDetail, isLoadingProductDetail]);
 
     return (
         <div className={`pb-5 ${classes["page-wrapper"]}`}>

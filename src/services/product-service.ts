@@ -315,4 +315,43 @@ export const productService = {
             return undefined;
         }
     },
+    async approveBidRequest(bidRequest: BidRequest): Promise<BidRequest | undefined> {
+        try {
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.BIDDER}/${bidRequest.bidder?.id}/${apiRoute.PRODUCT}/${bidRequest.product?.id}`,
+                {},
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            return bidRequest;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
+    async rejectBidRequest(bidRequest: BidRequest): Promise<BidRequest | undefined> {
+        try {
+            const response = await axios.delete(
+                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.BIDDER}/${bidRequest.bidder?.id}/${apiRoute.PRODUCT}/${bidRequest.product?.id}`,
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            return bidRequest;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
 };

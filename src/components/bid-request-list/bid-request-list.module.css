@@ -7,3 +7,7 @@
 .text {
     font-family: "Montserrat";
 }
+
+.row {
+    cursor: default;
+}
