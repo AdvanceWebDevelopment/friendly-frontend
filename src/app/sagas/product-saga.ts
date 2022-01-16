@@ -3,6 +3,8 @@ import { all, call, put, take, takeLatest } from "redux-saga/effects";
 import { Bid, Product } from "../../models";
 import {
     BidProductRequest,
+    BidRequestListRequest,
+    BidRequestListResponseWithPaging,
     ProductBidHistoryRequest,
     ProductBidHistoryResponseWithPaging,
     productService,
@@ -144,6 +146,27 @@ function* watchRequestGetProductBidHistory() {
     }
 }
 
+function* watchRequestGetBidRequestList() {
+    while (true) {
+        try {
+            const action: PayloadAction<BidRequestListRequest> = yield take(
+                productActions.requestGetBidRequestList.type,
+            );
+
+            const response: BidRequestListResponseWithPaging | undefined = yield call(
+                productService.getBidRequestList,
+                action.payload,
+            );
+
+            if (response) {
+                yield put(productActions.completeGetBidRequestList(response));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* productSaga() {
     yield all([
         watchReqestTopFiveProducts(),
@@ -153,6 +176,7 @@ export function* productSaga() {
         watchRequestDeleteProduct(),
         watchRequestBidProduct(),
         watchRequestGetProductBidHistory(),
+        watchRequestGetBidRequestList(),
     ]);
 }
 

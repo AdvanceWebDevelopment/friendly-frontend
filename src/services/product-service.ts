@@ -2,7 +2,7 @@ import axios from "axios";
 import { imageService } from ".";
 import { pagingConstant } from "../constants";
 import { apiRoute, API_HOST } from "../constants/api-routes";
-import { Bid, Product } from "../models";
+import { Bid, BidRequest, Product } from "../models";
 import { authUtils } from "../utils";
 
 export type SortOption = "DATE" | "PRICE";
@@ -38,6 +38,17 @@ export interface ProductBidHistoryRequest {
 
 export interface ProductBidHistoryResponseWithPaging {
     bids?: Bid[];
+    currentPage?: number;
+    totalPages?: number;
+}
+
+export interface BidRequestListRequest {
+    product: Product;
+    page?: number;
+}
+
+export interface BidRequestListResponseWithPaging {
+    bidRequests: BidRequest[];
     currentPage?: number;
     totalPages?: number;
 }
@@ -272,6 +283,35 @@ export const productService = {
         } catch (error: any) {
             console.error(error?.response?.data);
             alert(error?.response?.data?.error);
+            return undefined;
+        }
+    },
+    async getBidRequestList({
+        product,
+        page = 0,
+    }: BidRequestListRequest): Promise<BidRequestListResponseWithPaging | undefined> {
+        try {
+            const response = await axios.get(`${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCT}/${product.id}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page: page,
+                    size: pagingConstant.PAGE_SIZE,
+                },
+            });
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            const bidRequests = response.data?.responseBody?.content?.map((item: any) => BidRequest.fromData(item));
+
+            return {
+                bidRequests: bidRequests,
+                currentPage: page + 1,
+                totalPages: response.data?.responseBody?.totalPages ?? 1,
+            };
+        } catch (error: any) {
+            console.error(error?.response?.data);
             return undefined;
         }
     },

@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { pagingConstant } from "../../constants";
-import { Bid, Product } from "../../models";
+import { Bid, BidRequest, Product } from "../../models";
 import {
     BidProductRequest,
+    BidRequestListRequest,
+    BidRequestListResponseWithPaging,
     ProductBidHistoryRequest,
     ProductBidHistoryResponseWithPaging,
     UpdateProductDescriptionRequest,
@@ -21,6 +23,11 @@ interface ProductState {
     isLoadingProductDetail: boolean;
     productDetail: Product;
     relatedProducts: Product[];
+
+    isLoadingBidRequestList: boolean;
+    bidRequests: BidRequest[];
+    currentBidRequestPage: number;
+    totalBidRequestPages: number;
 
     isUploadingProduct: boolean;
     isUploadSuccessful: boolean;
@@ -76,6 +83,10 @@ const productSlice = createSlice({
         isLoadingProductDetail: true,
         productDetail: {},
         relatedProducts: [],
+        isLoadingBidRequestList: false,
+        bidRequests: [],
+        currentBidRequestPage: 1,
+        totalBidRequestPages: 1,
 
         isUploadingProduct: false,
         isUploadSuccessful: false,
@@ -217,6 +228,16 @@ const productSlice = createSlice({
         },
         completeBuyProduct: (state, action: PayloadAction<Product>) => {
             state.isBiddingProduct = false;
+        },
+        requestGetBidRequestList: (state, action: PayloadAction<BidRequestListRequest>) => {
+            state.isLoadingBidRequestList = true;
+        },
+        completeGetBidRequestList: (state, action: PayloadAction<BidRequestListResponseWithPaging>) => {
+            state.isLoadingBidRequestList = false;
+            state.bidRequests = action.payload.bidRequests;
+            state.currentBidRequestPage = action.payload.currentPage ?? 1;
+            state.totalBidRequestPages =
+                !action.payload.totalPages || action.payload.totalPages === 0 ? 1 : action.payload.totalPages;
         },
     },
 });
