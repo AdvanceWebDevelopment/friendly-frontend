@@ -199,6 +199,30 @@ function* watchRequestRejectBidRequest() {
     }
 }
 
+function* watchRequestDenyBidderOnProduct() {
+    while (true) {
+        try {
+            const action: PayloadAction<Bid> = yield take(productActions.requestDenyBidderOnProduct.type);
+
+            const response: Bid | undefined = yield call(productService.denyUserBidOnProduct, action.payload);
+
+            if (response) {
+                yield put(productActions.completeDenyBidderOnProduct(response));
+
+                yield put(productActions.requestProductDetail(action.payload.product?.id?.toString()!));
+
+                yield put(
+                    productActions.requestProductBidHistory({
+                        product: action.payload.product,
+                    }),
+                );
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* productSaga() {
     yield all([
         watchReqestTopFiveProducts(),
@@ -211,6 +235,7 @@ export function* productSaga() {
         watchRequestGetBidRequestList(),
         watchRequestApproveBidRequest(),
         watchRequestRejectBidRequest(),
+        watchRequestDenyBidderOnProduct(),
     ]);
 }
 

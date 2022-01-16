@@ -2,16 +2,22 @@ import { Icon } from "@iconify/react";
 import { ContentState, convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
-import React, { useState } from "react";
-import { Button, Col, Image, Row, Spinner } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Image, OverlayTrigger, Row, Spinner, Tooltip } from "react-bootstrap";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { requestBidProduct, requestUpdateProductDescription, setEditProduct } from "../../app/reducers/product-slice";
+import {
+    productActions,
+    requestBidProduct,
+    requestUpdateProductDescription,
+    setEditProduct,
+} from "../../app/reducers/product-slice";
 import { apiRoute, colors } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
+import { ConfirmModal } from "../common/confirm-modal/confirm-modal";
 import Bidder from "../product/bid-info/Bidder";
 import BidButton from "../product/button/BidButton";
 import ProductModal from "../product/modal/product/ProductBidModal";
@@ -30,6 +36,17 @@ export const ProductDetail = ({ product }: ProductDetailProps) => {
     const onEditorStateChange = (editorState: EditorState) => {
         setEditorState(editorState);
     };
+
+    const { user } = useAppSelector((state) => state.userState);
+    const [showDenyBidButton, setShowDenyBidButton] = useState(false);
+
+    useEffect(() => {
+        if (user.sellingProducts?.find((p) => p.id === product.id) && product.currentBids !== 0) {
+            setShowDenyBidButton(true);
+        } else {
+            setShowDenyBidButton(false);
+        }
+    }, [user, product]);
 
     const [showBidModal, setShowBidModal] = useState(false);
 

@@ -354,4 +354,26 @@ export const productService = {
             return undefined;
         }
     },
+    async denyUserBidOnProduct(bid: Bid): Promise<Bid | undefined> {
+        try {
+            const response = await axios.patch(
+                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCT}/${bid.product?.id}/${apiRoute.BIDDER}/${bid.bidder?.id}`,
+                {
+                    id: bid.id,
+                },
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            return bid;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
 };

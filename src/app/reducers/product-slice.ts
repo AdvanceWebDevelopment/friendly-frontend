@@ -247,6 +247,8 @@ const productSlice = createSlice({
         completeRejectBidRequest: (state, action: PayloadAction<BidRequest>) => {
             state.bidRequests = state.bidRequests.filter((br) => br.id !== action.payload.id);
         },
+        requestDenyBidderOnProduct: (state, action: PayloadAction<Bid>) => {},
+        completeDenyBidderOnProduct: (state, action: PayloadAction<Bid>) => {},
     },
 });
 

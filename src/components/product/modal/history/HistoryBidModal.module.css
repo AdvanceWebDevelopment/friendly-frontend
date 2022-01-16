@@ -41,6 +41,11 @@
     border-bottom: 1px solid rgba(119, 119, 119, 0.25);
 }
 
+.deny-bid {
+    color: var(--red);
+    cursor: pointer;
+}
+
 .date-time {
     display: flex;
     flex-direction: row;
