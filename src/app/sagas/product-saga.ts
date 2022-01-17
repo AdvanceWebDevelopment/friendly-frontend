@@ -10,9 +10,8 @@ import {
     productService,
     UpdateProductDescriptionRequest,
 } from "../../services";
-import { updateProductHighestBidder } from "../reducers/category-slice";
+import { categoryActions } from "../reducers/category-slice";
 import { productActions } from "../reducers/product-slice";
-import { userActions } from "../reducers/user-slice";
 
 function* watchReqestTopFiveProducts() {
     yield all([
@@ -115,7 +114,7 @@ function* watchRequestBidProduct() {
                 // alert("Đã có lỗi xảy ra trong quá trình ra giá. Vui lòng thử lại sau.");
             } else {
                 yield put(productActions.completeBidProduct(bid));
-                yield put(updateProductHighestBidder(bid));
+                yield put(categoryActions.updateProductHighestBidder(bid));
             }
         } catch (error: any) {
             console.error(error);
@@ -223,6 +222,23 @@ function* watchRequestDenyBidderOnProduct() {
     }
 }
 
+function* watchRequestAutoBidProduct() {
+    while (true) {
+        try {
+            const action: PayloadAction<BidProductRequest> = yield take(productActions.requestAutoBidProduct.type);
+
+            const response: Bid | undefined = yield call(productService.autoBidProduct, action.payload);
+
+            if (response) {
+                yield put(productActions.completeAutoBidProduct(response));
+                yield put(categoryActions.updateProductHighestBidder(response));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* productSaga() {
     yield all([
         watchReqestTopFiveProducts(),
@@ -236,6 +252,7 @@ export function* productSaga() {
         watchRequestApproveBidRequest(),
         watchRequestRejectBidRequest(),
         watchRequestDenyBidderOnProduct(),
+        watchRequestAutoBidProduct(),
     ]);
 }
 

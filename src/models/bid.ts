@@ -12,13 +12,13 @@ export class Bid {
 
     static fromData(data: any): Bid {
         return {
-            id: data.id,
-            bidder: User.fromData(data.bidder),
-            product: Product.fromData(data.product),
-            bidAt: new Date(data.bidAt),
-            reject: data.reject,
-            status: data.status,
-            bidPrice: data.price,
+            id: data?.id,
+            bidder: User.fromData(data?.bidder),
+            product: Product.fromData(data?.product),
+            bidAt: new Date(data?.bidAt),
+            reject: data?.reject,
+            status: data?.status,
+            bidPrice: data?.price,
         };
     }
 }

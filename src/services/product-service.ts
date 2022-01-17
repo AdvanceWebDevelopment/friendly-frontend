@@ -376,4 +376,29 @@ export const productService = {
             return undefined;
         }
     },
+    async autoBidProduct({ product, price }: BidProductRequest): Promise<Bid | undefined> {
+        try {
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}/${product?.id}/${apiRoute.AUTO}`,
+                {
+                    price: price,
+                },
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            const bid = Bid.fromData(response.data?.object);
+
+            return bid;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            alert(error?.response?.data?.error);
+            return undefined;
+        }
+    },
 };

@@ -249,6 +249,17 @@ const productSlice = createSlice({
         },
         requestDenyBidderOnProduct: (state, action: PayloadAction<Bid>) => {},
         completeDenyBidderOnProduct: (state, action: PayloadAction<Bid>) => {},
+        requestAutoBidProduct: (state, action: PayloadAction<BidProductRequest>) => {},
+        completeAutoBidProduct: (state, action: PayloadAction<Bid>) => {
+            updateBidderInProducts(state.hottestProducts, action.payload);
+            updateBidderInProducts(state.endSoonProducts, action.payload);
+            updateBidderInProducts(state.mostBiddedProducts, action.payload);
+            updateBidderInProducts(state.relatedProducts, action.payload);
+
+            if (state.productDetail.id === action.payload.product?.id) {
+                updateProductBidStatus(state.productDetail, action.payload.product);
+            }
+        },
     },
 });
 
