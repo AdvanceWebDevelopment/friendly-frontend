@@ -7,7 +7,7 @@ import { User } from "../../../models";
 import DatePicker from "react-datepicker";
 import classes from "./user-info.module.css";
 import "react-datepicker/dist/react-datepicker.css";
-import { requestUpdateUser, requestUser } from "../../../app/reducers/user-slice";
+import { requestUpdateUser, requestUpgrade, requestUser } from "../../../app/reducers/user-slice";
 import { useNavigate } from "react-router";
 
 export const UserInfo = () => {
@@ -43,6 +43,10 @@ export const UserInfo = () => {
                 dob: startDate,
             }),
         );
+    };
+
+    const onRequestUpgrade = () => {
+        dispatch(requestUpgrade());
     };
 
     return (
@@ -136,6 +140,11 @@ export const UserInfo = () => {
                                     readOnly
                                     style={{ backgroundColor: colors.subPrimary }}
                                 />
+                                {user.role === 1 && (
+                                    <Button variant="primary" onClick={onRequestUpgrade}>
+                                        Nâng cấp
+                                    </Button>
+                                )}
                             </InputGroup>
                         </div>
 

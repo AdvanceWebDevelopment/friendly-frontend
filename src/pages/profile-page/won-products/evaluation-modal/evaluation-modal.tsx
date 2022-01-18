@@ -31,8 +31,7 @@ export const EvaluationModal = ({ userId, productId, onCancel, show }: Evaluatio
                 userId: user,
             },
         };
-
-        dispatch(userActions.sendReviewToSeller(reviewPayload));
+        dispatch(userActions.sendReviewToBidder(reviewPayload));
         setEvaluation("");
         onCancel();
     };

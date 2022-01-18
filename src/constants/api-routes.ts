@@ -20,6 +20,7 @@ export const apiRoute = {
     WINNER: "winner",
     WIN: "win",
     EVALUATION: "evaluation",
+    AUTH: "host/auth",
 };
 
 export const HOST = "https://doran-backend.eastus.azurecontainer.io";
