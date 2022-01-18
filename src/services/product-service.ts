@@ -215,7 +215,7 @@ export const productService = {
             return {
                 bids: bids,
                 currentPage: page + 1,
-                totalPages: response.data?.responseBody?.totalPages ?? 1,
+                totalPages: response.data?.totalPages ?? 1,
             };
         } catch (error: any) {
             console.error(error?.response?.data);

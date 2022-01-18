@@ -116,7 +116,7 @@ export default function HistoryBidModal({ show, handleClose, product }: HistoryB
 
                 <div className="mt-5">
                     <Paginator
-                        currentPage={currentBidHistoryPage}
+                        currentPage={1}
                         totalPages={totalBidHistoryPages}
                         onItemSelected={onChangePage}
                         onNextClicked={onChangePage}
