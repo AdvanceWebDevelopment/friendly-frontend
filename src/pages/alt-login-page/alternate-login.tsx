@@ -1,9 +1,9 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
-import { useLocation } from "react-router";
+import { useParams } from "react-router";
 
 export const AlternateLoginPage = () => {
-    const location = useLocation();
-    console.log(location.search);
+    let { accessToken, refreshToken } = useParams();
+    console.log(accessToken);
     return <Spinner animation="border" variant="primary" className="d-block mx-auto center my-auto" />;
 };
