@@ -77,13 +77,13 @@ export const LoginPage = () => {
                     <div className={classes.guidance}>Hoặc Đăng Nhập Với</div>
 
                     <div className={classes["login-methods"]}>
-                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/facebook?redirect_uri=https://doranhouse.azurewebsites.net/host/auth">
+                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/facebook?redirect_uri=https://doranhouse.azurewebsites.net">
                             <Icon icon="bi:facebook" className={classes.icons} />
                         </a>
-                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/google?redirect_uri=https://doranhouse.azurewebsites.net/host/auth">
+                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/google?redirect_uri=https://doranhouse.azurewebsites.net">
                             <Icon icon="akar-icons:google-contained-fill" className={classes.icons} />
                         </a>
-                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/github?redirect_uri=https://doranhouse.azurewebsites.net/host/auth">
+                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/github?redirect_uri=https://doranhouse.azurewebsites.neth">
                             <Icon icon="akar-icons:github-fill" className={classes.icons} />
                         </a>
                     </div>

@@ -31,7 +31,6 @@ import {
     WonProducts,
     EvaluationsAndPoints,
     ListSellers,
-    AlternateLoginPage,
 } from "./pages";
 import { DoranPage } from "./pages/doran-page";
 import { ChangePasswordPage } from "./pages/reset-password-page/change-password-page";
@@ -93,7 +92,6 @@ function App() {
                     </Route>
                     <Route path={apiRoute.POST_PRODUCT} element={<PostProductPage />} />
                 </Route>
-                <Route path={apiRoute.AUTH} element={<AlternateLoginPage />} />
             </Routes>
             <ScrollTopButton />
         </BrowserRouter>
