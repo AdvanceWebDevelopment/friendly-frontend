@@ -1,10 +1,9 @@
-import { Icon } from "@iconify/react";
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../app/hook";
 import { selectIsAuthenticated } from "../../../app/reducers/auth-slice";
 import { selectUserAvatar, selectUserName } from "../../../app/reducers/user-slice";
-import { authConstants } from "../../../constants";
 import { apiRoute } from "../../../constants/api-routes";
 import CategoryButton from "../../category/CategoryButton";
 import NotificationButton from "../../notification/NotificationButton";
@@ -46,6 +45,7 @@ export default function Header() {
                     <div className={classes.redirect}>
                         <LoginButton />
                         <RegisterButton />
+                        <Button onClick={() => navigate(`/${apiRoute.AUTH}`)} />
                     </div>
                 )}
             </div>
