@@ -15,7 +15,7 @@ export const ProfilePage = () => {
         },
         {
             name: "Điểm Và Đánh Giá",
-            value: "user-points",
+            value: "eva-points",
             role: UserRole.BIDDER,
         },
         {
@@ -62,11 +62,6 @@ export const ProfilePage = () => {
             name: "Danh Sách Người Bán",
             value: "list-sellers",
             role: UserRole.ADMIN,
-        },
-        {
-            name: "Danh Sách Đánh Giá",
-            value: "list-evaluations",
-            role: UserRole.BIDDER,
         },
     ];
 

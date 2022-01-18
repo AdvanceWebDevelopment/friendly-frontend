@@ -20,3 +20,4 @@ export { ProductSearchPage } from "./product-search-page/product-search-page";
 export { WonProducts } from "./profile-page/won-products/won-products";
 export { EvaluationsAndPoints } from "./profile-page/eva-points/eva-points";
 export { ListSellers } from "./profile-page/list-sellers/list-sellers";
+export { AlternateLoginPage } from "./alt-login-page/alternate-login";

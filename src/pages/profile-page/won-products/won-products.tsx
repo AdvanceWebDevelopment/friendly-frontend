@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Spinner, Table } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
-import { requestWonList, UserReviewPayload } from "../../../app/reducers/user-slice";
+import { requestWonList, UserReviewPayload, cancelDeal } from "../../../app/reducers/user-slice";
 import { RootState } from "../../../app/store";
 import { ConfirmModal2 } from "../../../components/common/confirm-modal-2/confirm-modal-2";
 import { apiRoute } from "../../../constants";
@@ -42,6 +42,7 @@ export const WonProducts = () => {
     const handleOnProductClick = (productId: number = 0, bidderId: number = 0) => {
         setCurrentProduct(productId);
         setCurrentBidder(bidderId);
+        setIsCancelTransactionModalShown(true);
     };
 
     const onCloseModal = () => {
@@ -49,12 +50,11 @@ export const WonProducts = () => {
     };
 
     const onCancelDeal = () => {
-        console.log("Cancel deal");
         const payload: UserReviewPayload = {
             productId: currentProduct,
             userId: currentBidder,
         };
-        // dispatch(cancelDeal(payload));
+        dispatch(cancelDeal(payload));
     };
 
     return (
@@ -69,6 +69,7 @@ export const WonProducts = () => {
                                 <th></th>
                                 <th>Tên</th>
                                 <th>Loại</th>
+                                <th>ID</th>
                                 <th>Giá thắng</th>
                                 <th>Người thắng</th>
                                 <th>Hủy giao dịch</th>
@@ -84,6 +85,7 @@ export const WonProducts = () => {
                                         <td>{index + 1}</td>
                                         <td>{product.name}</td>
                                         <td>{product.subCategory?.name}</td>
+                                        <td>{product.highestBidder?.id}</td>
                                         <td>{formatPrice(product.currentPrice ?? 0)}</td>
                                         <td>{product.highestBidder?.name}</td>
                                         <td>
@@ -124,7 +126,7 @@ export const WonProducts = () => {
                 show={IsEvaluationModalShown}
                 onCancel={onCancelEvaluation}
                 productId={clickedProduct?.id}
-                userId={clickedProduct?.seller?.id}
+                userId={clickedProduct?.highestBidder?.id}
             />
         </div>
     );

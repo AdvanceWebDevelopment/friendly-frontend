@@ -40,7 +40,7 @@ function* register(req: RegisterRequest) {
             };
             yield put(registerActions.sendInfoSuccess(user));
         } else {
-            yield put(registerActions.sendFailure("Email đã tồn tại, vui lòng sử dụng email khác."));
+            yield put(registerActions.sendFailure("Không thể đăng ký, xin thực hiện lại"));
         }
     } catch (e) {
         yield put(registerActions.sendFailure("Lỗi hệ thống, vui lòng thử lại sau vài phút"));

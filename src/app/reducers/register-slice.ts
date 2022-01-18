@@ -15,7 +15,7 @@ export interface RegisterRequest {
     name: string;
     email: string;
     password: string;
-    captchaToken: string;
+    captcha: string;
 }
 
 export interface RegisterResponse {

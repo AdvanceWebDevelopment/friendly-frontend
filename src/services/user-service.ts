@@ -120,6 +120,7 @@ export const userService = {
                     headers: authUtils.getAuthHeader(),
                 },
             );
+            console.log(response);
             return response.data?.message;
         } catch (error: any) {
             console.error(JSON.stringify(error));
@@ -129,6 +130,7 @@ export const userService = {
 
     async sendReviewToBidder(productId: number, userId: number, request: ReviewRequest): Promise<string | undefined> {
         try {
+            console.log(request);
             const response = await axios.post(
                 `${API_HOST}/${apiRoute.SELLER}/${apiRoute.WINNER}/${userId}/${apiRoute.PRODUCT}/${productId}`,
                 request,
@@ -136,6 +138,7 @@ export const userService = {
                     headers: authUtils.getAuthHeader(),
                 },
             );
+            console.log(response);
             return response.data?.message;
         } catch (error: any) {
             console.error(JSON.stringify(error));
@@ -393,8 +396,6 @@ export const userService = {
                 Product.fromData(item),
             );
 
-            console.log(products);
-
             return {
                 products: products,
                 currentPage: page + 1,
@@ -408,27 +409,39 @@ export const userService = {
 
     async getEvaluation(page: number = 0): Promise<EvaluationResponseWithPaging | undefined> {
         try {
-            const response = await axios.get(
-                `${API_HOST}/${apiRoute.BIDDER}/${apiRoute.BIDDER}/${apiRoute.EVALUATION}`,
-                {
-                    headers: authUtils.getAuthHeader(),
-                    params: {
-                        page: page,
-                        size: pagingConstant.PAGE_SIZE,
-                    },
+            const response = await axios.get(`${API_HOST}/${apiRoute.BIDDER}/${apiRoute.EVALUATION}`, {
+                headers: authUtils.getAuthHeader(),
+                params: {
+                    page: page,
+                    size: pagingConstant.PAGE_SIZE,
                 },
-            );
-            const evaluations: Evaluation[] = response.data?.evaluation?.content?.map((item: any) => {
-                Evaluation.fromData(item);
             });
+            const evaluations: Evaluation[] = response.data?.evaluation?.content?.map((item: any) =>
+                Evaluation.fromData(item),
+            );
             return {
-                // seller: User.fromData(response.data?.user),
                 evaluations,
                 currentPage: page + 1,
                 totalPages: response.data?.evaluation?.totalPages ?? 1,
             };
         } catch (err: any) {
             console.error(err?.response?.data);
+            return undefined;
+        }
+    },
+
+    async sendUpgradeRequest(): Promise<string | undefined> {
+        try {
+            const response = await axios.post(
+                `${API_HOST}/${apiRoute.BIDDER}`,
+                {},
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+            return response?.data;
+        } catch (e) {
+            console.error(JSON.stringify(e));
             return undefined;
         }
     },

@@ -137,6 +137,7 @@ function* watchSendReviewToBidder() {
             );
             if (response) {
                 yield put(userActions.completeSendReviewToBidder);
+                alert("Gửi đánh giá thành công");
             } else {
                 alert("Có lỗi khi gửi nhận xét");
             }
@@ -158,6 +159,7 @@ function* watchSendReviewToSeller() {
             );
             if (response) {
                 yield put(userActions.completeSendReviewToSeller);
+                alert("Gửi đánh giá thành công");
             } else {
                 alert("Có lỗi khi gửi nhận xét");
             }
@@ -299,7 +301,6 @@ function* watchRequestDeleteUser() {
             const action: PayloadAction<User> = yield take(userActions.requestDeleteUser.type);
 
             const response: User | undefined = yield call(userService.deleteUser, action.payload);
-
             if (response) {
                 yield put(userActions.completeDeleteUser(response));
             } else {
@@ -339,7 +340,6 @@ function* watchRequestEvaluations() {
                 userService.getEvaluation,
                 action.payload,
             );
-
             if (response) {
                 yield put(userActions.completeGetEvaluations(response));
             } else {
@@ -405,6 +405,23 @@ function* watchRequestToBidProduct() {
     }
 }
 
+function* watchRequestUpgrade() {
+    while (true) {
+        try {
+            yield take(userActions.requestUpgrade);
+            const response: string | undefined = yield call(userService.sendUpgradeRequest);
+            if (response) {
+                yield put(userActions.completeRequestUpgrade());
+                alert("Gửi yêu cầu nâng cấp tài khoản thành công");
+            } else {
+                alert("Lỗi xảy ra khi gửi yêu cầu nâng cấp tài khoản");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 export function* userSaga() {
     yield all([
         watchRequestUser(),
@@ -428,5 +445,6 @@ export function* userSaga() {
         watchRequestGetBiddingProducts(),
         watchBuyProducts(),
         watchRequestToBidProduct(),
+        watchRequestUpgrade(),
     ]);
 }

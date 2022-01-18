@@ -29,7 +29,6 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const [password, setPassword] = React.useState<InputField>({ value: "", error: "" });
     const [confirmPwd, setConfirmPwd] = React.useState<InputField>({ value: "", error: "" });
     const [isAgree, setIsAgree] = React.useState(false);
-    const [captchaToken, setCaptchaToken] = React.useState<InputField>({ value: "", error: "" });
     const reCaptchaRef = React.useRef<ReCAPTCHA>(null);
     const [isSubmitClick, setIsSubmitClick] = React.useState(false);
     const dispatch = useAppDispatch();
@@ -49,21 +48,21 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
     const onSubmitHandler = (e: React.SyntheticEvent) => {
         e.preventDefault();
         setIsSubmitClick(true);
-        setCaptchaToken({ value: reCaptchaRef.current?.getValue() as string } as InputField);
         if (
             name.value.length !== 0 &&
             validateEmail(email.value) &&
             validatePassword(password.value) &&
             password.value === confirmPwd.value &&
             isAgree &&
-            captchaToken
+            reCaptchaRef.current?.getValue()
         ) {
             const req: RegisterRequest = {
                 email: email.value,
                 name: name.value,
                 password: password.value,
-                captchaToken: captchaToken.value || "",
+                captcha: reCaptchaRef.current?.getValue() || "",
             };
+            console.log(req);
             dispatch(registerActions.sendInfo(req));
         } else {
             if (name.value.length === 0) {
@@ -81,7 +80,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
             if (!isAgree) {
                 alert("Bạn chưa đồng ý với điều khoản sử dụng");
             }
-            if (!captchaToken) {
+            if (reCaptchaRef.current?.getValue()?.length === 0) {
                 alert("Vui lòng xác nhận captcha");
             }
         }

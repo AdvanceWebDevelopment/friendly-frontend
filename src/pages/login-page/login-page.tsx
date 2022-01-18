@@ -44,10 +44,6 @@ export const LoginPage = () => {
         setPassword(password);
     };
 
-    const alternateLogin = (e: React.MouseEvent<SVGElement>) => {
-        e.preventDefault();
-    };
-
     const navigateToForgotPassword = () => {
         navigate(`/${apiRoute.FORGOT}`);
     };
@@ -79,14 +75,17 @@ export const LoginPage = () => {
                 </form>
                 <div className={classes["alternate-login"]}>
                     <div className={classes.guidance}>Hoặc Đăng Nhập Với</div>
+
                     <div className={classes["login-methods"]}>
-                        <Icon icon="bi:facebook" className={classes.icons} onClick={alternateLogin} />
-                        <Icon
-                            icon="akar-icons:google-contained-fill"
-                            className={classes.icons}
-                            onClick={alternateLogin}
-                        />
-                        <Icon icon="akar-icons:github-fill" className={classes.icons} onClick={alternateLogin} />
+                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/facebook?redirect_uri=https://doranhouse.azurewebsites.net">
+                            <Icon icon="bi:facebook" className={classes.icons} />
+                        </a>
+                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/google?redirect_uri=https://doranhouse.azurewebsites.net">
+                            <Icon icon="akar-icons:google-contained-fill" className={classes.icons} />
+                        </a>
+                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/github?redirect_uri=https://doranhouse.azurewebsites.net">
+                            <Icon icon="akar-icons:github-fill" className={classes.icons} />
+                        </a>
                     </div>
                 </div>
             </div>

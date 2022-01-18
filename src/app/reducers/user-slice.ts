@@ -85,6 +85,8 @@ interface UserState {
     isBuyingProduct: boolean;
 
     isRequestingToBid: boolean;
+
+    isUpgrade: boolean;
 }
 
 export const userSlice = createSlice({
@@ -151,6 +153,8 @@ export const userSlice = createSlice({
         isBuyingProduct: false,
 
         isRequestingToBid: false,
+
+        isUpgrade: false,
     } as UserState,
     reducers: {
         requestUser: (state: UserState) => {
@@ -346,6 +350,14 @@ export const userSlice = createSlice({
         completeRequestToBidProduct: (state: UserState, action: PayloadAction<Product>) => {
             state.isRequestingToBid = false;
         },
+
+        requestUpgrade: (state: UserState) => {
+            state.isUpgrade = true;
+        },
+
+        completeRequestUpgrade: (state: UserState) => {
+            state.isUpgrade = false;
+        },
     },
 });
 
@@ -403,6 +415,9 @@ export const {
 
     requestEvaluations,
     completeGetEvaluations,
+
+    requestUpgrade,
+    completeRequestUpgrade,
 } = userSlice.actions;
 
 export const userActions = userSlice.actions;

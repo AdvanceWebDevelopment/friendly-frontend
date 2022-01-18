@@ -12,16 +12,17 @@ export class Evaluation {
     status?: string;
 
     static fromData(data: any): Evaluation {
-        return {
+        const evaluation: Evaluation = {
             id: data?.id,
             assessor: User.fromData(data?.accessor),
             recipient: User.fromData(data?.recipient),
             product: Product.fromData(data?.product),
             comment: data?.comment,
-            createAt: data?.createAt,
+            createAt: new Date(data?.createAt),
             isLike: data?.isLike,
             type: data?.type,
             status: data?.status,
         };
+        return evaluation;
     }
 }

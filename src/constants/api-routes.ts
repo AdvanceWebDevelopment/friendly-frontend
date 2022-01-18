@@ -20,6 +20,7 @@ export const apiRoute = {
     WINNER: "winner",
     WIN: "win",
     EVALUATION: "evaluation",
+    AUTH: "host/auth",
     AUTO: "auto",
 };
 

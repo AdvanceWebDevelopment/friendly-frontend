@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Spinner, Table } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../../app/hook";
 import { requestEvaluations } from "../../../app/reducers/user-slice";
 import { RootState } from "../../../app/store";
+import { Paginator } from "../../../components/common/paginator/paginator";
 import { pagingConstant } from "../../../constants";
 
 export const EvaluationsAndPoints = () => {
@@ -11,9 +11,16 @@ export const EvaluationsAndPoints = () => {
         useAppSelector((state: RootState) => state.userState);
 
     const dispatch = useAppDispatch();
+
     useEffect(() => {
         dispatch(requestEvaluations(0));
     }, []);
+
+    const onPaginationClick = (page: number) => {
+        dispatch(requestEvaluations(page));
+    };
+
+    console.log(loadedEvaluations);
 
     return (
         <div>
@@ -38,11 +45,11 @@ export const EvaluationsAndPoints = () => {
                                         <td>
                                             {pagingConstant.PAGE_SIZE * (loadedEvaluationsCurrentPage - 1) + index + 1}
                                         </td>
-                                        <td>{evaluation.assessor?.email}</td>
+                                        <td>{evaluation.assessor?.name ? evaluation.assessor?.name?.length : "N/A"}</td>
                                         <td>{evaluation.product?.name}</td>
                                         <td>{evaluation.comment}</td>
                                         <td>{evaluation.createAt?.toLocaleDateString("en-AU")}</td>
-                                        <td>{evaluation.isLike}</td>
+                                        <td>{evaluation.isLike ? 1 : 0}</td>
                                     </tr>
                                 );
                             })}
@@ -50,6 +57,15 @@ export const EvaluationsAndPoints = () => {
                     </Table>
                 </div>
             )}
+            <div className="mt-5 mb-3">
+                <Paginator
+                    currentPage={loadedEvaluationsCurrentPage}
+                    totalPages={loadedEvaluationsTotalPages}
+                    onItemSelected={onPaginationClick}
+                    onNextClicked={onPaginationClick}
+                    onPrevClicked={onPaginationClick}
+                />
+            </div>
         </div>
     );
 };
