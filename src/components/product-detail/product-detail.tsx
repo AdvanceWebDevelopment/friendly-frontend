@@ -8,11 +8,7 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import {
-    requestBidProduct,
-    requestUpdateProductDescription,
-    setEditProduct
-} from "../../app/reducers/product-slice";
+import { requestBidProduct, requestUpdateProductDescription, setEditProduct } from "../../app/reducers/product-slice";
 import { apiRoute, colors } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
