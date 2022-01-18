@@ -9,7 +9,7 @@ export interface ProductModalProps {
     show: boolean;
     handleClose: () => void;
     product?: Product;
-    onConfirm?: (price: number) => void;
+    onConfirm?: (price: number, mode: number) => void;
 }
 
 export enum BidMode {
@@ -52,7 +52,7 @@ export default function ProductModal({ show, handleClose, product, onConfirm }: 
 
     const confirmBidHandler = () => {
         if (onConfirm) {
-            onConfirm(bidPrice);
+            onConfirm(bidPrice, currentMode);
         }
         handleClose();
     };
@@ -115,15 +115,18 @@ export default function ProductModal({ show, handleClose, product, onConfirm }: 
                         <label className={classes.labels} htmlFor="bid-price" style={{ textTransform: "uppercase" }}>
                             {currentMode === BidMode.Manual ? "Ra Giá" : "Giá Tối Đa"}
                         </label>
-                        <input
-                            type="text"
-                            pattern="[0-9]*"
-                            id="bid-price"
-                            className={classes["input-field"]}
-                            onInput={handleChange}
-                            defaultValue={bidPrice}
-                            disabled={currentMode === BidMode.Auto && true}
-                        />
+                        <div>
+                            <input
+                                autoFocus
+                                type="text"
+                                pattern="[0-9]*"
+                                id="bid-price"
+                                className={classes["input-field"]}
+                                onInput={handleChange}
+                                defaultValue={bidPrice}
+                                // disabled={currentMode === BidMode.Auto && true}
+                            />
+                        </div>
                     </div>
                 </div>
                 <button className={classes["btn-confirm"]} onClick={() => confirmBidHandler()}>

@@ -1,5 +1,6 @@
+import { Icon } from "@iconify/react";
 import * as React from "react";
-import { Modal, Spinner } from "react-bootstrap";
+import { Modal, OverlayTrigger, Spinner, Tooltip } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../../../../app/hook";
 import { productActions } from "../../../../app/reducers/product-slice";
 import { pagingConstant } from "../../../../constants";
@@ -19,6 +20,21 @@ export default function HistoryBidModal({ show, handleClose, product }: HistoryB
     );
 
     const dispatch = useAppDispatch();
+
+    const { user } = useAppSelector((state) => state.userState);
+    const [showDenyBidButton, setShowDenyBidButton] = React.useState(false);
+
+    React.useEffect(() => {
+        if (user.sellingProducts?.find((p) => p.id === product?.id) && product?.currentBids !== 0) {
+            setShowDenyBidButton(true);
+        } else {
+            setShowDenyBidButton(false);
+        }
+    }, [user, product]);
+
+    const onDenyBid = (bid: Bid) => {
+        dispatch(productActions.requestDenyBidderOnProduct(bid));
+    };
 
     React.useEffect(() => {
         if (show) {
@@ -52,7 +68,22 @@ export default function HistoryBidModal({ show, handleClose, product }: HistoryB
                         <div className={classes.bidder}>{hideBidderName(each.bidder?.name ?? "")}</div>
                     </td>
                     <td>
-                        <div className={classes.price}>{formatNumber(each.bidPrice?.toString() ?? "") + " VND"}</div>
+                        <div className="d-flex">
+                            <div className={classes.price}>
+                                {formatNumber(each.bidPrice?.toString() ?? "") + " VND"}
+                            </div>
+                            {showDenyBidButton && (
+                                <div>
+                                    <OverlayTrigger overlay={<Tooltip>Từ Chối Ra Giá</Tooltip>}>
+                                        <Icon
+                                            icon="bi:x-lg"
+                                            className={classes["deny-bid"]}
+                                            onClick={() => onDenyBid(each)}
+                                        />
+                                    </OverlayTrigger>
+                                </div>
+                            )}
+                        </div>
                     </td>
                 </tr>
             );
@@ -85,7 +116,7 @@ export default function HistoryBidModal({ show, handleClose, product }: HistoryB
 
                 <div className="mt-5">
                     <Paginator
-                        currentPage={currentBidHistoryPage}
+                        currentPage={1}
                         totalPages={totalBidHistoryPages}
                         onItemSelected={onChangePage}
                         onNextClicked={onChangePage}

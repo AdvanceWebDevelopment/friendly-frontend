@@ -21,7 +21,7 @@ export const UserInfo = () => {
 
     const [isEditName, setIsEditName] = useState(false);
     const [isEditEmail, setIsEditEmail] = useState(false);
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(user.dob ?? new Date());
 
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);

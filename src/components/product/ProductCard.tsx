@@ -6,7 +6,7 @@ import * as React from "react";
 import { Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { requestBidProduct } from "../../app/reducers/product-slice";
+import { productActions } from "../../app/reducers/product-slice";
 import { apiRoute, timeConstants } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
@@ -58,13 +58,23 @@ export default function ProductCard({ product }: ProductCardProps) {
         setShowBidModal(false);
     };
 
-    const onSubmitBid = (price: number) => {
-        dispatch(
-            requestBidProduct({
-                product,
-                price,
-            }),
-        );
+    const onSubmitBid = (price: number, mode: number) => {
+        // Manual bid
+        if (mode === 0) {
+            dispatch(
+                productActions.requestBidProduct({
+                    product,
+                    price,
+                }),
+            );
+        } else {
+            dispatch(
+                productActions.requestAutoBidProduct({
+                    product,
+                    price,
+                }),
+            );
+        }
 
         closeBidModalHandler();
     };

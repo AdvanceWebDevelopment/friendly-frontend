@@ -43,11 +43,6 @@ export const ProfilePage = () => {
             value: "won-products",
             role: UserRole.SELLER,
         },
-        // {
-        //     name: "Sản Phẩm Hết Hạn",
-        //     value: "expired-products",
-        //     role: UserRole.SELLER,
-        // },
         {
             name: "Quản Lý Danh Mục",
             value: "category-management",

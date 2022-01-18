@@ -215,7 +215,7 @@ export const productService = {
             return {
                 bids: bids,
                 currentPage: page + 1,
-                totalPages: response.data?.responseBody?.totalPages ?? 1,
+                totalPages: response.data?.totalPages ?? 1,
             };
         } catch (error: any) {
             console.error(error?.response?.data);
@@ -351,6 +351,53 @@ export const productService = {
             return bidRequest;
         } catch (error: any) {
             console.error(error?.response?.data);
+            return undefined;
+        }
+    },
+    async denyUserBidOnProduct(bid: Bid): Promise<Bid | undefined> {
+        try {
+            const response = await axios.patch(
+                `${API_HOST}/${apiRoute.SELLER}/${apiRoute.PRODUCT}/${bid.product?.id}/${apiRoute.BIDDER}/${bid.bidder?.id}`,
+                {
+                    id: bid.id,
+                },
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            return bid;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            return undefined;
+        }
+    },
+    async autoBidProduct({ product, price }: BidProductRequest): Promise<Bid | undefined> {
+        try {
+            const response = await axios.put(
+                `${API_HOST}/${apiRoute.BIDDER}/${apiRoute.PRODUCT}/${product?.id}/${apiRoute.AUTO}`,
+                {
+                    price: price,
+                },
+                {
+                    headers: authUtils.getAuthHeader(),
+                },
+            );
+
+            if (response.data?.responseHeader?.accessToken) {
+                authUtils.updateAccessToken(response.data?.responseHeader?.accessToken);
+            }
+
+            const bid = Bid.fromData(response.data?.object);
+
+            return bid;
+        } catch (error: any) {
+            console.error(error?.response?.data);
+            alert(error?.response?.data?.error);
             return undefined;
         }
     },

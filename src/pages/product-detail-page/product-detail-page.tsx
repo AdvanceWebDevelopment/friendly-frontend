@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
@@ -66,6 +66,13 @@ export const ProductDetailPage = () => {
         );
     }, [productDetail, isLoadingProductDetail]);
 
+    const productDetailRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (productDetailRef && productDetail && !isLoadingProductDetail) {
+            productDetailRef.current?.scrollIntoView();
+        }
+    }, [productDetail, isLoadingProductDetail]);
+
     return (
         <div className={`pb-5 ${classes["page-wrapper"]}`}>
             <div className={`container`}>
@@ -73,7 +80,7 @@ export const ProductDetailPage = () => {
                     <Spinner animation="border" variant="primary" className="d-block mx-auto my-5" />
                 )}
                 {!isLoadingProductDetail && (
-                    <div>
+                    <div ref={productDetailRef}>
                         <div className={classes["carousel"]}>
                             <DoranShowroomCarousel images={productDetail.images} />
                         </div>
