@@ -6,7 +6,7 @@ import classes from "./RegisterButton.module.css";
 export default function RegisterButton() {
     const navigate = useNavigate();
     const onNavigateToRegister = () => {
-        navigate(`/${apiRoute.REGISTER}`);
+        navigate(`/${apiRoute.AUTH}`);
     };
     return (
         <button type="button" onClick={onNavigateToRegister} className={classes.button}>
