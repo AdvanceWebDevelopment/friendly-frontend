@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
+import { useParams } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import {
     requestTopFiveEndSoon,
@@ -15,15 +16,22 @@ import { SectionTitle } from "../../components/common/section-title/section-titl
 import { CategoryCarousel } from "../../components/doran-carousel/category-carousel";
 import { DoranCarousel } from "../../components/doran-carousel/doran-carousel";
 import ProductCard from "../../components/product/ProductCard";
+import { authConstants } from "../../constants";
+import { authUtils } from "../../utils";
 
 export const HomePage = () => {
     const dispatch = useAppDispatch();
-
+    const { accessToken, refreshToken } = useParams();
+    console.log(accessToken);
     useEffect(() => {
         dispatch(requestTopFiveMostBidded());
         dispatch(requestTopFiveHottest());
         dispatch(requestTopFiveEndSoon());
         dispatch(requestUser());
+        if (accessToken && refreshToken) {
+            authUtils.updateAccessToken(accessToken);
+            localStorage.setItem(authConstants.REFRESH_TOKEN, refreshToken);
+        }
     }, []);
 
     const {
