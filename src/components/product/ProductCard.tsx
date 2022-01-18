@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import updateLocale from "dayjs/plugin/updateLocale";
+import duration from "dayjs/plugin/duration";
 import * as React from "react";
 import { Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,7 @@ import ProductOptions from "./ProductOptions";
 
 dayjs.extend(updateLocale);
 dayjs.extend(relativeTime);
+dayjs.extend(duration);
 
 dayjs.updateLocale("en", {
     relativeTime: {
@@ -37,6 +39,8 @@ dayjs.updateLocale("en", {
         yy: "%d năm",
     },
 });
+
+dayjs.duration({ months: 12 });
 
 export interface ProductCardProps {
     product?: Product;
@@ -92,10 +96,11 @@ export default function ProductCard({ product }: ProductCardProps) {
     }, [product]);
 
     const renderRelativeEndDate = (endDate?: Date) => {
-        const delta = dayjs(endDate).diff(new Date(), "minute") - timeConstants.TIMEZONE_DIFF_MINUTE;
+        const tmp = dayjs(endDate).add(dayjs.duration(7, "h"));
+        const delta = dayjs(tmp).diff(new Date(), "minute");
 
         if (delta < 3 * 24 * 60) {
-            return dayjs(Date.now()).to(endDate);
+            return dayjs(Date.now()).to(tmp);
         }
 
         return endDate?.toLocaleDateString("en-AU");

@@ -48,6 +48,7 @@ function App() {
 
     let onMessageReceived = (payload: any) => {
         const bid = Bid.fromData(payload.message);
+        console.log("Received msg", payload);
 
         dispatch(updateProductHighestBidder(bid));
         dispatch(productActions.updateHighestBidder(bid));
