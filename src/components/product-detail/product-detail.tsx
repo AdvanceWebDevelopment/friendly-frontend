@@ -3,21 +3,19 @@ import { ContentState, convertToRaw, EditorState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Image, OverlayTrigger, Row, Spinner, Tooltip } from "react-bootstrap";
+import { Button, Col, Image, Row, Spinner } from "react-bootstrap";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import {
-    productActions,
     requestBidProduct,
     requestUpdateProductDescription,
-    setEditProduct,
+    setEditProduct
 } from "../../app/reducers/product-slice";
 import { apiRoute, colors } from "../../constants";
 import { Product } from "../../models";
 import { formatPrice } from "../../utils";
-import { ConfirmModal } from "../common/confirm-modal/confirm-modal";
 import Bidder from "../product/bid-info/Bidder";
 import BidButton from "../product/button/BidButton";
 import ProductModal from "../product/modal/product/ProductBidModal";

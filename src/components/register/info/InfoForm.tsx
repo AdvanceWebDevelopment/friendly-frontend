@@ -63,7 +63,7 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
                 captcha: reCaptchaRef.current?.getValue() || "",
             };
             console.log(req);
-            // dispatch(registerActions.sendInfo(req));
+            dispatch(registerActions.sendInfo(req));
         } else {
             if (name.value.length === 0) {
                 name.error = "Tên không được để trống";

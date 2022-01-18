@@ -44,10 +44,6 @@ export const LoginPage = () => {
         setPassword(password);
     };
 
-    const alternateLogin = (e: React.MouseEvent<SVGElement>) => {
-        e.preventDefault();
-    };
-
     const navigateToForgotPassword = () => {
         navigate(`/${apiRoute.FORGOT}`);
     };
