@@ -76,7 +76,6 @@ function App() {
                     <Route path={apiRoute.PROFILE} element={<ProfilePage />} />
                     <Route path={apiRoute.LOGIN} element={<LoginPage />} />
                     <Route path={apiRoute.REGISTER} element={<RegisterPage />} />
-                    <Route path={apiRoute.AUTH} element={<AlternateLoginPage />} />
                     <Route path={apiRoute.FORGOT} element={<ForgotPasswordPage />} />
                     <Route path={apiRoute.CHANGE} element={<ChangePasswordPage />} />
                     <Route path={apiRoute.PROFILE} element={<ProfilePage />}>
@@ -94,6 +93,7 @@ function App() {
                     </Route>
                     <Route path={apiRoute.POST_PRODUCT} element={<PostProductPage />} />
                 </Route>
+                <Route path={apiRoute.AUTH} element={<AlternateLoginPage />} />
             </Routes>
             <ScrollTopButton />
         </BrowserRouter>
