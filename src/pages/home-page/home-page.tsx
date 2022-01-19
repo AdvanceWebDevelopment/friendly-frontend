@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Spinner } from "react-bootstrap";
-import { useLocation } from "react-router";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import {
     requestTopFiveEndSoon,
@@ -21,17 +21,20 @@ import { authUtils } from "../../utils";
 
 export const HomePage = () => {
     const dispatch = useAppDispatch();
-    const location = useLocation();
-    console.log(location);
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+    let accessToken = searchParams.get("accessToken");
+    let refreshToken = searchParams.get("refeshToken");
     useEffect(() => {
         dispatch(requestTopFiveMostBidded());
         dispatch(requestTopFiveHottest());
         dispatch(requestTopFiveEndSoon());
         dispatch(requestUser());
-        // if (accessToken && refreshToken) {
-        //     authUtils.updateAccessToken(accessToken);
-        //     localStorage.setItem(authConstants.REFRESH_TOKEN, refreshToken);
-        // }
+        if (accessToken && refreshToken) {
+            authUtils.updateAccessToken(accessToken);
+            localStorage.setItem(authConstants.REFRESH_TOKEN, refreshToken);
+            navigate("/");
+        }
     }, []);
 
     const {
