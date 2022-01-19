@@ -45,7 +45,7 @@ export default function Header() {
                     <div className={classes.redirect}>
                         <LoginButton />
                         <RegisterButton />
-                        <Button onClick={() => navigate(`/${apiRoute.AUTH}`)} />
+                        {/* <Button onClick={() => navigate(`/`)} /> */}
                     </div>
                 )}
             </div>
