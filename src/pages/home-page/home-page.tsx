@@ -26,16 +26,17 @@ export const HomePage = () => {
     let accessToken = searchParams.get("accessToken");
     let refreshToken = searchParams.get("refeshToken");
     useEffect(() => {
-        dispatch(requestTopFiveMostBidded());
-        dispatch(requestTopFiveHottest());
-        dispatch(requestTopFiveEndSoon());
-        dispatch(requestUser());
         if (accessToken && refreshToken) {
-            console.log("A");
             authUtils.updateAccessToken(accessToken);
             localStorage.setItem(authConstants.REFRESH_TOKEN, refreshToken);
             navigate("/");
         }
+    }, [accessToken, refreshToken, navigate]);
+    useEffect(() => {
+        dispatch(requestTopFiveMostBidded());
+        dispatch(requestTopFiveHottest());
+        dispatch(requestTopFiveEndSoon());
+        dispatch(requestUser());
     }, []);
 
     const {
