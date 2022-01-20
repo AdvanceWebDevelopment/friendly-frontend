@@ -25,13 +25,12 @@ export const HomePage = () => {
     const navigate = useNavigate();
     let accessToken = searchParams.get("accessToken");
     let refreshToken = searchParams.get("refeshToken");
-    useEffect(() => {
-        if (accessToken && refreshToken) {
-            authUtils.updateAccessToken(accessToken);
-            localStorage.setItem(authConstants.REFRESH_TOKEN, refreshToken);
-            navigate("/");
-        }
-    }, [accessToken, refreshToken, navigate]);
+
+    if (accessToken && refreshToken) {
+        authUtils.updateAccessToken(accessToken);
+        localStorage.setItem(authConstants.REFRESH_TOKEN, refreshToken);
+        navigate("/");
+    }
     useEffect(() => {
         dispatch(requestTopFiveMostBidded());
         dispatch(requestTopFiveHottest());
