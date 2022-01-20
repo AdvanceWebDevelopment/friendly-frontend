@@ -31,7 +31,7 @@ export const HomePage = () => {
             localStorage.setItem(authConstants.REFRESH_TOKEN, refreshToken);
             navigate("/");
         }
-    }, [accessToken, refreshToken]);
+    }, [accessToken, refreshToken, navigate]);
     useEffect(() => {
         dispatch(requestTopFiveMostBidded());
         dispatch(requestTopFiveHottest());
