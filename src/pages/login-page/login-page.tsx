@@ -80,10 +80,10 @@ export const LoginPage = () => {
                         <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/facebook?redirect_uri=https://doranhouse.azurewebsites.net">
                             <Icon icon="bi:facebook" className={classes.icons} />
                         </a>
-                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/google?redirect_uri=https://doranhouse.azurewebsites.net">
+                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/google?redirect_uri=http://localhost:3000/">
                             <Icon icon="akar-icons:google-contained-fill" className={classes.icons} />
                         </a>
-                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/github?redirect_uri=https://doranhouse.azurewebsites.neth">
+                        <a href="https://doran-backend.eastus.azurecontainer.io/oauth2/authorize/github?redirect_uri=https://doranhouse.azurewebsites.net">
                             <Icon icon="akar-icons:github-fill" className={classes.icons} />
                         </a>
                     </div>

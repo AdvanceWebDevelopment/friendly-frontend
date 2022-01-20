@@ -31,6 +31,7 @@ export const HomePage = () => {
         dispatch(requestTopFiveEndSoon());
         dispatch(requestUser());
         if (accessToken && refreshToken) {
+            console.log("A");
             authUtils.updateAccessToken(accessToken);
             localStorage.setItem(authConstants.REFRESH_TOKEN, refreshToken);
             navigate("/");
