@@ -135,11 +135,11 @@ function* watchSendReviewToBidder() {
                 action.payload.productInfo.userId,
                 action.payload.reviewInfo,
             );
-            if (response) {
+            if (response !== "You have already rated this winner.") {
                 yield put(userActions.completeSendReviewToBidder);
                 alert("Gửi đánh giá thành công");
             } else {
-                alert("Có lỗi khi gửi nhận xét");
+                alert("Bạn đã đánh giá rồi.");
             }
         } catch (error) {
             console.error(error);
@@ -157,12 +157,11 @@ function* watchSendReviewToSeller() {
                 action.payload.productInfo.userId,
                 action.payload.reviewInfo,
             );
-            console.log(response);
-            if (response) {
-                yield put(userActions.completeSendReviewToSeller);
+            if (response !== "You have already rated this seller.") {
+                yield put(userActions.completeSendReviewToBidder);
                 alert("Gửi đánh giá thành công");
             } else {
-                alert("Có lỗi khi gửi nhận xét");
+                alert("Bạn đã đánh giá rồi.");
             }
         } catch (error) {
             console.error(error);

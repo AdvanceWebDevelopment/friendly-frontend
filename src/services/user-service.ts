@@ -140,7 +140,7 @@ export const userService = {
             return response.data?.message;
         } catch (error: any) {
             console.error(JSON.stringify(error));
-            return undefined;
+            return error?.response?.data?.error;
         }
     },
     async sendReviewToSeller(productId: number, userId: number, request: ReviewRequest): Promise<string | undefined> {
@@ -155,7 +155,7 @@ export const userService = {
             return response.data?.message;
         } catch (error: any) {
             console.error(JSON.stringify(error));
-            return undefined;
+            return error?.response?.data?.error;
         }
     },
 
