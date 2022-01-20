@@ -130,7 +130,6 @@ export const userService = {
 
     async sendReviewToBidder(productId: number, userId: number, request: ReviewRequest): Promise<string | undefined> {
         try {
-            console.log(request);
             const response = await axios.post(
                 `${API_HOST}/${apiRoute.SELLER}/${apiRoute.WINNER}/${userId}/${apiRoute.PRODUCT}/${productId}`,
                 request,
@@ -138,7 +137,6 @@ export const userService = {
                     headers: authUtils.getAuthHeader(),
                 },
             );
-            console.log(response);
             return response.data?.message;
         } catch (error: any) {
             console.error(JSON.stringify(error));
@@ -156,7 +154,7 @@ export const userService = {
             );
             return response.data?.message;
         } catch (error: any) {
-            console.log(JSON.stringify(error));
+            console.error(JSON.stringify(error));
             return undefined;
         }
     },

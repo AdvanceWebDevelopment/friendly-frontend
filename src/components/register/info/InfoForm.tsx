@@ -62,7 +62,6 @@ export default function InfoForm({ goToNextStep }: InfoFormProps) {
                 password: password.value,
                 captcha: reCaptchaRef.current?.getValue() || "",
             };
-            console.log(req);
             dispatch(registerActions.sendInfo(req));
         } else {
             if (name.value.length === 0) {

@@ -8,7 +8,6 @@ import { registerSaga } from "./register-saga";
 import { userSaga } from "./user-saga";
 
 export default function* rootSaga() {
-    console.log(`Start root saga`);
     yield all([
         productSaga(),
         categorySaga(),
