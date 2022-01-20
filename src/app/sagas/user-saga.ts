@@ -157,6 +157,7 @@ function* watchSendReviewToSeller() {
                 action.payload.productInfo.userId,
                 action.payload.reviewInfo,
             );
+            console.log(response);
             if (response) {
                 yield put(userActions.completeSendReviewToSeller);
                 alert("Gửi đánh giá thành công");

@@ -20,8 +20,6 @@ export const EvaluationsAndPoints = () => {
         dispatch(requestEvaluations(page));
     };
 
-    console.log(loadedEvaluations);
-
     return (
         <div>
             {isLoadingEvaluations && <Spinner animation="border" variant="primary" className="d-block mx-auto" />}

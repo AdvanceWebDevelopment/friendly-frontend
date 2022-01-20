@@ -25,6 +25,7 @@ export const HomePage = () => {
     const navigate = useNavigate();
     let accessToken = searchParams.get("accessToken");
     let refreshToken = searchParams.get("refeshToken");
+    console.log(accessToken);
 
     if (accessToken && refreshToken) {
         authUtils.updateAccessToken(accessToken);
