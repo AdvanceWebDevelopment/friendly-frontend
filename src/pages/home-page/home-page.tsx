@@ -24,7 +24,7 @@ export const HomePage = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     let accessToken = searchParams.get("accessToken");
-    let refreshToken = searchParams.get("refeshToken");
+    let refreshToken = searchParams.get("refreshToken");
     console.log(refreshToken);
 
     if (accessToken && refreshToken) {
