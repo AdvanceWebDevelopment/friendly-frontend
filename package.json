@@ -40,7 +40,7 @@
         "@types/html-to-draftjs": "^1.4.0",
         "@types/jest": "^27.4.1",
         "@types/node": "^17.0.23",
-        "@types/react": "^17.0.42",
+        "@types/react": "^17.0.43",
         "@types/react-datepicker": "^4.3.4",
         "@types/react-dom": "^17.0.14",
         "@types/react-draft-wysiwyg": "^1.13.4",
