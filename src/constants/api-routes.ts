@@ -24,7 +24,7 @@ export const apiRoute = {
     AUTO: "auto",
 };
 
-export const HOST = "https://doran-backend.eastus.azurecontainer.io";
+export const HOST = process.env.REACT_APP_API_HOST;
 
 export const API_HOST = HOST + "/api";
 
