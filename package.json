@@ -22,7 +22,7 @@
         "react-date-picker": "^8.4.0",
         "react-datepicker": "^4.8.0",
         "react-dom": "^18.1.0",
-        "react-draft-wysiwyg": "^1.14.7",
+        "react-draft-wysiwyg": "^1.15.0",
         "react-google-recaptcha": "^2.1.0",
         "react-iframe": "^1.8.0",
         "react-redux": "^8.0.2",
